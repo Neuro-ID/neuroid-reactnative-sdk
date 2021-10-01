@@ -8,10 +8,15 @@ Neuro-ID React Native SDK
 npm install neuroid-reactnative-sdk
 ```
 
+If you are on a M1, install Podfile with `arch -x86_64 pod install`
+
 ## Usage
 
+Run the example:
+`yarn example ios`
+
 ```js
-import { multiply } from "neuroid-reactnative-sdk";
+import { multiply } from 'neuroid-reactnative-sdk';
 
 // ...
 
