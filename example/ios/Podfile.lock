@@ -19,6 +19,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - NeuroID (0.0.1)
   - neuroid-reactnative-sdk (0.1.0):
     - React-Core
   - RCTRequired (0.63.4)
@@ -255,6 +256,7 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - NeuroID (from `https://github.com/Neuro-ID/neuroid-ios-sdk.git`)
   - neuroid-reactnative-sdk (from `../..`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -295,6 +297,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  NeuroID:
+    :git: https://github.com/Neuro-ID/neuroid-ios-sdk.git
   neuroid-reactnative-sdk:
     :path: "../.."
   RCTRequired:
@@ -340,6 +344,11 @@ EXTERNAL SOURCES:
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
+CHECKOUT OPTIONS:
+  NeuroID:
+    :commit: b0d7ab178ea126d535ae28e2720cefda11e78a0c
+    :git: https://github.com/Neuro-ID/neuroid-ios-sdk.git
+
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cde416483dac037923206447da6e1454df403714
@@ -347,6 +356,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  NeuroID: 4b343b6f42f10db88033a9e4b2f16b4cbb8871fa
   neuroid-reactnative-sdk: 375e793fd09b9e1c2a27839d87c2675147d44a8b
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
   RCTTypeSafety: 8c9c544ecbf20337d069e4ae7fd9a377aadf504b
@@ -370,6 +380,6 @@ SPEC CHECKSUMS:
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
-PODFILE CHECKSUM: 5dd179ca84133fd069e3615da6703048e045af41
+PODFILE CHECKSUM: f50a3769be5b3262ded737cd05267a198bbeafe0
 
 COCOAPODS: 1.11.2

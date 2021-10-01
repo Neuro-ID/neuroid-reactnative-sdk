@@ -9,6 +9,8 @@ target 'NeuroidReactnativeSdkExample' do
   use_react_native!(:path => config["reactNativePath"])
 
   pod 'neuroid-reactnative-sdk', :path => '../..'
+  pod 'NeuroID', :git => 'https://github.com/Neuro-ID/neuroid-ios-sdk.git'
+
 
   # Enables Flipper.
   #
