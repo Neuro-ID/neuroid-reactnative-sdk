@@ -1,3 +1,4 @@
+
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
 
