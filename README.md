@@ -4,11 +4,10 @@ Neuro-ID React Native SDK
 
 ## Installation
 
-```sh
-npm install neuroid-reactnative-sdk
-```
+1 - `yarn` from root directory
+2 - Run `npm run updateSDK` in order to pull latest NeuroID Pod from Github and have it added to XCode project. Note: If you want to see the file in XCode you need to add the reference manually after running this step
 
-If you are on a M1, install Podfile with `arch -x86_64 pod install`
+If you are on a M1, install Podfile with `arch -x86_64 pod install` if you get stucks
 
 ## Usage
 
