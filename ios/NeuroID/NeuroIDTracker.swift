@@ -301,8 +301,8 @@ private func getBaseURL() -> String {
 //        return rootUrl + "/v3/c"
 //    }
 //    return baseUrl;
-//    return "http://localhost:8080";
-    return "https://api.usw2-dev1.nidops.net";
+   return "http://localhost:9090";
+    // return "https://api.usw2-dev1.nidops.net";
 }
 extension Bundle {
     static func infoPlistValue(forKey key: String) -> Any? {

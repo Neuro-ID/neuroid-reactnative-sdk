@@ -30,7 +30,7 @@
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods",
-    "updateSDK":"cd example && pod-install --quiet && cp -R ./ios/Pods/NeuroID ios/  "
+    "updateSDK":"cd ./example/ios && pod install && sudo cp -R ./Pods/NeuroID/NeuroID ../../ios  "
   },
   "keywords": [
     "react-native",
