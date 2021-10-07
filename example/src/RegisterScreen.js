@@ -1,18 +1,14 @@
 import * as React from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply, configure } from 'neuroid-reactnative-sdk';
-// import { NativeModules } from 'react-native';
-// const { configure } = NativeModules;
+import { configure } from 'neuroid-reactnative-sdk';
 
-export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-  const [conf, setConf] = React.useState<number | undefined>();
+export const RegisterScreen = ({ navigation }) => {
+  const [conf, setConf] = React.useState();
 
   // const [conf, setConf] = React.useState<String | undefined>();
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
     configure('key_test_vtotrandom_form_mobilesandbox').then(setConf);
     // configure('123').then(setConf);
   }, []);
@@ -20,12 +16,15 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>A testing examples!</Text>
-      <Text>Result: {result}</Text>
       <Text>API Key Set: {conf?.toString()}</Text>
       {/* <Text>API Key: {conf}</Text> */}
+      <Button
+        title="Contact Screen"
+        onPress={() => navigation.navigate('Contact')}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

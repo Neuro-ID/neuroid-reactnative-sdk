@@ -17,10 +17,6 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return NeuroidReactnativeSdk.multiply(a, b);
-}
-
 export function configure(apiKey: String): Promise<number> {
   return NeuroidReactnativeSdk.configure(apiKey);
 }

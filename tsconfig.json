@@ -5,6 +5,10 @@
       "neuroid-reactnative-sdk": ["./src/index"]
     },
     "allowUnreachableCode": false,
+    "compilerOptions": {
+      "allowJs": true,
+      "checkJs": false,
+    },
     "allowUnusedLabels": false,
     "esModuleInterop": true,
     "importsNotUsedAsValues": "error",
