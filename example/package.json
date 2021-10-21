@@ -13,6 +13,8 @@
     "@react-navigation/native-stack": "^6.2.2",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-bootstrap-styles": "^4.5.0-r",
+    "react-native-dropdown-picker": "^5.1.28",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.8.0"
   },
