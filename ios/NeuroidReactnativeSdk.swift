@@ -1,23 +1,28 @@
 
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
-
-    @objc(multiply:withB:withResolver:withRejecter:)
-    func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        
-        resolve(a*b + 2)
-    }
     
     @objc(configure:withResolver:withRejecter:)
     func configure(apiKey: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-//        Neuro
-        NeuroID.configure(clientKey: "key_test_vtotrandom_form_mobilesandbox")
+        NeuroID.configure(clientKey: apiKey)
         resolve(true)
     }
     
-//    @objc(configure:withResolver:withRejecter:)
-//    func configure(apiKey: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-//        resolve("Horray!")
-//    }
+    @objc(start:resolve:withRejecter:)
+    func start(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.start()
+        resolve(true)
+    }
+
+    @objc(stop:resolve:withRejecter:)
+    func stop(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.stop()
+        resolve(true)
+    }
+
+    @objc(isStopped:resolve:withRejecter:)
+    func isStopped(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Bool {
+        resolve(NeuroID.isStopped())
+    }
     
 }
