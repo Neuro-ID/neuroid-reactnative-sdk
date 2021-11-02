@@ -8,21 +8,21 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
-    @objc(start:resolve:withRejecter:)
+    @objc(start:withRejecter:)
     func start(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.start()
         resolve(true)
     }
 
-    @objc(stop:resolve:withRejecter:)
-    func stop(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.stop()
-        resolve(true)
-    }
-
-    @objc(isStopped:resolve:withRejecter:)
-    func isStopped(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Bool {
-        resolve(NeuroID.isStopped())
-    }
+//    @objc//(stop:resolve:withRejecter:)
+//    func stop(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+//        NeuroID.stop()
+//        resolve(true)
+//    }
+//
+//    @objc//(isStopped:resolve:withRejecter:)
+//    func isStopped(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+//        resolve(NeuroID.isStopped())
+//    }
     
 }

@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		222834C0A9990AA54A4B400A /* libPods-NeuroidReactnativeSdkExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAC261707054D3B3955D366 /* libPods-NeuroidReactnativeSdkExample.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -18,7 +19,6 @@
 		6F3478BA270D10EC0086E4DD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3478B9270D10EC0086E4DD /* Security.framework */; };
 		6F3478BC270D10F90086E4DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F3478BB270D10F90086E4DD /* Foundation.framework */; };
 		6FE410C927074B850036103B /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE410C827074B850036103B /* Test.swift */; };
-		7AC5DF5E218B2322331342D5 /* libPods-NeuroidReactnativeSdkExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1652B8A53A91ED0B8BC976D /* libPods-NeuroidReactnativeSdkExample.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +44,6 @@
 		00E356EE1AD99517003FC87E /* NeuroidReactnativeSdkExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeuroidReactnativeSdkExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* NeuroidReactnativeSdkExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NeuroidReactnativeSdkExampleTests.m; sourceTree = "<group>"; };
-		01545EF32E71636FEADB0548 /* Pods-NeuroidReactnativeSdkExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeuroidReactnativeSdkExample.release.xcconfig"; path = "Target Support Files/Pods-NeuroidReactnativeSdkExample/Pods-NeuroidReactnativeSdkExample.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* NeuroidReactnativeSdkExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NeuroidReactnativeSdkExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NeuroidReactnativeSdkExample/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = NeuroidReactnativeSdkExample/AppDelegate.m; sourceTree = "<group>"; };
@@ -53,6 +52,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NeuroidReactnativeSdkExample/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* NeuroidReactnativeSdkExample-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NeuroidReactnativeSdkExample-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* NeuroidReactnativeSdkExample-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeuroidReactnativeSdkExample-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32582C6CAF9603D39ACB4F67 /* Pods-NeuroidReactnativeSdkExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeuroidReactnativeSdkExample.release.xcconfig"; path = "Target Support Files/Pods-NeuroidReactnativeSdkExample/Pods-NeuroidReactnativeSdkExample.release.xcconfig"; sourceTree = "<group>"; };
+		6AD60E2396738F877C9CD2F5 /* Pods-NeuroidReactnativeSdkExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeuroidReactnativeSdkExample.debug.xcconfig"; path = "Target Support Files/Pods-NeuroidReactnativeSdkExample/Pods-NeuroidReactnativeSdkExample.debug.xcconfig"; sourceTree = "<group>"; };
 		6F3478B9270D10EC0086E4DD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6F3478BB270D10F90086E4DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6FE410C727074B850036103B /* NeuroidReactnativeSdkExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NeuroidReactnativeSdkExample-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -67,9 +68,8 @@
 		6FF06B1E271E01C600F6704C /* sqlite3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		6FF06B1F271E01D500F6704C /* NeuroID.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NeuroID.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FF06B23271E01E500F6704C /* neuroid_reactnative_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = neuroid_reactnative_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7AFA902E3DC11AD172DF714A /* Pods-NeuroidReactnativeSdkExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeuroidReactnativeSdkExample.debug.xcconfig"; path = "Target Support Files/Pods-NeuroidReactnativeSdkExample/Pods-NeuroidReactnativeSdkExample.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NeuroidReactnativeSdkExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		D1652B8A53A91ED0B8BC976D /* libPods-NeuroidReactnativeSdkExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NeuroidReactnativeSdkExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAAC261707054D3B3955D366 /* libPods-NeuroidReactnativeSdkExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NeuroidReactnativeSdkExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -88,7 +88,7 @@
 			files = (
 				6F3478BA270D10EC0086E4DD /* Security.framework in Frameworks */,
 				6F3478BC270D10F90086E4DD /* Foundation.framework in Frameworks */,
-				7AC5DF5E218B2322331342D5 /* libPods-NeuroidReactnativeSdkExample.a in Frameworks */,
+				222834C0A9990AA54A4B400A /* libPods-NeuroidReactnativeSdkExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,7 +153,7 @@
 				6FE410CA27074C530036103B /* libswiftWebKit.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				D1652B8A53A91ED0B8BC976D /* libPods-NeuroidReactnativeSdkExample.a */,
+				AAAC261707054D3B3955D366 /* libPods-NeuroidReactnativeSdkExample.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -161,8 +161,8 @@
 		6B9684456A2045ADE5A6E47E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7AFA902E3DC11AD172DF714A /* Pods-NeuroidReactnativeSdkExample.debug.xcconfig */,
-				01545EF32E71636FEADB0548 /* Pods-NeuroidReactnativeSdkExample.release.xcconfig */,
+				6AD60E2396738F877C9CD2F5 /* Pods-NeuroidReactnativeSdkExample.debug.xcconfig */,
+				32582C6CAF9603D39ACB4F67 /* Pods-NeuroidReactnativeSdkExample.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -240,13 +240,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NeuroidReactnativeSdkExample" */;
 			buildPhases = (
-				10C8249F5FDDA2B42BCB3317 /* [CP] Check Pods Manifest.lock */,
+				59CC82F871C4969F4228FDB4 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				7FB01F1212D917FD7F709B5A /* [CP] Copy Pods Resources */,
+				BB70C00A2D26860D99A19B8E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -390,7 +390,21 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		10C8249F5FDDA2B42BCB3317 /* [CP] Check Pods Manifest.lock */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		59CC82F871C4969F4228FDB4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -412,21 +426,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		7FB01F1212D917FD7F709B5A /* [CP] Copy Pods Resources */ = {
+		BB70C00A2D26860D99A19B8E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -581,7 +581,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFA902E3DC11AD172DF714A /* Pods-NeuroidReactnativeSdkExample.debug.xcconfig */;
+			baseConfigurationReference = 6AD60E2396738F877C9CD2F5 /* Pods-NeuroidReactnativeSdkExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -627,7 +627,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 01545EF32E71636FEADB0548 /* Pods-NeuroidReactnativeSdkExample.release.xcconfig */;
+			baseConfigurationReference = 32582C6CAF9603D39ACB4F67 /* Pods-NeuroidReactnativeSdkExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
