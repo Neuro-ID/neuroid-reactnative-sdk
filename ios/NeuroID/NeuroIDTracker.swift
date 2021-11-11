@@ -28,7 +28,7 @@ public struct NeuroID {
     /// 3. Send cached events from DB every `SEND_INTERVAL`
     public static func configure(clientKey: String) {
         if NeuroID.clientKey != nil {
-            fatalError("You already configured the SDK")
+            print("NeuroID Error: You already configured the SDK")
         }
         NeuroID.clientKey = clientKey
         
@@ -50,13 +50,13 @@ public struct NeuroID {
         swizzle()
         
         
-//        #if DEBUG
-//        if NSClassFromString("XCTest") == nil {
-//            initTimer()
-//        }
-//        #else
+        #if DEBUG
+        if NSClassFromString("XCTest") == nil {
+            initTimer()
+        }
+        #else
         initTimer()
-//        #endif
+        #endif
     }
     
     public static func isStopped() -> Bool{
@@ -74,7 +74,8 @@ public struct NeuroID {
     //        return rootUrl + "/v3/c"
     //    }
     //    return baseUrl;
-//        return "http://localhost:8080";
+//        return "http://localhost:9090";
+//        return "https://7dc9-174-94-156-120.ngrok.io"
         return "https://api.usw2-dev1.nidops.net";
     }
 
@@ -94,36 +95,46 @@ public struct NeuroID {
     private static func initTimer() {
         // Send up the first payload, and then setup a repeating timer
         self.send()
-        DispatchQueue.main.asyncAfter(deadline: .now() + SEND_INTERVAL) {
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + SEND_INTERVAL) {
             self.send()
             self.initTimer()
         }
     }
-    private static func send() {
+    /**
+     Publically exposed just for testing. This should not be any reason to call this directly.
+     */
+    public static func send() {
         logInfo(category: "APICall", content: "Sending to API")
-        DispatchQueue.global(qos: .background).async {
-            let dataStoreEvents = DataStore.getAllEvents()
-            if dataStoreEvents.isEmpty { return }
-            // Group by screen, and send to API
-            let groupedEvents = Dictionary(grouping: dataStoreEvents, by: { (element: NIDEvent) in
-                return element.url
-            })
-            
-            for key in groupedEvents.keys {
+        DispatchQueue.global(qos: .utility).async {
+            groupAndPOST()
+        }
+    }
+    
+    /**
+     Publically exposed just for testing. This should not be any reason to call this directly.
+     */
+    public static func groupAndPOST() {
+        let dataStoreEvents = DataStore.getAllEvents()
+        if dataStoreEvents.isEmpty { return }
+        // Group by screen, and send to API
+        let groupedEvents = Dictionary(grouping: dataStoreEvents, by: { (element: NIDEvent) in
+            return element.url
+        })
+        
+        for key in groupedEvents.keys {
 //                let eventsAsDicts = groupedEvents[key]?.toArrayOfDicts()
 //                if (eventsAsDicts.isEmptyOrNil){
 //                    continue
 //                }
-                post(events: groupedEvents[key] ?? [], screen: key ?? "", onSuccess: { _ in
-                    logInfo(category: "APICall", content: "Sending successfully")
-                        // send success -> delete
-                    }, onFailure: { error in
-                        logError(category: "APICall", content: String(describing: error))
-                    })
-            }
-            // TODO, add more sophisticated removal of events (in case of failure)
-            DataStore.removeSentEvents()
+            post(events: groupedEvents[key] ?? [], screen: key ?? "", onSuccess: { _ in
+                logInfo(category: "APICall", content: "Sending successfully")
+                    // send success -> delete
+                }, onFailure: { error in
+                    logError(category: "APICall", content: String(describing: error))
+                })
         }
+        // TODO, add more sophisticated removal of events (in case of failure)
+        DataStore.removeSentEvents()
     }
 
     /// Direct send to API to create session
@@ -638,7 +649,8 @@ struct ParamsCreator {
 
     static func getClientKey() -> String {
         guard let key = NeuroID.clientKey else {
-            fatalError("clientKey is not set")
+            print("Error: clientKey is not set")
+            return ""
         }
         return key
     }
@@ -916,18 +928,18 @@ extension UIViewController {
 //            tg["message"] = TargetValue.string(vc.message ?? "")
 //            tg["actions"] = TargetValue.string(vc.actions.compactMap { $0.title }
 //        }
-
-        if let eventName = NIDEventName(rawValue: event.type) {
-            let newEvent = NIDEvent(type: eventName, tg: tg, x: event.x, y: event.y)
-            tracker?.captureEvent(event: newEvent)
-        } else {
-            let newEvent = NIDEvent(customEvent: event.type, tg: tg, x: event.x, y: event.y)
-            tracker?.captureEvent(event: newEvent)
-        }
+//
+//        if let eventName = NIDEventName(rawValue: event.type) {
+//            let newEvent = NIDEvent(type: eventName, tg: tg, x: event.x, y: event.y)
+//            tracker?.captureEvent(event: newEvent)
+//        } else {
+//            let newEvent = NIDEvent(customEvent: event.type, tg: tg, x: event.x, y: event.y)
+            tracker?.captureEvent(event: event)
+//        }
     }
 
     public func captureEvent(eventName: NIDEventName, params: [String: TargetValue]? = nil) {
-        let event = NIDEvent(type: eventName, tg: params, view: nil)
+        let event = NIDEvent(type: eventName, tg: params, view: self.view)
         captureEvent(event: event)
     }
 

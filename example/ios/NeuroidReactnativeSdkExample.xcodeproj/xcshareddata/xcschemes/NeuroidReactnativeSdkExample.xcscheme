@@ -34,6 +34,20 @@
                ReferencedContainer = "container:NeuroidReactnativeSdkExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC05C443D02A5B4415B71D7F3A4C82CF"
+               BuildableName = "libneuroid-reactnative-sdk.a"
+               BlueprintName = "neuroid-reactnative-sdk"
+               ReferencedContainer = "container:Pods/Pods.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -50,6 +64,8 @@
             ReferencedContainer = "container:NeuroidReactnativeSdkExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <Testables>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

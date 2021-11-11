@@ -1,7 +1,6 @@
 import Foundation
 
 public struct DataStore {
-//    static var shared = DataStore()
     static let eventsKey = "events_pending"
     
     /**
@@ -13,21 +12,52 @@ public struct DataStore {
      */
     static func insertEvent(screen: String, event: NIDEvent)
     {
+        if ProcessInfo.processInfo.environment["debugJSON"] == "true" {
+            print("DEBUG JSON IS SET, writing to Desktop")
+            let nidJSON = "Attain world domination;Eat catfood;Sleep"
+
+            let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("nidJSON.txt")
+            
+            if let fileUpdater = try? FileHandle(forUpdating: path) {
+
+                // Function which when called will cause all updates to start from end of the file
+                fileUpdater.seekToEndOfFile()
+
+                // Which lets the caller move editing to any position within the file by supplying an offset
+                fileUpdater.write(nidJSON.data(using: .utf8)!)
+
+                // Once we convert our new content to data and write it, we close the file and that’s it!
+                fileUpdater.closeFile()
+            }
+//            do {
+//                try nidJSON.write(to: path, atomically: true, encoding: .utf8)
+//
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+        }
+        print("INSERT EVENT: \(screen) : \(String(describing: event)))")
         let encoder = JSONEncoder()
         
+        // Attempt to add to existing events first, if this fails, then we don't have data to decode so set a single event
         do {
             let existingEvents = UserDefaults.standard.object(forKey: eventsKey)
-            if (existingEvents != nil){
-                var parsedEvents = try JSONDecoder().decode([NIDEvent].self, from: existingEvents as? Data ?? Data())
-                parsedEvents.append(event)
-                let allEvents = try encoder.encode(parsedEvents)
-                UserDefaults.standard.setValue(allEvents, forKey: eventsKey)
-            }
-            else {
-                let singleEvent = try encoder.encode([event])
-                UserDefaults.standard.setValue(singleEvent, forKey: eventsKey)
-            }
+            var parsedEvents = try JSONDecoder().decode([NIDEvent].self, from: existingEvents as? Data ?? Data())
+            parsedEvents.append(event)
+            let allEvents = try encoder.encode(parsedEvents)
+            UserDefaults.standard.setValue(allEvents, forKey: eventsKey)
+            return
          } catch {
+            /// Swallow error
+            // TODO, pattern to avoid try catch?
+        }
+        
+        // Setting local storage to a single event
+        do {
+            let singleEvent = try encoder.encode([event])
+            UserDefaults.standard.setValue(singleEvent, forKey: eventsKey)
+        } catch {
+            // If we fail here, there is something wrong with storing the event, print the error and clear the
             print(String(describing: error))
         }
     }
@@ -35,12 +65,15 @@ public struct DataStore {
     static func getAllEvents() ->  [NIDEvent]{
         let existingEvents = UserDefaults.standard.object(forKey: eventsKey)
         
+        if (existingEvents == nil){
+            return []
+        }
         do {
             let parsedEvents = try JSONDecoder().decode([NIDEvent].self, from: existingEvents as? Data ?? Data())
             return parsedEvents
         } catch {
-            print(String(describing: error))
-            print("Problem getting all events, clearing event cache")
+//            print(String(describing: error))
+            print("No events..(or bad JSON event)")
             DataStore.removeSentEvents()
             
         }
