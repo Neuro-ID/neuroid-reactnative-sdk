@@ -14,27 +14,34 @@ public struct DataStore {
     {
         if ProcessInfo.processInfo.environment["debugJSON"] == "true" {
             print("DEBUG JSON IS SET, writing to Desktop")
-            let nidJSON = "Attain world domination;Eat catfood;Sleep"
+            do {
+                let encoder = JSONEncoder()
+                let nidJSON:Data = try encoder.encode([event])
 
-            let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("nidJSON.txt")
-            
-            if let fileUpdater = try? FileHandle(forUpdating: path) {
+                let filemgr = FileManager.default
+                let path = filemgr.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("nidJSON.txt")
+                
+                if !filemgr.fileExists(atPath: (path.path)) {
+                    filemgr.createFile(atPath: (path.path), contents: nidJSON, attributes: nil)
+                    
+                } else {
+                    let file = FileHandle(forReadingAtPath: (path.path))
+                    if let fileUpdater = try? FileHandle(forUpdating: path) {
+        
+                        // Function which when called will cause all updates to start from end of the file
+                        fileUpdater.seekToEndOfFile()
 
-                // Function which when called will cause all updates to start from end of the file
-                fileUpdater.seekToEndOfFile()
-
-                // Which lets the caller move editing to any position within the file by supplying an offset
-                fileUpdater.write(nidJSON.data(using: .utf8)!)
-
-                // Once we convert our new content to data and write it, we close the file and that’s it!
-                fileUpdater.closeFile()
+                        // Which lets the caller move editing to any position within the file by supplying an offset
+                        fileUpdater.write("\n".data(using: .utf8)!)
+                        fileUpdater.write(nidJSON)
+                    }
+                    else {
+                        print("Unable to append DEBUG JSON")
+                    }
+                }
+            } catch{
+                print(String(describing: error))
             }
-//            do {
-//                try nidJSON.write(to: path, atomically: true, encoding: .utf8)
-//
-//            } catch {
-//                print(error.localizedDescription)
-//            }
         }
         print("INSERT EVENT: \(screen) : \(String(describing: event)))")
         let encoder = JSONEncoder()
