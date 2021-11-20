@@ -2,6 +2,10 @@
 
 Neuro-ID React Native SDK
 
+## Beta & General Release
+
+The Neuro-ID React Native SDK is currently still in private beta and not intended for general public use. For any questions, please contact your Neuro-ID sales representative for more information.
+
 ## Installation
 
 - `yarn` from root directory
@@ -17,8 +21,7 @@ Run the example:
 
 ```js
 import { configure } from 'neuroid-reactnative-sdk';
-configure('key_test_vtotrandom_form_mobilesandbox')
-
+configure('key_test_vtotrandom_form_mobilesandbox');
 ```
 
 ## Contributing

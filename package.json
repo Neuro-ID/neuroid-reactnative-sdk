@@ -46,6 +46,7 @@
   },
   "homepage": "https://github.com/Neuro-ID/neuroid-reactnative-sdk.git#readme",
   "publishConfig": {
+    "cache": "cache/.npm",
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
