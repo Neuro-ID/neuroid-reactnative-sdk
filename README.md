@@ -21,7 +21,7 @@ Run the example:
 
 ```js
 import { configure } from 'neuroid-reactnative-sdk';
-configure('key_test_vtotrandom_form_mobilesandbox');
+configure('YOUR API KEY');
 ```
 
 ## Contributing
