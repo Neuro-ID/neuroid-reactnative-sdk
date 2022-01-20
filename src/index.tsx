@@ -29,3 +29,6 @@ export function stop(): Promise<void> {
 export function isStopped(): Promise<boolean> {
   return NeuroidReactnativeSdk.isStopped();
 }
+export function setUserID(userID: string): Promise<void> {
+  return NeuroidReactnativeSdk.setUserID(userID);
+}
