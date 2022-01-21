@@ -52,15 +52,13 @@ public struct DataStore {
             
             // Attempt to add to existing events first, if this fails, then we don't have data to decode so set a single event
             do {
-                let existingEvents = UserDefaults.standard.object(forKey: eventsKey)
-                var parsedEvents = try JSONDecoder().decode([NIDEvent].self, from: existingEvents as? Data ?? Data())
+                var parsedEvents = getAllEvents();
                 parsedEvents.append(event)
                 let allEvents = try encoder.encode(parsedEvents)
                 UserDefaults.standard.setValue(allEvents, forKey: eventsKey)
                 return
              } catch {
-                /// Swallow error
-                // TODO, pattern to avoid try catch?
+                print("Failed saving all event data \(String(describing: error))")
             }
             
             // Setting local storage to a single event
@@ -69,22 +67,22 @@ public struct DataStore {
                 UserDefaults.standard.setValue(singleEvent, forKey: eventsKey)
             } catch {
                 // If we fail here, there is something wrong with storing the event, print the error and clear the
-                print(String(describing: error))
+                print("Failed to save single event data \(String(describing: error))")
             }
         }
     }
     
     static func getAllEvents() ->  [NIDEvent]{
-        let existingEvents = UserDefaults.standard.object(forKey: eventsKey)
+        let existingEvents = UserDefaults.standard.object(forKey: eventsKey) as? Data ?? Data()
         
-        if (existingEvents == nil){
+        if (existingEvents.isEmpty) {
             return []
         }
         do {
-            let parsedEvents = try JSONDecoder().decode([NIDEvent].self, from: existingEvents as? Data ?? Data())
+            let parsedEvents = try JSONDecoder().decode([NIDEvent].self, from: existingEvents)
             return parsedEvents
         } catch {
-            print("No events..(or bad JSON event)")
+            print("Bad JSON event(s)")
             DataStore.removeSentEvents()
         }
         return []
