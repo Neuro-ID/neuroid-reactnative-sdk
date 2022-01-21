@@ -45,9 +45,6 @@
     "url": "https://github.com/Neuro-ID/neuroid-reactnative-sdk/issues"
   },
   "homepage": "https://github.com/Neuro-ID/neuroid-reactnative-sdk#readme",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
@@ -147,6 +144,7 @@
     ]
   },
   "dependencies": {
+    "react-dev-utils": "^10.0.0",
     "react-scripts": "^5.0.0"
   }
 }
