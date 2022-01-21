@@ -145,5 +145,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "react-scripts": "^5.0.0"
   }
 }
