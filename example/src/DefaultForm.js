@@ -24,7 +24,6 @@ export const DefaultForm = ({ navigation }) => {
   React.useEffect(() => {
     configure('key_test_vtotrandom_form_mobilesandbox'); //.then(setConf);
     start();
-    // configure('123').then(setConf);
   }, []);
   //DOB Month dropdown
   const [monthOpen, setMonthOpen] = useState(false);

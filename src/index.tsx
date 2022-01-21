@@ -26,6 +26,18 @@ export function start(): Promise<void> {
 export function stop(): Promise<void> {
   return NeuroidReactnativeSdk.stop();
 }
+export function setUserID(userID: String): Promise<void> {
+  return NeuroidReactnativeSdk.setUserID(userID);
+}
+export function formSubmit(): Promise<void> {
+  return NeuroidReactnativeSdk.formSubmit();
+}
+export function formSubmitSuccess(): Promise<void> {
+  return NeuroidReactnativeSdk.formSubmitSuccess();
+}
+export function formSubmitFailure(): Promise<void> {
+  return NeuroidReactnativeSdk.formSubmitFailure();
+}
 export function isStopped(): Promise<boolean> {
   return NeuroidReactnativeSdk.isStopped();
 }

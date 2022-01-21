@@ -2,21 +2,15 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "neuroid-reactnative-sdk": [
-        "./src/index"
-      ]
+      "neuroid-reactnative-sdk": ["./src/index"]
     },
     "allowUnreachableCode": false,
-    "allowJs": true,
-    "checkJs": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
     "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,

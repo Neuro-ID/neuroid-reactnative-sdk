@@ -12,7 +12,7 @@ internal enum NIDSessionEventName: String {
 
     func log() {
         let event = NIDEvent(session: self, tg: nil, x: nil, y: nil)
-        NeuroID.captureEvent(event)
+        NeuroID.saveEventToLocalDataStore(event)
     }
 }
 
@@ -130,11 +130,12 @@ public struct NIDEvent: Codable {
     public let type: String
     var tg: [String: TargetValue]? = nil
     var tgs: String?
+    var key: String?
+    var v: String?
     var en: String?
     var etn: String? // Tag name (input)
     var et: String? // Element Type (text)
     var eid: String?
-    var v: String? // Value
     var ts:Int64 = ParamsCreator.getTimeStamp()
     var x: CGFloat?
     var y: CGFloat?
@@ -154,9 +155,11 @@ public struct NIDEvent: Codable {
     var tch: Bool? // Done
     var url: String?
     var ns: String? // Done
-    var jsl: Array<String>  = ["iOS"];
+    var jsl: Array<String>?//  = ["iOS"];
     var jsv: String? // Done
     var uid: String?
+    var sm: Double?
+    var pd: Double?
 
         /**
             Use to initiate a new session
@@ -252,7 +255,7 @@ public struct NIDEvent: Codable {
      
  */
 
-    init(eventName: NIDEventName, tgs: String, en: String, etn: String, et: String, v: String) {
+    init(eventName: NIDEventName, tgs: String, en: String, etn: String, et: String, v: String, url: String) {
         self.type = eventName.rawValue
         self.tgs = tgs;
         self.en = en;
@@ -262,8 +265,18 @@ public struct NIDEvent: Codable {
         self.et = et;
         var ef:Any = Optional<String>.none;
         self.v = v;
+        self.url = url;
     }
     
+    /**
+        Text Change
+     */
+    init(type: NIDEventName, tg: [String: TargetValue]?, sm: Double, pd: Double) {
+        self.type = type.rawValue
+        self.tg = tg
+        self.sm = sm
+        self.pd = pd
+    }
     /**
      Primary View Controller will be the URL that we are tracking.
      */
@@ -282,6 +295,33 @@ public struct NIDEvent: Codable {
         self.tg = tg
         self.x = x
         self.y = y
+    }
+    
+    /**
+     * Form submit, Sucess Submit, Failure Submit
+     */
+    init(type: NIDEventName){
+        self.type = type.rawValue
+    }
+    
+    init(type: NIDEventName, tg: [String: TargetValue]?, v: String){
+        self.type = type.rawValue
+        self.tg = tg
+        self.v = v
+    }
+    
+    /**
+     Set custom variable
+        - Parameters:
+            - type: NIDEventName
+            - key: String value of key
+            - v: String value of the value
+        - Returns: An NIDEvent instance
+     */
+    init(type: NIDSessionEventName, key: String, v: String) {
+        self.type = type.rawValue
+        self.key = key
+        self.v = v
     }
     
     /**
@@ -309,8 +349,14 @@ public struct NIDEvent: Codable {
     /**
      FOCUS
      BLUR
-     
+     LOAD
      */
+    
+    public init(type: NIDEventName, screenName: String){
+        self.url = screenName
+        self.type = type.rawValue
+    }
+    
     public init(type: NIDEventName, tg: [String: TargetValue]?) {
         self.type = type.rawValue
         self.tg = tg
