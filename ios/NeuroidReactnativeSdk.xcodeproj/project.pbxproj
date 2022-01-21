@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6FF24C36273023B700E47010 /* SDKPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF24C2F273023B700E47010 /* SDKPreferences.swift */; };
-		6FF24C37273023B700E47010 /* NeuroIDTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF24C30273023B700E47010 /* NeuroIDTracker.swift */; };
-		6FF24C38273023B700E47010 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF24C31273023B700E47010 /* DataStore.swift */; };
-		6FF24C39273023B700E47010 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF24C32273023B700E47010 /* Events.swift */; };
+		6FE89E40279A63C200DA25D0 /* SDKPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE89E3B279A63C200DA25D0 /* SDKPreferences.swift */; };
+		6FE89E41279A63C200DA25D0 /* NeuroIDTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE89E3C279A63C200DA25D0 /* NeuroIDTracker.swift */; };
+		6FE89E42279A63C200DA25D0 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE89E3D279A63C200DA25D0 /* DataStore.swift */; };
+		6FE89E43279A63C200DA25D0 /* NIDEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE89E3E279A63C200DA25D0 /* NIDEvent.swift */; };
 		F4FF95D7245B92E800C19C63 /* NeuroidReactnativeSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* NeuroidReactnativeSdk.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,20 +28,12 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libNeuroidReactnativeSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNeuroidReactnativeSdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6FC1CDC8270CF9ED006AA4B1 /* sqlite3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = NeuroID/NeuroID/sqlite3.c; sourceTree = "<group>"; };
-		6FC1CDC9270CF9ED006AA4B1 /* NeuroID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeuroID.h; sourceTree = "<group>"; };
-		6FC1CDCA270CF9ED006AA4B1 /* SDKPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKPreferences.swift; sourceTree = "<group>"; };
-		6FC1CDCB270CF9ED006AA4B1 /* NeuroIDTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuroIDTracker.swift; sourceTree = "<group>"; };
-		6FC1CDCC270CF9ED006AA4B1 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
-		6FC1CDCD270CF9ED006AA4B1 /* DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DB.swift; sourceTree = "<group>"; };
-		6FC1CDCE270CF9ED006AA4B1 /* sqlite3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
-		6FC1CDDF270D013D006AA4B1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
-		6FC1CDE0270D013D006AA4B1 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
-		6FF24C2E273023B700E47010 /* NeuroID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuroID.h; sourceTree = "<group>"; };
-		6FF24C2F273023B700E47010 /* SDKPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDKPreferences.swift; sourceTree = "<group>"; };
-		6FF24C30273023B700E47010 /* NeuroIDTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuroIDTracker.swift; sourceTree = "<group>"; };
-		6FF24C31273023B700E47010 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
-		6FF24C32273023B700E47010 /* Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		6FE89E3A279A63C200DA25D0 /* NeuroID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuroID.h; sourceTree = "<group>"; };
+		6FE89E3B279A63C200DA25D0 /* SDKPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDKPreferences.swift; sourceTree = "<group>"; };
+		6FE89E3C279A63C200DA25D0 /* NeuroIDTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuroIDTracker.swift; sourceTree = "<group>"; };
+		6FE89E3D279A63C200DA25D0 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		6FE89E3E279A63C200DA25D0 /* NIDEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIDEvent.swift; sourceTree = "<group>"; };
+		6FE89E3F279A63C200DA25D0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* NeuroidReactnativeSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeuroidReactnativeSdk.m; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* NeuroidReactnativeSdk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NeuroidReactnativeSdk-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4FF95D6245B92E800C19C63 /* NeuroidReactnativeSdk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuroidReactnativeSdk.swift; sourceTree = "<group>"; };
@@ -69,48 +61,23 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				6FF24C2C273023B700E47010 /* NeuroID */,
+				6FE89E39279A63C200DA25D0 /* NeuroID */,
 				F4FF95D6245B92E800C19C63 /* NeuroidReactnativeSdk.swift */,
 				B3E7B5891CC2AC0600A0062D /* NeuroidReactnativeSdk.m */,
 				F4FF95D5245B92E700C19C63 /* NeuroidReactnativeSdk-Bridging-Header.h */,
 				134814211AA4EA7D00B7C361 /* Products */,
-				6FC7165627077EBA00D6DEB3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		6FC1CDCF270CF9ED006AA4B1 /* NeuroID */ = {
+		6FE89E39279A63C200DA25D0 /* NeuroID */ = {
 			isa = PBXGroup;
 			children = (
-				6FC1CDC9270CF9ED006AA4B1 /* NeuroID.h */,
-				6FC1CDCA270CF9ED006AA4B1 /* SDKPreferences.swift */,
-				6FC1CDCB270CF9ED006AA4B1 /* NeuroIDTracker.swift */,
-				6FC1CDCC270CF9ED006AA4B1 /* Events.swift */,
-				6FC1CDCD270CF9ED006AA4B1 /* DB.swift */,
-				6FC1CDCE270CF9ED006AA4B1 /* sqlite3.h */,
-			);
-			name = NeuroID;
-			path = NeuroID/NeuroID;
-			sourceTree = "<group>";
-		};
-		6FC7165627077EBA00D6DEB3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6FC1CDE0270D013D006AA4B1 /* libsqlite3.0.tbd */,
-				6FC1CDDF270D013D006AA4B1 /* libsqlite3.tbd */,
-				6FC1CDCF270CF9ED006AA4B1 /* NeuroID */,
-				6FC1CDC8270CF9ED006AA4B1 /* sqlite3.c */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6FF24C2C273023B700E47010 /* NeuroID */ = {
-			isa = PBXGroup;
-			children = (
-				6FF24C2E273023B700E47010 /* NeuroID.h */,
-				6FF24C2F273023B700E47010 /* SDKPreferences.swift */,
-				6FF24C30273023B700E47010 /* NeuroIDTracker.swift */,
-				6FF24C31273023B700E47010 /* DataStore.swift */,
-				6FF24C32273023B700E47010 /* Events.swift */,
+				6FE89E3A279A63C200DA25D0 /* NeuroID.h */,
+				6FE89E3B279A63C200DA25D0 /* SDKPreferences.swift */,
+				6FE89E3C279A63C200DA25D0 /* NeuroIDTracker.swift */,
+				6FE89E3D279A63C200DA25D0 /* DataStore.swift */,
+				6FE89E3E279A63C200DA25D0 /* NIDEvent.swift */,
+				6FE89E3F279A63C200DA25D0 /* Info.plist */,
 			);
 			path = NeuroID;
 			sourceTree = "<group>";
@@ -172,11 +139,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FF24C39273023B700E47010 /* Events.swift in Sources */,
+				6FE89E43279A63C200DA25D0 /* NIDEvent.swift in Sources */,
 				F4FF95D7245B92E800C19C63 /* NeuroidReactnativeSdk.swift in Sources */,
-				6FF24C37273023B700E47010 /* NeuroIDTracker.swift in Sources */,
-				6FF24C38273023B700E47010 /* DataStore.swift in Sources */,
-				6FF24C36273023B700E47010 /* SDKPreferences.swift in Sources */,
+				6FE89E42279A63C200DA25D0 /* DataStore.swift in Sources */,
+				6FE89E41279A63C200DA25D0 /* NeuroIDTracker.swift in Sources */,
+				6FE89E40279A63C200DA25D0 /* SDKPreferences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,14 +193,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/**",
-					"$(SRCROOT)/NeuroID/NeuroID/**",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "-DNDEBUG";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -274,14 +236,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/**",
-					"$(SRCROOT)/NeuroID/NeuroID/**",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CFLAGS = "-DNDEBUG";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -291,11 +247,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../example/ios/Pods/Headers/**",
-					"$(SRCROOT)/NeuroID/**",
+					"$(SRCROOT)/../../react-native/React/**",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_CFLAGS = "-DNDEBUG";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = NeuroidReactnativeSdk;
 				SKIP_INSTALL = YES;
@@ -312,10 +271,11 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../example/ios/Pods/Headers/**",
 					"$(SRCROOT)/../../react-native/React/**",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_CFLAGS = "-DNDEBUG";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = NeuroidReactnativeSdk;
 				SKIP_INSTALL = YES;

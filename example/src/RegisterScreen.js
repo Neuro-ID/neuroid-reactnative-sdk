@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
-import { configure } from 'neuroid-reactnative-sdk';
+import { configure, start } from 'neuroid-reactnative-sdk';
 
 export const RegisterScreen = ({ navigation }) => {
   const [conf, setConf] = React.useState();
@@ -10,6 +10,7 @@ export const RegisterScreen = ({ navigation }) => {
 
   React.useEffect(() => {
     configure('key_test_vtotrandom_form_mobilesandbox').then(setConf);
+    start();
     // configure('123').then(setConf);
   }, []);
 

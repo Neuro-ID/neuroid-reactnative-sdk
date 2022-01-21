@@ -1,8 +1,8 @@
 //
-//  Test.swift
+//  test.swift
 //  NeuroidReactnativeSdkExample
 //
-//  Used to creating the Swift Bridging header.
+//  Created by Clayton Selby on 1/20/22.
 //
 
 import Foundation
