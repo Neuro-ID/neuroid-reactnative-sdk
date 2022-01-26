@@ -28,6 +28,8 @@ configure('YOUR API KEY');
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
+Bad cache? `npx react-native start --reset-cache`
+
 ## License
 
 MIT

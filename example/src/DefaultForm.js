@@ -89,6 +89,7 @@ export const DefaultForm = ({ navigation }) => {
                 autoCapitalize="none"
                 autoCorrect={false}
                 id="firstName"
+                testID="firstName"
               />
             </View>
             <View style={[s.mb3]}>
@@ -98,6 +99,7 @@ export const DefaultForm = ({ navigation }) => {
                 autoCapitalize="none"
                 autoCorrect={false}
                 id="lastName"
+                testID="lastName"
               />
             </View>
             <View style={[s.mb3]}>
@@ -112,6 +114,7 @@ export const DefaultForm = ({ navigation }) => {
                   setValue={setMonthValue}
                   setItems={setMonthItems}
                   onOpen={onMonthOpen}
+                  testID="dobMonth"
                   textStyle={{
                     color: '#4f5e66',
                   }}
@@ -129,6 +132,7 @@ export const DefaultForm = ({ navigation }) => {
                   setValue={setDayValue}
                   setItems={setDayItems}
                   onOpen={onDayOpen}
+                  testID="dobDay"
                   textStyle={{
                     color: '#4f5e66',
                   }}
@@ -146,6 +150,7 @@ export const DefaultForm = ({ navigation }) => {
                   setValue={setdobYearValue}
                   setItems={setdobYearItems}
                   onOpen={onDobYearOpen}
+                  testID="dobYear"
                   textStyle={{
                     color: '#4f5e66',
                   }}
@@ -160,6 +165,7 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                testID="email"
                 id="email"
               />
             </View>
@@ -169,6 +175,7 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                testID="homeCity"
                 id="homeCity"
               />
             </View>
@@ -178,6 +185,7 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                testID="homeZipCode"
                 id="homeZipCode"
               />
             </View>
@@ -187,6 +195,7 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                testID="phoneNumber"
                 id="phoneNumber"
               />
             </View>
@@ -196,6 +205,7 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                testID="employer"
                 id="employer"
               />
             </View>
@@ -207,6 +217,7 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                testID="employerAddress"
                 id="employerAddress"
               />
             </View>
@@ -218,6 +229,7 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                testID="employerPhoneNumber"
                 id="employerPhoneNumber"
               />
             </View>
@@ -231,13 +243,6 @@ export const DefaultForm = ({ navigation }) => {
               <Text style={[s.text, styles.text, s.mb5]}>
                 Checking your loan options does not affect your credit score.
               </Text>
-            </View>
-            <View style={[s.mb3]}>
-              <TextInput
-                autoCapitalize="none"
-                autoCorrect={false}
-                id="employerPhoneNumber"
-              />
             </View>
           </SafeAreaView>
         </ScrollView>
