@@ -11,7 +11,7 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { Picker } from '@react-native-picker/picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
 import { months, days, dobYears } from './utils/helpers';
 
@@ -26,17 +26,14 @@ export const DefaultForm = ({ navigation }) => {
     start();
   }, []);
   //DOB Month dropdown
-  const [monthOpen, setMonthOpen] = useState(false);
   const [monthValue, setMonthValue] = useState(null);
   const [monthItems, setMonthItems] = useState(months);
 
   //DOB day dropdown
-  const [dayOpen, setDayOpen] = useState(false);
   const [dayValue, setDayValue] = useState(null);
   const [dayItems, setDayItems] = useState(days);
 
   //DOB year dropdown
-  const [dobYearOpen, setdobYearOpen] = useState(false);
   const [dobYearValue, setdobYearValue] = useState(null);
   const [dobYearItems, setdobYearItems] = useState(dobYears);
 
@@ -103,55 +100,64 @@ export const DefaultForm = ({ navigation }) => {
             <View style={[s.mb3]}>
               <Text style={[s.text, styles.text, s.mb2]}>Date of Birth:</Text>
               <View style={[s.mb3, { zIndex: 10 }]}>
-                <DropDownPicker
+                <Picker
                   style={[s.formControl]}
-                  open={monthOpen}
-                  value={monthValue}
-                  items={monthItems}
-                  setOpen={setMonthOpen}
-                  setValue={setMonthValue}
-                  setItems={setMonthItems}
-                  onOpen={onMonthOpen}
-                  textStyle={{
+                  selectedValue={monthValue}
+                  onValueChange={(itemValue) =>
+                    setMonthValue(itemValue)
+                  }
+                  itemStyle={{
                     color: '#4f5e66',
                   }}
-                  zIndex={3000}
-                  zIndexInverse={1000}
-                />
+                >
+                  {
+                    monthItems.map((m) => {
+                      return (
+                        <Picker.Item label={m} value={m} />
+                      )
+                    })
+                  }
+                </Picker>
               </View>
               <View style={[s.mb3, { zIndex: 9 }]}>
-                <DropDownPicker
+                <Picker
                   style={[s.formControl]}
-                  open={dayOpen}
-                  value={dayValue}
-                  items={dayItems}
-                  setOpen={setDayOpen}
-                  setValue={setDayValue}
-                  setItems={setDayItems}
-                  onOpen={onDayOpen}
-                  textStyle={{
+                  selectedValue={dayValue}
+                  onValueChange={(itemValue) =>
+                    setDayValue(itemValue)
+                  }
+                  itemStyle={{
                     color: '#4f5e66',
                   }}
-                  zIndex={2000}
-                  zIndexInverse={2000}
-                />
+                >
+                  {
+                    dayItems.map((d) => {
+                      return (
+                        <Picker.Item label={d} value={d} />
+                      )
+                    })
+                  }
+                </Picker>
               </View>
               <View style={[s.mb3, { zIndex: 8 }]}>
-                <DropDownPicker
+                <Picker
                   style={[s.formControl]}
-                  open={dobYearOpen}
-                  value={dobYearValue}
-                  items={dobYearItems}
-                  setOpen={setdobYearOpen}
-                  setValue={setdobYearValue}
-                  setItems={setdobYearItems}
-                  onOpen={onDobYearOpen}
-                  textStyle={{
+                  selectedValue={dobYearValue}
+                  onValueChange={(itemValue) =>
+                    setdobYearValue(itemValue)
+                  }
+                  itemStyle={{
                     color: '#4f5e66',
                   }}
-                  zIndex={1000}
-                  zIndexInverse={3000}
-                />
+                >
+                  {
+                    dobYearItems.map((d) => {
+                      return (
+                        <Picker.Item label={d} value={d} />
+                      )
+                    })
+                  }
+                </Picker>
               </View>
             </View>
             <View style={[s.mb3, styles.lowZ]}>
