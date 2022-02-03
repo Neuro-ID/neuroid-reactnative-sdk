@@ -576,6 +576,7 @@ private extension NeuroIDTracker {
         ET - human readable tag
      */
     func logTextEvent(from notification: Notification, eventType: NIDEventName, sm: Double = 0, pd: Double = 0) {
+        
         if let textControl = notification.object as? UITextField {
             let inputType = "text"
             // isSecureText
@@ -583,30 +584,84 @@ private extension NeuroIDTracker {
             if #available(iOS 12.0, *) {
                 if textControl.textContentType == .newPassword { return }
             }
-
-            // If Text Input event, also capture KEYDOWN and TEXTCHANGE
+            
+            let lengthValue = "S~C~~\(textControl.text?.count ?? 0)"
             if (eventType == NIDEventName.input) {
-                // Keydown
-                let keydownTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.keyDown, view: textControl, type: inputType)
-                captureEvent(event: NIDEvent(type: NIDEventName.keyDown, tg: keydownTG))
                 
-                // Text Change
-                let textChangeTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.textChange, view: textControl, type: inputType)
-                captureEvent(event: NIDEvent(type: NIDEventName.textChange, tg: textChangeTG, sm: sm, pd: pd))
+//                // Keydown
+//                let keydownTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.keyDown, view: textControl, type: inputType)
+//                var keyDownEvent = NIDEvent(type: NIDEventName.keyDown, tg: keydownTG)
+//                keyDownEvent.v = lengthValue
+//                captureEvent(event: keyDownEvent)
                 
                 // Input
                 let inputTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.input, view: textControl, type: inputType)
-                captureEvent(event: NIDEvent(type: NIDEventName.input, tg: inputTG))
+                var inputEvent = NIDEvent(type: NIDEventName.input, tg: inputTG)
+                inputEvent.v = lengthValue
+                captureEvent(event: inputEvent)
+            } else if (eventType == NIDEventName.focus || eventType == NIDEventName.blur) {
+                // Focus / Blur
+                let focusBlurEvent = NIDEvent(type: eventType, tg: [
+                    "tgs": TargetValue.string(textControl.id),
+                ])
+                captureEvent(event: focusBlurEvent)
+                
+                // If this is a blur event, that means we have a text change event
+                if (eventType == NIDEventName.blur) {
+                    // Text Change
+                    let textChangeTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.textChange, view: textControl, type: inputType)
+                    var textChangeEvent = NIDEvent(type:NIDEventName.textChange, tg: textChangeTG, sm: sm, pd: pd)
+                    textChangeEvent.v = lengthValue
+                    captureEvent(event:  textChangeEvent)
+                }
             }
             
             detectPasting(view: textControl, text: textControl.text ?? "")
         } else if let textControl = notification.object as? UITextView {
+            let inputType = "text"
+            // isSecureText
             if textControl.textContentType == .password || textControl.isSecureTextEntry { return }
             if #available(iOS 12.0, *) {
                 if textControl.textContentType == .newPassword { return }
             }
-            let tg = ParamsCreator.getTGParamsForInput(eventName: eventType, view: textControl, type: "UITextView")
-            captureEvent(event: NIDEvent(type: eventType, tg: tg))
+
+            let lengthValue = "S~C~~\(textControl.text?.count ?? 0)"
+            if (eventType == NIDEventName.input) {
+                
+                // Keydown
+                let keydownTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.keyDown, view: textControl, type: inputType)
+                var keyDownEvent = NIDEvent(type: NIDEventName.keyDown, tg: keydownTG)
+                keyDownEvent.v = lengthValue
+                captureEvent(event: keyDownEvent)
+                
+                // Text Change
+                let textChangeTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.textChange, view: textControl, type: inputType)
+                var textChangeEvent = NIDEvent(type:NIDEventName.textChange, tg: textChangeTG, sm: sm, pd: pd)
+                textChangeEvent.v = lengthValue
+                captureEvent(event:  textChangeEvent)
+                
+                // Input
+                let inputTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.input, view: textControl, type: inputType)
+                var inputEvent = NIDEvent(type: NIDEventName.input, tg: inputTG)
+                inputEvent.v = lengthValue
+                captureEvent(event: inputEvent)
+            } else if (eventType == NIDEventName.focus || eventType == NIDEventName.blur) {
+                // Focus / Blur
+                let focusBlurEvent = NIDEvent(type: eventType, tg: [
+                    "tgs": TargetValue.string(textControl.id),
+                ])
+                captureEvent(event: focusBlurEvent)
+                
+                // If this is a blur event, that means we have a text change event
+                if (eventType == NIDEventName.blur) {
+                    // Text Change
+                    let textChangeTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.textChange, view: textControl, type: inputType)
+                    var textChangeEvent = NIDEvent(type:NIDEventName.textChange, tg: textChangeTG, sm: sm, pd: pd)
+                    textChangeEvent.v = lengthValue
+                    captureEvent(event:  textChangeEvent)
+                }
+            }
+            
             detectPasting(view: textControl, text: textControl.text ?? "")
         } else if let textControl = notification.object as? UISearchBar {
             let tg = ParamsCreator.getTGParamsForInput(eventName: eventType, view: textControl, type: "UISearchBar")
@@ -749,13 +804,21 @@ private extension NeuroIDTracker {
     private func observeAppEvents() {
         if #available(iOS 13.0, *) {
             NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIScene.willDeactivateNotification, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIScene.willEnterForegroundNotification, object: nil)
         } else {
             NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         }
     }
 
     @objc func appMovedToBackground() {
-        captureEvent(event: NIDEvent(type: NIDEventName.userInactive, tg: nil, view: nil))
+        captureEvent(event: NIDEvent(type: NIDEventName.windowBlur))
+    }
+   
+    @objc func appMovedToForeground() {
+        captureEvent(event: NIDEvent(type: NIDEventName.windowFocus))
     }
 }
 
@@ -821,7 +884,7 @@ struct ParamsCreator {
         var params: [String: TargetValue] = [:];
         
         switch eventName {
-        case NIDEventName.focus, NIDEventName.blur, NIDEventName.input, NIDEventName.textChange, NIDEventName.radioChange, NIDEventName.checkboxChange:
+        case  NIDEventName.input,NIDEventName.focus, NIDEventName.blur, NIDEventName.textChange, NIDEventName.radioChange, NIDEventName.checkboxChange:
             params = [
                 "tgs": TargetValue.string(view.id),
                 "etn": TargetValue.string(view.id),
@@ -1118,7 +1181,8 @@ private func registerSingleView(v: Any, screenName: String){
     case is UIDatePicker:
         print("Date picker")
     default:
-        print("Unknown type", v)
+        return
+//        print("Unknown type", v)
     }
         // Text
         // Inputs
@@ -1243,6 +1307,16 @@ private extension UIViewController {
         self.neuroIDViewWillAppear(animated: animated)
         captureEvent(eventName: .windowFocus)
         
+        if (NeuroID.isStopped() || UIApplication.shared.applicationState == .background ){
+            return
+        }
+        self.neuroIDViewDidLoad()
+        captureEvent(eventName: .windowLoad)
+        var subViews = self.view.subviews
+        var allViewControllers = self.children
+        allViewControllers.append(self)
+        registerSubViewsTargets(subViewControllers: allViewControllers)
+        
     }
 
     @objc func neuroIDViewWillDisappear(animated: Bool) {
@@ -1263,11 +1337,11 @@ private extension UIViewController {
             return
         }
         self.neuroIDViewDidLoad()
-        captureEvent(eventName: .windowLoad)
-        var subViews = self.view.subviews
-        var allViewControllers = self.children
-        allViewControllers.append(self)
-        registerSubViewsTargets(subViewControllers: allViewControllers)
+//        captureEvent(eventName: .windowLoad)
+//        var subViews = self.view.subviews
+//        var allViewControllers = self.children
+//        allViewControllers.append(self)
+//        registerSubViewsTargets(subViewControllers: allViewControllers)
     }
 
     @objc func neuroIDDismiss(animated flag: Bool, completion: (() -> Void)? = nil) {

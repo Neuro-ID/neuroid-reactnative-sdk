@@ -67,7 +67,10 @@ export const DefaultForm = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={closeDropdowns}>
-      <View style={[s.body, s.container, s.p3, styles.container]}>
+      <View
+        style={[s.body, s.container, s.p3, styles.container]}
+        testID="defaultFormInnerView"
+      >
         <View style={[styles.view, s.mt3]}>
           <Image
             source={require('./assets/images/nid-logo.png')}
@@ -82,7 +85,7 @@ export const DefaultForm = ({ navigation }) => {
             Checking your loan options does not affect your credit score.
           </Text>
           <SafeAreaView>
-            <View style={[s.mb3]}>
+            <View style={[s.mb3]} testID="innerMostView">
               <Text style={[s.text, styles.text, s.mb2]}>First Name:</Text>
               <TextInput
                 style={[s.formControl]}
