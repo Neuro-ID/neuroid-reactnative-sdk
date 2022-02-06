@@ -11,8 +11,15 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Neuro ID" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Neuro ID" component={DefaultForm} />
+      <Stack.Navigator
+        initialRouteName="Neuro ID"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen
+          name="Neuro ID"
+          component={DefaultForm}
+          testID="defaultFormOuterView"
+        />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Contact" component={ContactScreen} />
       </Stack.Navigator>
