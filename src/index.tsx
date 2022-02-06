@@ -17,27 +17,42 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
-export function configure(apiKey: String): Promise<number> {
+function androidCheck(): Boolean {
+  if (Platform.OS !== 'ios') {
+    return true;
+  }
+  return false;
+}
+
+export function configure(apiKey: String): Promise<number> | null {
+  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.configure(apiKey);
 }
-export function start(): Promise<void> {
+export function start(): Promise<void> | null {
+  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.start();
 }
-export function stop(): Promise<void> {
+export function stop(): Promise<void> | null {
+  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.stop();
 }
-export function setUserID(userID: String): Promise<void> {
+export function setUserID(userID: String): Promise<void> | null {
+  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.setUserID(userID);
 }
-export function formSubmit(): Promise<void> {
+export function formSubmit(): Promise<void> | null {
+  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.formSubmit();
 }
-export function formSubmitSuccess(): Promise<void> {
+export function formSubmitSuccess(): Promise<void> | null {
+  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.formSubmitSuccess();
 }
-export function formSubmitFailure(): Promise<void> {
+export function formSubmitFailure(): Promise<void> | null {
+  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.formSubmitFailure();
 }
-export function isStopped(): Promise<boolean> {
+export function isStopped(): Promise<boolean> | null {
+  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.isStopped();
 }
