@@ -36,6 +36,10 @@ export function stop(): Promise<void> | null {
   if (androidCheck()) return null;
   return NeuroidReactnativeSdk.stop();
 }
+export function getSessionID(): Promise<String> | null {
+  if (androidCheck()) return null;
+  return NeuroidReactnativeSdk.getSessionID();
+}
 export function setUserID(userID: String): Promise<void> | null {
   if (androidCheck()) return null;
   return NeuroidReactnativeSdk.setUserID(userID);

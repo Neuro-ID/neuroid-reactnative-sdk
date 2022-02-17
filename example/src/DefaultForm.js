@@ -15,13 +15,16 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
 import { months, days, dobYears } from './utils/helpers';
 
-import { configure, start } from 'neuroid-reactnative-sdk';
+import { configure, start, getSessionID } from 'neuroid-reactnative-sdk';
 
 const bootstrapStyleSheet = new BootstrapStyleSheet();
 const { s, c } = bootstrapStyleSheet;
 
 export const DefaultForm = ({ navigation }) => {
+  const [sid, setSID] = useState();
+
   React.useEffect(() => {
+    getSessionID().then(setSID);
     configure('key_test_vtotrandom_form_mobilesandbox'); //.then(setConf);
     start();
   }, []);
@@ -78,8 +81,9 @@ export const DefaultForm = ({ navigation }) => {
           />
         </View>
         <ScrollView>
+          <Text style={[styles.text, s.mb2]}>Session ID: {sid}</Text>
           <Text style={[styles.heading, styles.text, s.mb2]}>
-            Welcome! You're one step away from checking your loan options.
+            Welcome! You're one step away from checking your loan options. $
           </Text>
           <Text style={[s.text, styles.text, s.mb5]}>
             Checking your loan options does not affect your credit score.

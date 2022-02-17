@@ -21,8 +21,8 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(getSessionID:withRejecter:)
     func getSessionID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.getSessionID()
-        resolve(true)
+        var sid = NeuroID.getSessionID()
+        resolve(sid)
     }
     
     @objc(setUserID:withResolver:withRejecter:)
