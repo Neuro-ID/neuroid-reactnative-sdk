@@ -29,6 +29,7 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
+    "postinstall": "patch-package",
     "bootstrap": "yarn example && yarn && yarn pods",
     "updateSDK": "cd ./example/ios && pod install && sudo cp -R ./Pods/NeuroID/NeuroID ../../ios  ",
     "updateLocalSDK": "sudo cp -R ~/Developer/neuroid-ios-sdk/NeuroID ./ios"
@@ -144,6 +145,8 @@
     ]
   },
   "dependencies": {
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react-dev-utils": "^10.0.0",
     "react-scripts": "^5.0.0"
   }

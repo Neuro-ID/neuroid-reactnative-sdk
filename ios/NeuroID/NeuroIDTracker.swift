@@ -139,7 +139,7 @@ public struct NeuroID {
     }
     private static func initTimer() {
         // Send up the first payload, and then setup a repeating timer
-//        self.send()
+        self.send()
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + SEND_INTERVAL) {
             self.send()
             self.initTimer()
@@ -486,6 +486,8 @@ private extension NeuroIDTracker {
     }
 
     func createSession(screen: String) -> NIDEvent {
+        // Since we are creating a new session, clear any existing session ID
+        NeuroID.clearSession()
         // TODO, return session if already exists
         let event = NIDEvent(session: .createSession, f: ParamsCreator.getClientKey(), siteId: nil, sid: ParamsCreator.getSessionID(), lsid: nil, cid: ParamsCreator.getClientId(), did: ParamsCreator.getDeviceId(), iid: ParamsCreator.getIntermediateId(), loc: ParamsCreator.getLocale(), ua: ParamsCreator.getUserAgent(), tzo: ParamsCreator.getTimezone(), lng: ParamsCreator.getLanguage(),p: ParamsCreator.getPlatform(), dnt: false, tch: ParamsCreator.getTouch(), url: screen, ns: ParamsCreator.getCommandQueueNamespace(), jsv: ParamsCreator.getSDKVersion())
         

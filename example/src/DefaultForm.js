@@ -23,10 +23,15 @@ const { s, c } = bootstrapStyleSheet;
 export const DefaultForm = ({ navigation }) => {
   const [sid, setSID] = useState();
 
-  React.useEffect(() => {
+  const getSIDInterval = async () => {
     getSessionID().then(setSID);
-    configure('key_test_vtotrandom_form_mobilesandbox'); //.then(setConf);
+  };
+
+  React.useEffect(() => {
+    const timer = setInterval(getSIDInterval, 2000);
+    configure('key_live_vtotrandom_form_mobilesandbox'); //.then(setConf);
     start();
+    return () => clearInterval(timer);
   }, []);
   //DOB Month dropdown
   const [monthOpen, setMonthOpen] = useState(false);
@@ -81,9 +86,18 @@ export const DefaultForm = ({ navigation }) => {
           />
         </View>
         <ScrollView>
-          <Text style={[styles.text, s.mb2]}>Session ID: {sid}</Text>
+          <Text style={[s.text, styles.text, s.mb2]}>SID:</Text>
+          <TextInput
+            style={[s.formControl]}
+            autoCapitalize="none"
+            autoCorrect={false}
+            id="sid"
+            value={sid}
+            testID="sid"
+          />
+          <View style={[s.mb3]} testID="innerMostView" />
           <Text style={[styles.heading, styles.text, s.mb2]}>
-            Welcome! You're one step away from checking your loan options. $
+            Welcome!! You're one step away from checking your loan options. $
           </Text>
           <Text style={[s.text, styles.text, s.mb5]}>
             Checking your loan options does not affect your credit score.
