@@ -563,10 +563,10 @@
 				CODE_SIGN_ENTITLEMENTS = NeuroidReactnativeSdkExample/NeuroidReactnativeSdkExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = X9986UAU23;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = NeuroidReactnativeSdkExample/Info.plist;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -599,9 +599,9 @@
 				CODE_SIGN_ENTITLEMENTS = NeuroidReactnativeSdkExample/NeuroidReactnativeSdkExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = X9986UAU23;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = NeuroidReactnativeSdkExample/Info.plist;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

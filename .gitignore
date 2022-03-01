@@ -67,3 +67,4 @@ lib/
 # Fastlane
 example/ios/builds/*
 *.dSYM.zip
+report.xml
