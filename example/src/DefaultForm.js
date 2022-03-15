@@ -29,7 +29,7 @@ export const DefaultForm = ({ navigation }) => {
 
   React.useEffect(() => {
     const timer = setInterval(getSIDInterval, 2000);
-    configure('key_live_vtotrandom_form_mobilesandbox'); //.then(setConf);
+    configure('key_live_suj4CX90v0un2k1ufGrbItT5');
     start();
     return () => clearInterval(timer);
   }, []);

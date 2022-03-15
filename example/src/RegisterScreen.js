@@ -9,7 +9,7 @@ export const RegisterScreen = ({ navigation }) => {
   // const [conf, setConf] = React.useState<String | undefined>();
 
   React.useEffect(() => {
-    configure('key_test_vtotrandom_form_mobilesandbox').then(setConf);
+    configure('key_test_ymNZWHDYvHYNeS4hM0U7yLc7').then(setConf);
     start();
     // configure('123').then(setConf);
   }, []);

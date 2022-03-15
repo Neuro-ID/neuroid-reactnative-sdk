@@ -563,10 +563,10 @@
 				CODE_SIGN_ENTITLEMENTS = NeuroidReactnativeSdkExample/NeuroidReactnativeSdkExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = X9986UAU23;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "";
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = NeuroidReactnativeSdkExample/Info.plist;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -599,9 +599,9 @@
 				CODE_SIGN_ENTITLEMENTS = NeuroidReactnativeSdkExample/NeuroidReactnativeSdkExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = X9986UAU23;
-				EXCLUDED_ARCHS = "";
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = NeuroidReactnativeSdkExample/Info.plist;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -775,6 +775,7 @@
 				DEVELOPMENT_TEAM = X9986UAU23;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -837,6 +838,7 @@
 				DEVELOPMENT_TEAM = X9986UAU23;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
