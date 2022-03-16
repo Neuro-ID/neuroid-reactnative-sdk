@@ -44,6 +44,12 @@ export function setUserID(userID: String): Promise<void> | null {
   if (androidCheck()) return null;
   return NeuroidReactnativeSdk.setUserID(userID);
 }
+export function excludeViewByTestID(
+  excludedView: String
+): Promise<void> | null {
+  if (androidCheck()) return null;
+  return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
+}
 export function formSubmit(): Promise<void> | null {
   if (androidCheck()) return null;
   return NeuroidReactnativeSdk.formSubmit();

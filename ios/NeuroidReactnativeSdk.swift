@@ -31,6 +31,12 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
+    @objc(excludeViewByTestID:withResolver:withRejecter:)
+    func excludeViewByTestID(excludedView: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.excludeViewByTestID(excludedView: excludedView)
+        resolve(true)
+    }
+    
     @objc(formSubmit:withRejecter:)
     func formSubmit(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.formSubmit()

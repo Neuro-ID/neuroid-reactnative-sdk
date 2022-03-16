@@ -5,7 +5,7 @@
 RCT_EXTERN_METHOD(configure:(NSString)apiKey
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
-//
+
 RCT_EXTERN_METHOD(start: (RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
@@ -19,7 +19,7 @@ RCT_EXTERN_METHOD(setUserID:(NSString)userID
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setUserID:(NSString)userID
+RCT_EXTERN_METHOD(excludeViewByTestID:(NSString)excludedView
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 

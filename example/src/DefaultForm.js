@@ -15,7 +15,12 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
 import { months, days, dobYears } from './utils/helpers';
 
-import { configure, start, getSessionID } from 'neuroid-reactnative-sdk';
+import {
+  configure,
+  start,
+  getSessionID,
+  excludeViewByTestID,
+} from 'neuroid-reactnative-sdk';
 
 const bootstrapStyleSheet = new BootstrapStyleSheet();
 const { s, c } = bootstrapStyleSheet;
@@ -31,6 +36,7 @@ export const DefaultForm = ({ navigation }) => {
     const timer = setInterval(getSIDInterval, 2000);
     configure('key_live_suj4CX90v0un2k1ufGrbItT5');
     start();
+    excludeViewByTestID('sid');
     return () => clearInterval(timer);
   }, []);
   //DOB Month dropdown
