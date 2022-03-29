@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
   TouchableHighlight,
   Button,
   ScrollView,
+  Platform,
+  NativeModules, //Android import
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
@@ -27,18 +29,27 @@ const { s, c } = bootstrapStyleSheet;
 
 export const DefaultForm = ({ navigation }) => {
   const [sid, setSID] = useState();
+  if (Platform.OS === 'android') {
+    const {NeuroIDModule} = NativeModules;
+    useEffect(() => {
+      NeuroIDModule.getSessionID(sidNid => {
+        setSID(sidNid);
+      });
+    }, []);
+  } else if (Platform.OS === 'ios'){
+    const getSIDInterval = async () => {
+      getSessionID().then(setSID);
+    };
 
-  const getSIDInterval = async () => {
-    getSessionID().then(setSID);
-  };
+    React.useEffect(() => {
+      const timer = setInterval(getSIDInterval, 2000);
+      configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+      start();
+      excludeViewByTestID('sid');
+      return () => clearInterval(timer);
+    }, []);
+  }
 
-  React.useEffect(() => {
-    const timer = setInterval(getSIDInterval, 2000);
-    configure('key_live_suj4CX90v0un2k1ufGrbItT5');
-    start();
-    excludeViewByTestID('sid');
-    return () => clearInterval(timer);
-  }, []);
   //DOB Month dropdown
   const [monthOpen, setMonthOpen] = useState(false);
   const [monthValue, setMonthValue] = useState(null);
@@ -263,8 +274,11 @@ export const DefaultForm = ({ navigation }) => {
             <View style={[s.mb5, s.mt5]}>
               <TouchableHighlight style={[s.btnPrimary]}>
                 <Button
-                  color="white"
-                  title="Agree and Check Your Loan Options"
+                  color="#3579F7"
+                  title="Continue"
+                  onPress={()=>
+                    navigation.navigate('Register')
+                  }
                 />
               </TouchableHighlight>
               <Text style={[s.text, styles.text, s.mb5]}>

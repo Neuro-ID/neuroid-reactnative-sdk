@@ -17,52 +17,43 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
-function androidCheck(): Boolean {
-  if (Platform.OS !== 'ios') {
-    return true;
-  }
-  return false;
-}
+// function androidCheck(): Boolean {
+//   if (Platform.OS !== 'ios') {
+//     return true;
+//   }
+//   return false;
+// }
 
 export function configure(apiKey: String): Promise<number> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.configure(apiKey);
 }
 export function start(): Promise<void> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.start();
 }
 export function stop(): Promise<void> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.stop();
 }
 export function getSessionID(): Promise<String> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.getSessionID();
 }
 export function setUserID(userID: String): Promise<void> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.setUserID(userID);
 }
 export function excludeViewByTestID(
   excludedView: String
 ): Promise<void> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
 }
 export function formSubmit(): Promise<void> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.formSubmit();
 }
 export function formSubmitSuccess(): Promise<void> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.formSubmitSuccess();
 }
 export function formSubmitFailure(): Promise<void> | null {
-  if (androidCheck()) return null;
   return NeuroidReactnativeSdk.formSubmitFailure();
 }
 export function isStopped(): Promise<boolean> | null {
-  if (androidCheck()) return null;
+  // if (androidCheck()) return null;
   return NeuroidReactnativeSdk.isStopped();
 }
