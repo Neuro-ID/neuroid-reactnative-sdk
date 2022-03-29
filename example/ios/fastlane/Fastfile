@@ -15,6 +15,13 @@
 
 default_platform(:ios)
 
+
+# make sure to set these in your ~/.zshrc or bash
+# ENV["SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER"]
+# ENV["FASTLANE_USER"] 
+# ENV["FASTLANE_PASSWORD"]
+# ENV["FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD"]
+
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do

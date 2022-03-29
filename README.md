@@ -24,6 +24,19 @@ import { configure } from 'neuroid-reactnative-sdk';
 configure('YOUR API KEY');
 ```
 
+## Distributing to via Fastlane
+
+Set the following in your ~/.zshrc with the following for iOS distribution.
+
+Create an app store specific password here: https://appleid.apple.com/account/manage
+
+ENV["SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER"]
+ENV["FASTLANE_USER"]
+ENV["FASTLANE_PASSWORD"]
+ENV["FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD"]
+
+`cd example/ios && fastlane beta`
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.

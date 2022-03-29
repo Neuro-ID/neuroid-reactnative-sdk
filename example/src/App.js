@@ -2,7 +2,6 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { RegisterScreen } from './RegisterScreen';
 import { ContactScreen } from './ContactScreen';
 import { DefaultForm } from './DefaultForm';
 
@@ -20,7 +19,6 @@ const App = () => {
           component={DefaultForm}
           testID="defaultFormOuterView"
         />
-        <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Contact" component={ContactScreen} />
       </Stack.Navigator>
     </NavigationContainer>
