@@ -2,6 +2,7 @@ package com.example.neuroidreactnativesdk;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -46,5 +47,10 @@ public class NeuroIDModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setUserID(String id) {
         NeuroID.Companion.getInstance().setUserID(id);
+    }
+
+    @ReactMethod
+    public void getSessionID(Callback callback) {
+        callback.invoke(NeuroID.Companion.getInstance().getSessionId());
     }
 }
