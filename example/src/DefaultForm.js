@@ -27,7 +27,7 @@ export const DefaultForm = ({ navigation }) => {
     NeuroIDModule.getSessionID().then(setSID);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setInterval(getSIDInterval, 2000);
     NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
     NeuroIDModule.start();
