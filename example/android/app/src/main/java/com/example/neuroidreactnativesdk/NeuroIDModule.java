@@ -16,7 +16,7 @@ public class NeuroIDModule extends ReactContextBaseJavaModule {
     @NonNull
     @Override
     public String getName() {
-        return "NeuroIDModule";
+        return "NeuroidReactnativeSdk";
     }
 
     @ReactMethod

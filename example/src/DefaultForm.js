@@ -10,45 +10,30 @@ import {
   TouchableHighlight,
   Button,
   ScrollView,
-  Platform,
-  NativeModules, //Android import
+  NativeModules,
 } from 'react-native';
+
 import DropDownPicker from 'react-native-dropdown-picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
 import { months, days, dobYears } from './utils/helpers';
 
-import {
-  configure,
-  start,
-  getSessionID,
-  excludeViewByTestID,
-} from 'neuroid-reactnative-sdk';
-
+const NeuroIDModule = NativeModules.NeuroidReactnativeSdk;
 const bootstrapStyleSheet = new BootstrapStyleSheet();
 const { s, c } = bootstrapStyleSheet;
 
 export const DefaultForm = ({ navigation }) => {
   const [sid, setSID] = useState();
-  if (Platform.OS === 'android') {
-    const {NeuroIDModule} = NativeModules;
-    useEffect(() => {
-      NeuroIDModule.getSessionID(sidNid => {
-        setSID(sidNid);
-      });
-    }, []);
-  } else if (Platform.OS === 'ios'){
-    const getSIDInterval = async () => {
-      getSessionID().then(setSID);
-    };
+  const getSIDInterval = async () => {
+    NeuroIDModule.getSessionID().then(setSID);
+  };
 
-    React.useEffect(() => {
-      const timer = setInterval(getSIDInterval, 2000);
-      configure('key_live_suj4CX90v0un2k1ufGrbItT5');
-      start();
-      excludeViewByTestID('sid');
-      return () => clearInterval(timer);
-    }, []);
-  }
+  React.useEffect(() => {
+    const timer = setInterval(getSIDInterval, 2000);
+    NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+    NeuroIDModule.start();
+    NeuroIDModule.excludeViewByTestID('sid');
+    return () => clearInterval(timer);
+  }, []);
 
   //DOB Month dropdown
   const [monthOpen, setMonthOpen] = useState(false);
@@ -276,9 +261,7 @@ export const DefaultForm = ({ navigation }) => {
                 <Button
                   color="#3579F7"
                   title="Continue"
-                  onPress={()=>
-                    navigation.navigate('Register')
-                  }
+                  onPress={() => navigation.navigate('Register')}
                 />
               </TouchableHighlight>
               <Text style={[s.text, styles.text, s.mb5]}>
