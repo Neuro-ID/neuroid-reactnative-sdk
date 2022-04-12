@@ -1,6 +1,6 @@
 {
   "name": "neuroid-reactnative-sdk",
-  "version": "1.1.2",
+  "version": "1.2.1",
   "description": "Neuro-ID React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -29,6 +29,7 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
+    "postinstall": "patch-package",
     "bootstrap": "yarn example && yarn && yarn pods",
     "updateSDK": "cd ./example/ios && pod install && sudo cp -R ./Pods/NeuroID/NeuroID ../../ios  ",
     "updateLocalSDK": "sudo cp -R ~/Developer/neuroid-ios-sdk/NeuroID ./ios"
@@ -60,8 +61,8 @@
     "jest": "^26.0.1",
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
-    "react": "16.13.1",
-    "react-native": "0.63.4",
+    "react": "17.0.1",
+    "react-native": "0.64.0",
     "react-native-builder-bob": "^0.18.0",
     "release-it": "^14.2.2",
     "typescript": "^4.1.3"
@@ -144,6 +145,9 @@
     ]
   },
   "dependencies": {
+    "@react-native-community/cli-platform-android": "^7.0.1",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react-dev-utils": "^10.0.0",
     "react-scripts": "^5.0.0"
   }

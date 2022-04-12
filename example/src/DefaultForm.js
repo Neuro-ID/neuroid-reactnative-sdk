@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,21 +10,31 @@ import {
   TouchableHighlight,
   Button,
   ScrollView,
+  NativeModules,
 } from 'react-native';
+
 import DropDownPicker from 'react-native-dropdown-picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
 import { months, days, dobYears } from './utils/helpers';
 
-import { configure, start } from 'neuroid-reactnative-sdk';
-
+const NeuroIDModule = NativeModules.NeuroidReactnativeSdk;
 const bootstrapStyleSheet = new BootstrapStyleSheet();
 const { s, c } = bootstrapStyleSheet;
 
 export const DefaultForm = ({ navigation }) => {
-  React.useEffect(() => {
-    configure('key_test_vtotrandom_form_mobilesandbox'); //.then(setConf);
-    start();
+  const [sid, setSID] = useState();
+  const getSIDInterval = async () => {
+    NeuroIDModule.getSessionID().then(setSID);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(getSIDInterval, 2000);
+    NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+    NeuroIDModule.start();
+    NeuroIDModule.excludeViewByTestID('sid');
+    return () => clearInterval(timer);
   }, []);
+
   //DOB Month dropdown
   const [monthOpen, setMonthOpen] = useState(false);
   const [monthValue, setMonthValue] = useState(null);
@@ -78,8 +88,18 @@ export const DefaultForm = ({ navigation }) => {
           />
         </View>
         <ScrollView>
+          <Text style={[s.text, styles.text, s.mb2]}>SID:</Text>
+          <TextInput
+            style={[s.formControl]}
+            autoCapitalize="none"
+            autoCorrect={false}
+            id="sid"
+            value={sid}
+            testID="sid"
+          />
+          <View style={[s.mb3]} testID="innerMostView" />
           <Text style={[styles.heading, styles.text, s.mb2]}>
-            Welcome! You're one step away from checking your loan options.
+            Welcome!! You're one step away from checking your loan options. $
           </Text>
           <Text style={[s.text, styles.text, s.mb5]}>
             Checking your loan options does not affect your credit score.
@@ -239,8 +259,9 @@ export const DefaultForm = ({ navigation }) => {
             <View style={[s.mb5, s.mt5]}>
               <TouchableHighlight style={[s.btnPrimary]}>
                 <Button
-                  color="white"
-                  title="Agree and Check Your Loan Options"
+                  color="#3579F7"
+                  title="Continue"
+                  onPress={() => navigation.navigate('Register')}
                 />
               </TouchableHighlight>
               <Text style={[s.text, styles.text, s.mb5]}>

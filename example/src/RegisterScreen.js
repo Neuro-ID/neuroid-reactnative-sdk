@@ -1,28 +1,103 @@
-import * as React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React from 'react';
+import {
+    View,
+    Text,
+    SafeAreaView,
+    TextInput,
+    StyleSheet,
+    Image,
+    TouchableHighlight,
+    Button,
+    ScrollView,
+    Platform,
+    NativeModules, //Android import
+} from 'react-native';
+import BootstrapStyleSheet from 'react-native-bootstrap-styles';
+import {RadioButton} from 'react-native-paper';
 
-import { configure, start } from 'neuroid-reactnative-sdk';
+const bootstrapStyleSheet = new BootstrapStyleSheet();
+const { s, c } = bootstrapStyleSheet;
 
 export const RegisterScreen = ({ navigation }) => {
-  const [conf, setConf] = React.useState();
+    const [valueOne, setValueOne] = React.useState('first');
+    const [valueTwo, setValueTwo] = React.useState('first');
+    const [valueThree, setValueThree] = React.useState('first');
+    const {NeuroIDModule} = NativeModules; //Android
 
-  // const [conf, setConf] = React.useState<String | undefined>();
+    const formSubmitNID = () => {
+        if (Platform.OS === 'android') {
+            NeuroIDModule.formSubmit();
+        }
+    };
 
-  React.useEffect(() => {
-    configure('key_test_vtotrandom_form_mobilesandbox').then(setConf);
-    start();
-    // configure('123').then(setConf);
-  }, []);
 
   return (
     <View style={styles.container}>
-      <Text>A testing examples!</Text>
-      <Text>API Key Set: {conf?.toString()}</Text>
-      {/* <Text>API Key: {conf}</Text> */}
-      <Button
-        title="Contact Screen"
-        onPress={() => navigation.navigate('Contact')}
-      />
+        <View style={[styles.view, s.mt3]}>
+            <Image
+                source={require('./assets/images/nid-logo.png')}
+                style={[s.mt5, s.mb5]}
+            />
+        </View>
+        <ScrollView>
+            <View style={[s.mb3]} testID="innerMostView" />
+            <Text style={[s.text, styles.text, s.mb5]}>
+                Checking your loan options does not affect your credit score.
+            </Text>
+            <SafeAreaView>
+                <View style={[s.mb3, styles.lowZ]}>
+                    <Text style={[s.text, styles.text, s.mb2]}>Age at work (years):</Text>
+                    <TextInput
+                        style={[s.formControl]}
+                        testID="ageAtWork"
+                        id="ageAtWork"
+                        keyboardType={"numeric"}
+                    />
+                </View>
+                <View style={[s.mb3]}>
+                    <Text style={[s.text, styles.text, s.mb2]}>Own house?</Text>
+                    <RadioButton.Group onValueChange={newValue => setValueOne(newValue)} value={valueOne}>
+                        <View>
+                            <Text>
+                                Yes
+                            </Text>
+                            <RadioButton value="first" />
+                        </View>
+                        <View>
+                            <Text>
+                                No
+                            </Text>
+                            <RadioButton value="second" />
+                        </View>
+                    </RadioButton.Group>
+                </View>
+                <View style={[s.mb3]}>
+                    <Text style={[s.text, styles.text, s.mb2]}>
+                        Number of economic dependents:
+                    </Text>
+                    <TextInput
+                        style={[s.formControl]}
+                        testID="economicDependents"
+                        id="economicDependents"
+                        keyboardType={"numeric"}
+                    />
+                </View>
+                <View style={[s.mb5, s.mt5]}>
+                    <TouchableHighlight style={[s.btnPrimary]}>
+                        <Button
+                            color="#3579F7"
+                            title="Agree and Check Your Loan Options"
+                            onPress={()=>
+                                () => formSubmitNID()
+                            }
+                        />
+                    </TouchableHighlight>
+                    <Text style={[s.text, styles.text, s.mb5]}>
+                        Checking your loan options does not affect your credit score.
+                    </Text>
+                </View>
+            </SafeAreaView>
+        </ScrollView>
     </View>
   );
 };
