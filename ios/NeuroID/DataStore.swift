@@ -5,7 +5,6 @@ public struct DataStore {
     static var _events = [NIDEvent]()
     private static let lock = NSLock()
     
-    // Create a thread safe setter/getter for event array. Lock the array when being accessed.
     static var events: Array<NIDEvent> {
         get { lock.withCriticalSection { _events } }
         set { lock.withCriticalSection { _events = newValue } }
@@ -46,7 +45,6 @@ public struct DataStore {
         self.events = []
     }
 }
-
 
 extension NSLocking {
     func withCriticalSection<T>(block: () throws -> T) rethrows -> T {
