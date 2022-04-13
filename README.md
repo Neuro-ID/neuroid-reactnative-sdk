@@ -30,12 +30,14 @@ Set the following in your ~/.zshrc with the following for iOS distribution.
 
 Create an app store specific password here: https://appleid.apple.com/account/manage
 
-ENV["SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER"]
-ENV["FASTLANE_USER"]
-ENV["FASTLANE_PASSWORD"]
-ENV["FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD"]
+    ENV["SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER"]
+    ENV["FASTLANE_USER"]
+    ENV["FASTLANE_PASSWORD"]
+    ENV["FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD"]
 
 `cd example/ios && fastlane beta`
+
+If fastlane is showing an invalid UUID, open the provisioning provile on developer.apple.com click edit, and save.
 
 ## Contributing
 
