@@ -32,6 +32,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) : React
     }
 
     @ReactMethod
+    fun stop() {
+        NeuroID.getInstance().stop()
+    }
+
+    @ReactMethod
     fun formSubmit() {
         NeuroID.getInstance().formSubmit()
     }
