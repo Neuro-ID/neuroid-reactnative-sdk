@@ -526,7 +526,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.neuroidreactnativesdk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e4f56689-476d-492a-b475-efb5a23ce29f";
+				PROVISIONING_PROFILE = "e553d0ff-6e67-4ffe-b4d9-7cc599c4f7b7";
 				PROVISIONING_PROFILE_SPECIFIER = "com.example.neuroidreactnativesdk AppStore";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NeuroidReactnativeSdkExample.app/NeuroidReactnativeSdkExample";
 			};
@@ -563,7 +563,7 @@
 				CODE_SIGN_ENTITLEMENTS = NeuroidReactnativeSdkExample/NeuroidReactnativeSdkExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_TEAM = X9986UAU23;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = arm64;
@@ -582,7 +582,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.neuroidreactnativesdk;
 				PRODUCT_NAME = NeuroidReactnativeSdkExample;
-				PROVISIONING_PROFILE = "e4f56689-476d-492a-b475-efb5a23ce29f";
+				PROVISIONING_PROFILE = "e553d0ff-6e67-4ffe-b4d9-7cc599c4f7b7";
 				PROVISIONING_PROFILE_SPECIFIER = "com.example.neuroidreactnativesdk AppStore";
 				SWIFT_OBJC_BRIDGING_HEADER = "NeuroidReactnativeSdkExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -600,7 +600,7 @@
 				CODE_SIGN_ENTITLEMENTS = NeuroidReactnativeSdkExample/NeuroidReactnativeSdkExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_TEAM = X9986UAU23;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = NeuroidReactnativeSdkExample/Info.plist;
@@ -647,7 +647,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.NeuroidReactnativeSdkExample-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e4f56689-476d-492a-b475-efb5a23ce29f";
+				PROVISIONING_PROFILE = "e553d0ff-6e67-4ffe-b4d9-7cc599c4f7b7";
 				PROVISIONING_PROFILE_SPECIFIER = "com.example.neuroidreactnativesdk AppStore";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -706,7 +706,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.NeuroidReactnativeSdkExample-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e4f56689-476d-492a-b475-efb5a23ce29f";
+				PROVISIONING_PROFILE = "e553d0ff-6e67-4ffe-b4d9-7cc599c4f7b7";
 				PROVISIONING_PROFILE_SPECIFIER = "com.example.neuroidreactnativesdk AppStore";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NeuroidReactnativeSdkExample-tvOS.app/NeuroidReactnativeSdkExample-tvOS";
