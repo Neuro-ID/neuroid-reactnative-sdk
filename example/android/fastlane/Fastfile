@@ -35,4 +35,14 @@ platform :android do
     gradle(task: "clean assembleRelease")
     upload_to_play_store
   end
+
+  desc "Deploy a new version to the internal test on Google Play"
+    lane :internal do
+      gradle(task: "clean")
+      gradle(
+      task: "bundle",
+      build_type: "Release"
+      )
+      upload_to_play_store(track: 'internal', release_status: 'draft')
+    end
 end

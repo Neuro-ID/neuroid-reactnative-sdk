@@ -4,3 +4,5 @@ include ':app'
 
 include ':neuroidreactnativesdk'
 project(':neuroidreactnativesdk').projectDir = new File(rootProject.projectDir, '../../android')
+include ':rn-neuro-id-library'
+project(':rn-neuro-id-library').projectDir = new File(rootProject.projectDir, '../../rn-neuro-id-library')
