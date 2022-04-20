@@ -26,6 +26,8 @@ configure('YOUR API KEY');
 
 ## Distributing to via Fastlane
 
+### iOS
+
 Set the following in your ~/.zshrc with the following for iOS distribution.
 
 Create an app store specific password here: https://appleid.apple.com/account/manage
@@ -38,6 +40,29 @@ Create an app store specific password here: https://appleid.apple.com/account/ma
 `cd example/ios && fastlane beta`
 
 If fastlane is showing an invalid UUID, open the provisioning provile on developer.apple.com click edit, and save.
+
+### Android
+
+You will need the json that will be the key to uploading the application to the internal tests on Google Play Console.
+
+Edit the file example/android/fastlane/Fastfile by changing the path where the json is located:
+
+```
+json_key_file("pathLocation/pc_api_manage_deploy.json") # Path to the json secret file
+package_name("com.neuro_id.neuroidreactnative") # e.g. com.krausefx.app
+```
+
+Create the file keystore.properties on example/android/ directory and add the following key data to sign the app:
+
+```
+storePassword=thePassword
+keyPassword=thePassword
+keyAlias=neuroidkey
+storeFile=thePathLocation/neuroid-android.keystore
+```
+
+Then run:
+cd example/android && fastlane internal
 
 ## Contributing
 
