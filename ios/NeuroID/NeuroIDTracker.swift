@@ -3,6 +3,7 @@ import UIKit
 import os
 import WebKit
 import CommonCrypto
+import Alamofire
 
 public struct NeuroID {
     
@@ -15,8 +16,15 @@ public struct NeuroID {
     fileprivate static var trackers = [String: NeuroIDTracker]()
     fileprivate static var secretViews = [UIView]()
     fileprivate static let showDebugLog = false
+    fileprivate static var _currentScreenName: String?
+    
     static var excludedViewsTestIDs = [String]()
-    static var currentScreenName: String?
+    private static let lock = NSLock()
+    
+    private static var currentScreenName: String? {
+        get { lock.withCriticalSection { _currentScreenName } }
+        set { lock.withCriticalSection { _currentScreenName = newValue } }
+    }
     
     fileprivate static let localStorageNIDStopAll = "nid_stop_all"
 
@@ -227,9 +235,7 @@ public struct NeuroID {
 //                }, onFailure: { error in
 //                    logError(category: "APICall", content: String(describing: error))
 //                })
-//        }
-        // TODO, add more sophisticated removal of events (in case of failure)
-        
+//        }        
     }
     
     /// Direct send to API to create session
@@ -262,13 +268,10 @@ public struct NeuroID {
         let jsonEvents:String = String(data: jsonData,
                                        encoding: .utf8) ?? ""
         
-        let testEncoding = jsonData.base64EncodedString(options: [])
         let base64Events: String = Data(jsonEvents.utf8).base64EncodedString()
         
         var params = ParamsCreator.getDefaultSessionParams()
-        var cleanedEventNoSpaces = base64Events.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
         params["events"] = base64Events
-        
         params["url"] = screen
         
         // Unwrap all optionals and convert to null if empty
@@ -288,11 +291,17 @@ public struct NeuroID {
             saveDebugJSON(events: jsonEvents)
             saveDebugJSON(events: "******************** END")
         }
-        
-        
+
         guard let data = dataString.data(using: .utf8) else { return }
-        request.httpBody = data
-        
+        AF.upload(data, to: url, method: .post).responseData { response in
+            switch response.result {
+            case .success:
+                logInfo(content: "Neuro-ID post Successful")
+            case let .failure(error):
+                logError(content: "Neuro-ID post Error: \(error)")
+            }
+        }
+
         // Output post data to terminal if debug
         if ProcessInfo.processInfo.environment["debugJSON"] == "true" {
             print("*********** BEGIN **************")
@@ -300,38 +309,6 @@ public struct NeuroID {
             print(jsonEvents.description)
             print("*********** END ***************")
         }
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data,
-                  let response = response as? HTTPURLResponse,
-                  error == nil else {
-                NIDPrintLog("error", error ?? "Unknown error")
-//                onFailure(error ?? NSError(message: "Unknown"))
-                return
-            }
-
-            let responseDict = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
-            NIDPrintLog(responseDict as Any)
-
-            guard (200 ... 299) ~= response.statusCode else {
-                NIDPrintLog("statusCode: ", response.statusCode)
-                onFailure(error ?? NSError(domain: "unknown", code: response.statusCode, userInfo: nil))
-                return
-            }
-
-            if response.statusCode >= 200 && response.statusCode < 299 {
-                onSuccess("success")
-                return
-            }
-
-            guard let responseObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
-                NIDPrintLog("Can't decode")
-                return
-            }
-            onSuccess(responseObject)
-        }
-
-        task.resume()
     }
 
     public static func setUserID(_ userId: String) {
@@ -418,6 +395,7 @@ public class NeuroIDTracker: NSObject {
         self.screen = screen
         if (!NeuroID.isStopped()){
             if(getCurrentSession() == nil){
+                NeuroID.setScreenName(screen: "AppInit")
                 self.createSessionEvent = createSession(screen: screen)
             }
             subscribe(inScreen: controller)
@@ -1200,7 +1178,8 @@ struct ParamsCreator {
 
     /** Start with primar JS version as TrackJS requires to force correct session structure*/
     static func getSDKVersion() -> String {
-        return "4.-ios-1.0.0"
+        // Version MUST start with 4. in order to be processed correctly
+        return "4.ios-1.2.1"
     }
     
     static func getCommandQueueNamespace() -> String {
