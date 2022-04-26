@@ -32,6 +32,8 @@ export const DefaultForm = ({ navigation }) => {
     NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
     NeuroIDModule.start();
     NeuroIDModule.excludeViewByTestID('sid');
+    var uid = Math.floor(Math.random() * 10000);
+    NeuroIDModule.setUserID(`${uid}`);
     return () => clearInterval(timer);
   }, []);
 
