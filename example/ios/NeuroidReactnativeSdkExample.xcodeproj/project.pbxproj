@@ -563,7 +563,7 @@
 				CODE_SIGN_ENTITLEMENTS = NeuroidReactnativeSdkExample/NeuroidReactnativeSdkExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 54;
 				DEVELOPMENT_TEAM = X9986UAU23;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = arm64;
@@ -600,7 +600,7 @@
 				CODE_SIGN_ENTITLEMENTS = NeuroidReactnativeSdkExample/NeuroidReactnativeSdkExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 54;
 				DEVELOPMENT_TEAM = X9986UAU23;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = NeuroidReactnativeSdkExample/Info.plist;
