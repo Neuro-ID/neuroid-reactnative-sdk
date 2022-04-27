@@ -18,10 +18,8 @@ import {RadioButton} from 'react-native-paper';
 const bootstrapStyleSheet = new BootstrapStyleSheet();
 const { s, c } = bootstrapStyleSheet;
 
-export const RegisterScreen = ({ navigation }) => {
+export const RegisterScreen = () => {
     const [valueOne, setValueOne] = React.useState('first');
-    const [valueTwo, setValueTwo] = React.useState('first');
-    const [valueThree, setValueThree] = React.useState('first');
     const {NeuroIDModule} = NativeModules; //Android
 
     const formSubmitNID = () => {
