@@ -1,4 +1,4 @@
-package com.example.neuroidreactnativesdk;
+package com.neuro_id.neuroidreactnativesdk;
 
 import com.facebook.react.ReactActivity;
 

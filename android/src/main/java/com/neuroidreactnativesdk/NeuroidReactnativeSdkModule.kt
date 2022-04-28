@@ -62,13 +62,18 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) : React
     }
 
     @ReactMethod
+    fun setScreenName(screen: String) {
+        NeuroID.getInstance().setScreenName(screen)
+    }
+
+    @ReactMethod
     fun getSessionID(promise: Promise) {
         promise.resolve(NeuroID.getInstance().getSessionId())
     }
 
     @ReactMethod
     fun excludeViewByTestID(id: String?) {
-        //TODO (Diego Maldonado): Pending definition on Android
+        //No Operation
     }
 
 }

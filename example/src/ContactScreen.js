@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, TextInput, StyleSheet } from 'react-native';
 
-export const ContactScreen = ({ navigation }) => {
+export const ContactScreen = () => {
   const [text, onChangeText] = React.useState('Useless Text');
   const [number, onChangeNumber] = React.useState(null);
   return (
