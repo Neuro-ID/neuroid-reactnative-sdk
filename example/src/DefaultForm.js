@@ -34,6 +34,7 @@ export const DefaultForm = ({ navigation }) => {
     NeuroIDModule.excludeViewByTestID('sid');
     var uid = Math.floor(Math.random() * 10000);
     NeuroIDModule.setUserID(`${uid}`);
+    NeuroIDModule.setScreenName('MainRegisterScreen');
     return () => clearInterval(timer);
   }, []);
 
