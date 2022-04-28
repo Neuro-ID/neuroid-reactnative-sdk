@@ -20,14 +20,15 @@ const { s, c } = bootstrapStyleSheet;
 
 export const RegisterScreen = () => {
     const [valueOne, setValueOne] = React.useState('first');
-    const {NeuroIDModule} = NativeModules; //Android
+    const NeuroIDModule = NativeModules.NeuroidReactnativeSdk;
 
     const formSubmitNID = () => {
-        if (Platform.OS === 'android') {
-            NeuroIDModule.formSubmit();
-        }
+        NeuroIDModule.formSubmit();
     };
 
+    useEffect(() => {
+        NeuroIDModule.setScreenName('RegisterScreen')
+    }, []);
 
   return (
     <View style={styles.container}>
