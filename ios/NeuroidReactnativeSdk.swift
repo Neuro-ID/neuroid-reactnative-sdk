@@ -37,6 +37,12 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
+    @objc(setScreenName:withResolver:withRejecter:)
+    func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.setScreenName(screen: screenName)
+        resolve(true)
+    }
+    
     @objc(formSubmit:withRejecter:)
     func formSubmit(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.formSubmit()

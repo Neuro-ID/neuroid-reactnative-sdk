@@ -17,13 +17,6 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
-// function androidCheck(): Boolean {
-//   if (Platform.OS !== 'ios') {
-//     return true;
-//   }
-//   return false;
-// }
-
 export function configure(apiKey: String): Promise<number> | null {
   return NeuroidReactnativeSdk.configure(apiKey);
 }
@@ -44,6 +37,9 @@ export function excludeViewByTestID(
 ): Promise<void> | null {
   return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
 }
+export function setScreenName(screenName: String): Promise<void> | null {
+  return NeuroidReactnativeSdk.setScreenName(screenName);
+}
 export function formSubmit(): Promise<void> | null {
   return NeuroidReactnativeSdk.formSubmit();
 }
@@ -54,6 +50,5 @@ export function formSubmitFailure(): Promise<void> | null {
   return NeuroidReactnativeSdk.formSubmitFailure();
 }
 export function isStopped(): Promise<boolean> | null {
-  // if (androidCheck()) return null;
   return NeuroidReactnativeSdk.isStopped();
 }
