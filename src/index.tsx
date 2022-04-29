@@ -37,6 +37,9 @@ export function excludeViewByTestID(
 ): Promise<void> | null {
   return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
 }
+export function setScreenName(screenName: String): Promise<void> | null {
+  return NeuroidReactnativeSdk.setScreenName(screenName);
+}
 export function formSubmit(): Promise<void> | null {
   return NeuroidReactnativeSdk.formSubmit();
 }
