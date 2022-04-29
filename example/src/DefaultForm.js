@@ -15,6 +15,7 @@ import {
 
 import DropDownPicker from 'react-native-dropdown-picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
+import uuid from 'react-native-uuid';
 import { months, days, dobYears } from './utils/helpers';
 
 const NeuroIDModule = NativeModules.NeuroidReactnativeSdk;
@@ -33,8 +34,7 @@ export const DefaultForm = ({ navigation }) => {
     NeuroIDModule.start();
     NeuroIDModule.setScreenName('DefaultForm');
     NeuroIDModule.excludeViewByTestID('sid');
-    const uid = Math.floor(Math.random() * 10000);
-    NeuroIDModule.setUserID(`${uid}`);
+    NeuroIDModule.setUserID(`${uuid.v4()}`);
     return () => clearInterval(timer);
   }, []);
 

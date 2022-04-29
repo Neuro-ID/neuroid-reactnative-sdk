@@ -17,13 +17,6 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
-// function androidCheck(): Boolean {
-//   if (Platform.OS !== 'ios') {
-//     return true;
-//   }
-//   return false;
-// }
-
 export function configure(apiKey: String): Promise<number> | null {
   return NeuroidReactnativeSdk.configure(apiKey);
 }
@@ -54,6 +47,5 @@ export function formSubmitFailure(): Promise<void> | null {
   return NeuroidReactnativeSdk.formSubmitFailure();
 }
 export function isStopped(): Promise<boolean> | null {
-  // if (androidCheck()) return null;
   return NeuroidReactnativeSdk.isStopped();
 }
