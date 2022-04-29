@@ -1,2 +1,2 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('neuro-id-android-v1.0-release.aar'))
+artifacts.add("default", file('neuro-id-android-sdk-release.aar'))
