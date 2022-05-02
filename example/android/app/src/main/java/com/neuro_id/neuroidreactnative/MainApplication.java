@@ -1,4 +1,4 @@
-package com.neuro_id.neuroidreactnativesdk;
+package com.neuro_id.neuroidreactnative;
 
 import android.app.Application;
 import android.content.Context;
