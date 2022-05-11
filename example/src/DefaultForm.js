@@ -11,6 +11,7 @@ import {
   Button,
   ScrollView,
   NativeModules,
+  Platform,
 } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -30,7 +31,13 @@ export const DefaultForm = ({ navigation }) => {
 
   useEffect(() => {
     const timer = setInterval(getSIDInterval, 2000);
-    NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+    if (Platform.OS === 'ios') {
+      // iOS API key
+      NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+    } else {
+      // Android API key
+      NeuroIDModule.configure('key_live_IQMIhq2z33pL0jFRKTlWnZvb');
+    }
     NeuroIDModule.start();
     NeuroIDModule.setScreenName('DefaultForm');
     NeuroIDModule.excludeViewByTestID('sid');

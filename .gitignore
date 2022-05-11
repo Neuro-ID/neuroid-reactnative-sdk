@@ -68,3 +68,5 @@ lib/
 example/ios/builds/*
 *.dSYM.zip
 report.xml
+
+*.p8
