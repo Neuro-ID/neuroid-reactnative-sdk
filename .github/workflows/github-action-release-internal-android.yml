@@ -69,4 +69,5 @@ jobs:
           PLAY_CONFIG_JSON: ${{ secrets.PLAY_CONFIG_JSON }}
 
       - name: Distribute app to Beta track 🚀
-        run: example/android/fastlane internal
+        run: cd example/android/
+             fastlane internal
