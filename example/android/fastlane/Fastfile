@@ -33,7 +33,7 @@ platform :android do
   desc "Submit a new Internal Build to Google Play"
       lane :internal do
         gradle(task: "clean bundleRelease")
-        upload_to_play_store(track: 'internal')
+        upload_to_play_store(track: 'internal', release_status: 'draft')
       end
 
   desc "Deploy a new version to the Google Play"
