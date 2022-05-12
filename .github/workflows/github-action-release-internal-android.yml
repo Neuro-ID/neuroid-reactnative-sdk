@@ -10,7 +10,7 @@ env:
   BUILD_NUMBER: ${{github.run_number}}
 jobs:
   publish:
-    name: Release Simple Library
+    name: Publishing Internal Version
     runs-on: ubuntu-latest
 
     steps:
@@ -71,6 +71,6 @@ jobs:
         env:
           PLAY_CONFIG_JSON: ${{ secrets.PLAY_CONFIG_JSON }}
 
-      - name: Distribute app to Beta track 🚀
+      - name: Distribute app to Internal track 🚀
         working-directory: example/android/
         run: fastlane internal
