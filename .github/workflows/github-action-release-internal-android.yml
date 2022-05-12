@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - 'feature/fastlane_publish'
+    paths:
+      - 'android/**'
+      - 'example/android/**'
 env:
   BUILD_NUMBER: ${{github.run_number}}
 jobs:

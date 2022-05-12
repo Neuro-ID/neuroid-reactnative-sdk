@@ -135,7 +135,7 @@ android {
         applicationId "com.neuro_id.neuroidreactnative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode System.getenv("BUILD_NUMBER") as Integer ?: 0
+        versionCode System.getenv("BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
     }
     splits {
