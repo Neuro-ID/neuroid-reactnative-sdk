@@ -2,10 +2,7 @@ name: Release By SDK updated(Internal)
 on:
   push:
     branches:
-      - 'feature/fastlane_publish'
-    paths:
-      - 'android/**'
-      - 'example/android/**'
+      - 'main'
 env:
   BUILD_NUMBER: ${{github.run_number}}
 jobs:
