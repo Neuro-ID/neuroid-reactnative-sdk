@@ -36,7 +36,7 @@ export const DefaultForm = ({ navigation }) => {
       NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
     } else {
       // Android API key
-      NeuroIDModule.configure('key_live_IQMIhq2z33pL0jFRKTlWnZvb');
+      NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
     }
     NeuroIDModule.start();
     NeuroIDModule.setScreenName('DefaultForm');
