@@ -70,3 +70,5 @@ example/ios/builds/*
 report.xml
 
 *.p8
+
+keystore.properties
