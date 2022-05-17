@@ -1,4 +1,4 @@
-name: Release By SDK updated(Internal)
+name: Publishing Internal Version
 on:
   push:
     branches:
