@@ -42,12 +42,12 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) : React
     }
 
     @ReactMethod
-    fun formSuccess() {
+    fun formSubmitSuccess() {
         NeuroID.getInstance().formSubmitSuccess()
     }
 
     @ReactMethod
-    fun formFailure() {
+    fun formSubmitFailure() {
         NeuroID.getInstance().formSubmitFailure()
     }
 
@@ -72,8 +72,8 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) : React
     }
 
     @ReactMethod
-    fun excludeViewByTestID(id: String?) {
-        //No Operation
+    fun excludeViewByTestID(id: String) {
+        NeuroID.getInstance().excludeViewByResourceID(id)
     }
 
 }
