@@ -70,11 +70,12 @@ jobs:
           node-version: 14
           
       - name: Install node dependencies
+        working-directory: example/
         run: npm install -g expo-cli
       
       - name: Install dependencies
+        working-directory: example/
         run: yarn install
-        
       
       - name: CocoaPod Install
         working-directory: example/ios/
