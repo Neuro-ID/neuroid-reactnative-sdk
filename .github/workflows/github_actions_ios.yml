@@ -64,8 +64,10 @@ jobs:
         working-directory: example/ios/
         run: bundle install
       
-      - name: Use Node.js
-        run: npm audit fix
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
       
       - name: Install dependencies
         run: yarn install
