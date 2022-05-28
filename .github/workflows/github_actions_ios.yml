@@ -13,14 +13,13 @@ jobs:
         uses: actions/checkout@v3
         with:
          repository: 'Neuro-ID/neuroid-ios-sdk'
-         set-safe-directory: '/Users/runner/work/neuroid-ios-sdk/neuroid-ios-sdk'
+         path: '/Users/runner/work/neuroid-ios-sdk/neuroid-ios-sdk'
     
       - name: Branch Checkout
         uses: actions/checkout@v3
         with:
          ref: ${{ github.head_ref }}
-         token: ${{ secrets.API_TOKEN_GITHUB }}
-         set-safe-directory: '/home/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk'
+         path: '/home/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk'
         
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
