@@ -52,7 +52,7 @@ jobs:
       - name: iOS SDK repo clone
         uses: actions/checkout@v3
         with:
-         repository: 'Neuro-ID/neuroid-ios-sdk'
+         repository: 'Neuro-ID/neuroid-ios-sdk-sandbox'
          path: './neuroid-ios-sdk'
         
       - name: Set up ruby env
