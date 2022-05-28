@@ -70,7 +70,7 @@ jobs:
           node-version: 14
           
       - name: Install node dependencies
-        run: npm install 
+        run: npm install -g expo-cli
       
       - name: Install dependencies
         run: yarn install
