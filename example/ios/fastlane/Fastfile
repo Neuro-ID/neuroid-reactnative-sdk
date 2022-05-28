@@ -87,7 +87,7 @@ platform :ios do
     app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
     api_key = api_key
     current_version = get_version_number(
-    target: "NeuroIdExample" # replace with your main target, required if you have more than one non-test target
+    target: "NeuroidReactnativeSdkExample" # replace with your main target, required if you have more than one non-test target
     )
     
     latest_build_number = latest_testflight_build_number(
@@ -127,7 +127,7 @@ platform :ios do
     )
     
     profile_name = "com.neuroid.sandbox AppStore 1653083869" # the name of the profile to use for the build
-    output_name = "Neuro ID" # specify the name of the .ipa file to generate
+    output_name = "Neuro ID RN" # specify the name of the .ipa file to generate
     export_method = "app-store" # specify the export method
     compile_bitcode = false # specify whether to enable bitcode
  
