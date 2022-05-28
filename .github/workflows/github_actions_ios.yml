@@ -36,3 +36,58 @@ jobs:
           git commit -m "Updating SDK version ${{ env.VERSION }}"
           git push
           set -e
+
+  Testflight:
+    runs-on: macos-latest
+    steps:
+    
+      - name: Main branch Checkout
+        uses: actions/checkout@v3
+        with:
+         ref: ${{ github.head_ref }}
+         
+      - name: iOS SDK repo clone
+        uses: actions/checkout@v3
+        with:
+         repository: 'Neuro-ID/neuroid-ios-sdk-sandbox'
+         path: './neuroid-ios-sdk'
+        
+      - name: Set up ruby env
+        uses: ruby/setup-ruby@v1
+        with:
+         ruby-version: 2.7.2   
+     
+      - name: Bundle Install
+        working-directory: example/ios/
+        run: bundle install
+      
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          
+      - name: Install node dependencies
+        working-directory: example/
+        run: npm install -g expo-cli
+      
+      - name: Install dependencies
+        working-directory: example/
+        run: yarn install
+      
+      - uses: actions/cache@v3
+        with:
+         path: ./example/ios/Pods
+         key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+         restore-keys: |
+          ${{ runner.os }}-pods-
+      
+      - name: CocoaPod Install
+        working-directory: example/ios/
+        run: pod install
+        
+      - name: Upload iOS app to Testflight
+        working-directory: example/ios/ 
+        run: bundle exec fastlane testflight_beta
+        env:
+         APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
+         KEYCHAIN_PASSWORD: ${{ secrets.DIST_CERT_BASE64 }} 
