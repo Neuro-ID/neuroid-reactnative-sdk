@@ -9,17 +9,17 @@ jobs:
   updating_files:
     runs-on: macos-latest
     steps:
+    
+      - name: Main branch Checkout
+        uses: actions/checkout@v3
+        with:
+         ref: ${{ github.head_ref }}
+         
       - name: iOS SDK repo clone
         uses: actions/checkout@v3
         with:
          repository: 'Neuro-ID/neuroid-ios-sdk'
-         path: '/Users/runner/work/neuroid-ios-sdk/neuroid-ios-sdk'
-    
-      - name: Branch Checkout
-        uses: actions/checkout@v3
-        with:
-         ref: ${{ github.head_ref }}
-         path: '/home/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk'
+         path: './neuroid-ios-sdk'
         
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
@@ -30,5 +30,9 @@ jobs:
         run: |
           git config --global user.email jose.perez@neuro-id.com
           git config --global user.name joseperezNID
-          rm -f '/Users/runner/work/neuroid-ios-sdk/neuroid-ios-sdk/NeuroID' '/home/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/ios/NeuroID'
-          git add .
+          mv -f '/Users/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/neuroid-ios-sdk/NeuroID' '/Users/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/ios/NeuroID'
+          set +e
+          git add ./ios/NeuroID/*
+          git commit -m "Updating SDK version ${{ env.VERSION }}"
+          git push
+          set -e
