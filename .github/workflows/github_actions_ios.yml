@@ -64,8 +64,12 @@ jobs:
         working-directory: example/ios/
         run: bundle install
       
+      - name: Use Node.js
+        run: npm audit fix
+      
       - name: Install dependencies
         run: yarn install
+        
       
       - name: CocoaPod Install
         working-directory: example/ios/
