@@ -64,10 +64,13 @@ jobs:
         working-directory: example/ios/
         run: bundle install
       
-      - name: Use Node.js 14
+      - name: Use Node.js 12.17.0
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 12.17.0
+          
+      - name: Install node dependencies
+        run: npm install 
       
       - name: Install dependencies
         run: yarn install
