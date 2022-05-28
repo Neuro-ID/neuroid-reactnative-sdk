@@ -1,9 +1,6 @@
 name: Github Actions for iOS NeuroID SDK and ReactNative Sandbox
 
 on:
-  push:
-   branches:
-    - 'ENG-2288-Updating-ios-SDK-into-RN-Sandbox' 
   repository_dispatch:
         types: [on-demand-testflight]
 env:
