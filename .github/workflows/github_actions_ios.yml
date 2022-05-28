@@ -61,6 +61,7 @@ jobs:
          ruby-version: 2.7.2   
      
       - name: Bundle Install
+        working-directory: example/ios/
         run: bundle install
         
       - uses: actions/cache@v2
