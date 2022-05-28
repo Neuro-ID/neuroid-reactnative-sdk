@@ -1,0 +1,35 @@
+name: Github Actions for iOS NeuroID SDK and ReactNative Sandbox
+
+on:
+  repository_dispatch:
+        types: [on-demand-testflight]
+env:
+ VERSION: ${{ github.event.client_payload.version }}
+jobs:
+  updating_files:
+    runs-on: macos-latest
+    steps:
+      - name: iOS SDK repo clone
+        uses: actions/checkout@v3
+        with:
+         repository: 'Neuro-ID/neuroid-ios-sdk'
+         set-safe-directory: '/Users/runner/work/neuroid-ios-sdk/neuroid-ios-sdk'
+    
+      - name: Branch Checkout
+        uses: actions/checkout@v3
+        with:
+         ref: ${{ github.head_ref }}
+         token: ${{ secrets.API_TOKEN_GITHUB }}
+         set-safe-directory: '/home/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk'
+        
+      - name: Set up ruby env
+        uses: ruby/setup-ruby@v1
+        with:
+         ruby-version: 2.7.2   
+        
+      - name: Updating pods files
+        run: |
+          git config --global user.email jose.perez@neuro-id.com
+          git config --global user.name joseperezNID
+          rm -f '/Users/runner/work/neuroid-ios-sdk/neuroid-ios-sdk/NeuroID' '/home/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/ios/NeuroID'
+          git add .
