@@ -3,7 +3,7 @@ name: Github Actions for iOS NeuroID SDK and ReactNative Sandbox
 on:
   push:
    branches:
-    - 'ENG-2288-Updating-ios-SDK-into-RN-Sandbox'
+    - 'ENG-2288-Updating-ios-SDK-into-RN-Sandbox' 
   repository_dispatch:
         types: [on-demand-testflight]
 env:
@@ -39,3 +39,46 @@ jobs:
           git commit -m "Updating SDK version ${{ env.VERSION }}"
           git push
           set -e
+
+  Testflight:
+    runs-on: macos-latest
+    steps:
+    
+      - name: Main branch Checkout
+        uses: actions/checkout@v3
+        with:
+         ref: ${{ github.head_ref }}
+         
+      - name: iOS SDK repo clone
+        uses: actions/checkout@v3
+        with:
+         repository: 'Neuro-ID/neuroid-ios-sdk'
+         path: './neuroid-ios-sdk'
+        
+      - name: Set up ruby env
+        uses: ruby/setup-ruby@v1
+        with:
+         ruby-version: 2.7.2   
+     
+      - name: Bundle Install
+        run: bundle install
+        
+      - uses: actions/cache@v2
+        with:
+         path: Pods
+         key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+         restore-keys: |
+          ${{ runner.os }}-pods-
+      
+      - name: CocoaPod Install
+        run: pod install
+        
+      - name: Run iOS Unit testing for SDK
+        run: bundle exec fastlane test
+        
+      - name: Upload iOS app to Testflight
+        working-directory: example/ios/ 
+        run: bundle exec fastlane testflight_beta
+        env:
+         APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
+         KEYCHAIN_PASSWORD: ${{ secrets.DIST_CERT_BASE64 }} 
