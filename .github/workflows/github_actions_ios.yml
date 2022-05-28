@@ -61,6 +61,7 @@ jobs:
          ruby-version: 2.7.2   
      
       - name: Bundle Install
+        working-directory: example/ios/
         run: bundle install
       
       - name: Install dependencies
@@ -68,17 +69,17 @@ jobs:
       
       - uses: actions/cache@v2
         with:
-         path: Pods
+         path: example/ios/Pods
          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
          restore-keys: |
           ${{ runner.os }}-pods-
       
       - name: CocoaPod Install
-        working-directory: ./example/ios/
+        working-directory: example/ios/
         run: pod install
         
       - name: Upload iOS app to Testflight
-        working-directory: ./example/ios/ 
+        working-directory: example/ios/ 
         run: bundle exec fastlane testflight_beta
         env:
          APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
