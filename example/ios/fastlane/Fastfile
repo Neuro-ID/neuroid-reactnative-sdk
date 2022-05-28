@@ -121,12 +121,12 @@ platform :ios do
     sigh(
     api_key: api_key,
     app_identifier: app_identifier,
-    provisioning_name: "com.neuroid.sandbox AppStore 1653083869",
+    provisioning_name: "com.example.neuroidreactnativesdk",
     filename: "provisioning.mobileprovision",
     force: true # always recreate this exact profile to ensure it's valid and not expired
     )
     
-    profile_name = "com.neuroid.sandbox AppStore 1653083869" # the name of the profile to use for the build
+    profile_name = "com.example.neuroidreactnativesdk" # the name of the profile to use for the build
     output_name = "Neuro ID RN" # specify the name of the .ipa file to generate
     export_method = "app-store" # specify the export method
     compile_bitcode = false # specify whether to enable bitcode
