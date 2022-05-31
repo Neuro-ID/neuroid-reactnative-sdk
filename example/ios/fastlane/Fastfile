@@ -50,7 +50,7 @@ platform :ios do
       xcodeproj: "NeuroidReactnativeSdkExample.xcodeproj",
       target_filter: "NeuroidReactnativeSdkExample", # Name of your project
       profile: "./builds/provisioning.mobileprovision",
-      build_configuration: "Debug"
+      build_configuration: "Release"
     )
     update_project_team( # Set the right team on your project
       teamid: CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
@@ -138,14 +138,14 @@ platform :ios do
     code_sign_identity: "Apple Distribution", # replace with name of code signing identity if different
     bundle_identifier: app_identifier,
     profile_name: profile_name,
-    build_configurations: ["Debug"] # only toggle code signing settings for Release configurations
+    build_configurations: ["Release"] # only toggle code signing settings for Release configurations
     )
  
     # build the app
     gym(
      scheme: "NeuroidReactnativeSdkExample", # replace with name of your project’s scheme
      output_name: output_name,
-     configuration: "Debug",
+     configuration: "Release",
      export_options: {
       method: export_method,
       provisioningProfiles: {
