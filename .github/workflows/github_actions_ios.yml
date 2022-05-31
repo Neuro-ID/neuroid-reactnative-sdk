@@ -61,6 +61,10 @@ jobs:
         working-directory: example/ios/
         run: bundle install
       
+      - name: Update fastlane env
+        working-directory: example/ios/
+        run: bundle update fastlane
+      
       - name: Use Node.js 14
         uses: actions/setup-node@v1
         with:
