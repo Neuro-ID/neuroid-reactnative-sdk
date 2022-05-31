@@ -151,7 +151,8 @@ platform :ios do
       provisioningProfiles: {
         app_identifier => profile_name
       },
-      compileBitcode: compile_bitcode
+      compileBitcode: compile_bitcode,
+      clean: true,
      }
     )
     
