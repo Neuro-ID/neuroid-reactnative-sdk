@@ -24,6 +24,10 @@ export const RegisterScreen = () => {
   const NeuroIDModule = NativeModules.NeuroidReactnativeSdk;
 
   const formSubmitNID = () => {
+    // Various types of form submits.
+    console.log('Form Submit!');
+    NeuroIDModule.formSubmitSuccess();
+    NeuroIDModule.formSubmitFailure();
     NeuroIDModule.formSubmit();
   };
 
@@ -88,7 +92,7 @@ export const RegisterScreen = () => {
               <Button
                 color="#3579F7"
                 title="Agree and Check Your Loan Options"
-                onPress={() => () => formSubmitNID()}
+                onPress={() => formSubmitNID()}
               />
             </TouchableHighlight>
             <Text style={[s.text, styles.text, s.mb5]}>

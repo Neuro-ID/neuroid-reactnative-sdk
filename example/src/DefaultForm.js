@@ -270,6 +270,7 @@ export const DefaultForm = ({ navigation }) => {
               <TouchableHighlight style={[s.btnPrimary]}>
                 <Button
                   color="#3579F7"
+                  style={{ textColor: 'black' }}
                   title="Continue"
                   onPress={() => navigation.navigate('Register')}
                 />
