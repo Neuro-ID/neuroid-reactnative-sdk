@@ -30,7 +30,7 @@ jobs:
         run: |
           git config --global user.email jose.perez@neuro-id.com
           git config --global user.name joseperezNID
-          rsync -a '/Users/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/neuroid-ios-sdk/NeuroID' '/Users/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/ios/NeuroID'
+          rsync -a '/Users/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/neuroid-ios-sdk/NeuroID' '/Users/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/ios'
           set +e
           git add ./ios/NeuroID/*
           git commit -m "Updating SDK version ${{ env.VERSION }}"
