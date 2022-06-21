@@ -5,6 +5,7 @@ on:
         types: [on-demand-testflight]
 env:
  VERSION: ${{ github.event.client_payload.version }}
+ MESSAGE: ${{ github.event.client_payload.message }}
 jobs:
   updating_files:
     runs-on: macos-latest
@@ -33,7 +34,7 @@ jobs:
           rsync -a '/Users/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/neuroid-ios-sdk/NeuroID' '/Users/runner/work/neuroid-reactnative-sdk/neuroid-reactnative-sdk/ios'
           set +e
           git add ./ios/NeuroID/*
-          git commit -m "Updating SDK version ${{ env.VERSION }}"
+          git commit -m "Commit message: ${{ env.MESSAGE }}"
           git push
           set -e
 
