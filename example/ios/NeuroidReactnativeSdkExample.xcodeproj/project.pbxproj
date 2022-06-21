@@ -566,7 +566,7 @@
 				CURRENT_PROJECT_VERSION = 76;
 				DEVELOPMENT_TEAM = X9986UAU23;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "";
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = NeuroidReactnativeSdkExample/Info.plist;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -602,7 +602,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 76;
 				DEVELOPMENT_TEAM = X9986UAU23;
-				EXCLUDED_ARCHS = "";
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = NeuroidReactnativeSdkExample/Info.plist;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

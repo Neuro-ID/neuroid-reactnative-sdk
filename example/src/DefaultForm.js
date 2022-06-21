@@ -109,7 +109,7 @@ export const DefaultForm = ({ navigation }) => {
           />
           <View style={[s.mb3]} testID="innerMostView" />
           <Text style={[styles.heading, styles.text, s.mb2]}>
-            Welcome!! You're one step away from checking your loan options. $
+            Welcome! You're one step away from checking your loan options. $
           </Text>
           <Text style={[s.text, styles.text, s.mb5]}>
             Checking your loan options does not affect your credit score.
