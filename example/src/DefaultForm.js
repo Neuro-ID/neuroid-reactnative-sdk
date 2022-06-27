@@ -218,6 +218,8 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                keyboardType={'numeric'}
+                maxLength={6}
                 testID="homeZipCode"
                 id="homeZipCode"
               />
@@ -228,6 +230,8 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                keyboardType={'numeric'}
+                maxLength={12}
                 testID="phoneNumber"
                 id="phoneNumber"
               />
@@ -262,6 +266,8 @@ export const DefaultForm = ({ navigation }) => {
                 style={[s.formControl]}
                 autoCapitalize="none"
                 autoCorrect={false}
+                keyboardType={'numeric'}
+                maxLength={12}
                 testID="employerPhoneNumber"
                 id="employerPhoneNumber"
               />
@@ -269,6 +275,8 @@ export const DefaultForm = ({ navigation }) => {
             <View style={[s.mb5, s.mt5]}>
               <TouchableHighlight style={[s.btnPrimary]}>
                 <Button
+                  testID="buttonContinue"
+                  id="buttonContinue"
                   color="#3579F7"
                   style={{ textColor: 'black' }}
                   title="Continue"

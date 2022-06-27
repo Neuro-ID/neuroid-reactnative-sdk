@@ -58,6 +58,7 @@ export const RegisterScreen = () => {
               testID="ageAtWork"
               id="ageAtWork"
               keyboardType={'numeric'}
+              maxLength={3}
             />
           </View>
           <View style={[s.mb3]}>
@@ -68,11 +69,18 @@ export const RegisterScreen = () => {
             >
               <View>
                 <Text>Yes</Text>
-                <RadioButton value="first" />
+                <RadioButton 
+                  testID="radioButtonOwnYes"
+                  id="radioButtonOwnYes"
+                  value="first"
+                  />
               </View>
               <View>
                 <Text>No</Text>
-                <RadioButton value="second" />
+                <RadioButton 
+                  testID="radioButtonOwnNo"
+                  id="radioButtonOwn"
+                  value="second" />
               </View>
             </RadioButton.Group>
           </View>
@@ -90,6 +98,8 @@ export const RegisterScreen = () => {
           <View style={[s.mb5, s.mt5]}>
             <TouchableHighlight style={[s.btnPrimary]}>
               <Button
+                testID="buttonAgree"
+                id="buttonAgree"
                 color="#3579F7"
                 title="Agree and Check Your Loan Options"
                 onPress={() => formSubmitNID()}
