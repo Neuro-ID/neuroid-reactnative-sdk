@@ -7,6 +7,12 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
+    @objc(configureWithOptions:collectorEndPoint:withResolver:withRejecter:)
+    func configureWithOptions(apiKey: String, collectorEndPoint: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.configure(clientKey: apiKey, collectorEndPoint: collectorEndPoint)
+        resolve(true)
+    }
+    
     @objc(start:withRejecter:)
     func start(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.start()
