@@ -7,7 +7,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.neuroid.tracker.NeuroID
 
-class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
+    ReactContextBaseJavaModule(reactContext) {
 
     private var reactApplicationCtx: ReactApplicationContext = reactContext
     private var application: Application? = reactContext.applicationContext as Application
@@ -24,6 +25,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) : React
         if (activityCaller != null) {
             NeuroID.getInstance().registerAllViewsForCallerActivity(activityCaller)
         }
+    }
+
+    @ReactMethod
+    fun configureWithOptions(key: String, endpoint: String) {
+        NeuroID.getInstance().configureWithOptions(key,endpoint)
     }
 
     @ReactMethod
