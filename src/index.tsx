@@ -20,6 +20,13 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
 export function configure(apiKey: String): Promise<number> | null {
   return NeuroidReactnativeSdk.configure(apiKey);
 }
+
+export function configureWithOptions(
+  apiKey: String,
+  collectorEndPoint: String
+): Promise<number> | null {
+  return NeuroidReactnativeSdk.configure(apiKey, collectorEndPoint);
+}
 export function start(): Promise<void> | null {
   return NeuroidReactnativeSdk.start();
 }
