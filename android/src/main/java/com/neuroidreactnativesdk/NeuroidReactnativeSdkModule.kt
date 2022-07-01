@@ -29,7 +29,13 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun configureWithOptions(key: String, endpoint: String) {
+        val activityCaller = reactApplicationCtx.currentActivity
+        val neuroID = NeuroID.Builder(application, key).build()
+        NeuroID.setNeuroIdInstance(neuroID)
         NeuroID.getInstance().configureWithOptions(key,endpoint)
+        if (activityCaller != null) {
+            NeuroID.getInstance().registerAllViewsForCallerActivity(activityCaller)
+        }
     }
 
     @ReactMethod
