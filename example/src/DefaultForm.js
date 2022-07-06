@@ -25,6 +25,7 @@ const { s, c } = bootstrapStyleSheet;
 
 export const DefaultForm = ({ navigation }) => {
   const [sid, setSID] = useState();
+  const [text, onChangeText] = React.useState();
   const getSIDInterval = async () => {
     NeuroIDModule.getSessionID().then(setSID);
   };
@@ -36,7 +37,11 @@ export const DefaultForm = ({ navigation }) => {
       NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
     } else {
       // Android API key
-      NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+      // NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+      NeuroIDModule.configureWithOptions(
+        'key_live_suj4CX90v0un2k1ufGrbItT5',
+        'http://localhost:8080'
+      );
     }
     NeuroIDModule.start();
     NeuroIDModule.setScreenName('DefaultForm');
@@ -123,7 +128,10 @@ export const DefaultForm = ({ navigation }) => {
                 autoCorrect={false}
                 id="firstName"
                 testID="firstName"
-              />
+                onChangeText={onChangeText}
+              >
+                <Text>{text}</Text>
+              </TextInput>
             </View>
             <View style={[s.mb3]}>
               <Text style={[s.text, styles.text, s.mb2]}>Last Name:</Text>
