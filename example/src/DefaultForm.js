@@ -43,7 +43,11 @@ export const DefaultForm = ({ navigation }) => {
         'http://localhost:8080'
       );
     }
-    NeuroIDModule.start();
+    let start = async () => {
+      let startValue = await NeuroIDModule.start();
+      console.log('Started:', startValue);
+    };
+    start();
     NeuroIDModule.setScreenName('DefaultForm');
     NeuroIDModule.excludeViewByTestID('sid');
     NeuroIDModule.setUserID(`${uuid.v4()}`);

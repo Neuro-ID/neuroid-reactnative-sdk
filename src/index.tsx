@@ -27,8 +27,16 @@ export function configureWithOptions(
 ): Promise<number> | null {
   return NeuroidReactnativeSdk.configure(apiKey, collectorEndPoint);
 }
-export function start(): Promise<void> | null {
-  return NeuroidReactnativeSdk.start();
+export function start(): Promise<Boolean> {
+  let promise: Promise<Boolean> = new Promise(function (resolve) {
+    try {
+      NeuroidReactnativeSdk.start();
+      resolve(true);
+    } catch (e) {
+      resolve(false);
+    }
+  });
+  return promise;
 }
 export function stop(): Promise<void> | null {
   return NeuroidReactnativeSdk.stop();
