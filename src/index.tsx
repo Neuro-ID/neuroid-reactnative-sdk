@@ -17,21 +17,34 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
-export function configure(apiKey: String): Promise<number> | null {
-  return NeuroidReactnativeSdk.configure(apiKey);
+export function configure(apiKey: String): void {
+  NeuroidReactnativeSdk.configure(apiKey);
 }
 
 export function configureWithOptions(
   apiKey: String,
   collectorEndPoint: String
-): Promise<number> | null {
-  return NeuroidReactnativeSdk.configure(apiKey, collectorEndPoint);
+): void {
+  NeuroidReactnativeSdk.configure(apiKey, collectorEndPoint);
 }
-export function start(): Promise<void> | null {
-  return NeuroidReactnativeSdk.start();
+export function start(): Promise<Boolean> {
+  let promise: Promise<Boolean> = new Promise(function (resolve) {
+    try {
+      NeuroidReactnativeSdk.start();
+      resolve(true);
+    } catch (e) {
+      resolve(false);
+    }
+  });
+  return promise;
 }
-export function stop(): Promise<void> | null {
-  return NeuroidReactnativeSdk.stop();
+export function stop(): Boolean {
+  try {
+    NeuroidReactnativeSdk.stop();
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 export function getSessionID(): Promise<String> | null {
   return NeuroidReactnativeSdk.getSessionID();
@@ -43,6 +56,15 @@ export function excludeViewByTestID(
   excludedView: String
 ): Promise<void> | null {
   return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
+}
+export function setEnvironmentProduction(value: Boolean) {
+  // Pre-release
+  console.log('NeuroID environment set: ', value);
+}
+
+export function setSiteId(siteId: String) {
+  // Pre-release
+  console.log('SiteID set ', siteId);
 }
 export function setScreenName(screenName: String): Promise<void> | null {
   return NeuroidReactnativeSdk.setScreenName(screenName);

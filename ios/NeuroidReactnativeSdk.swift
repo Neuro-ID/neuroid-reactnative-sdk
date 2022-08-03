@@ -13,6 +13,22 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
+    @objc(setEnvironmentProduction:withResolver:withRejecter:)
+    func setEnvironmentProduction(value: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+
+        // TODO
+        // Finish set env
+        resolve(true)
+    }
+    
+    @objc(setSiteId:withResolver:withRejecter:)
+    func setSiteId(siteId: NSString, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+
+        // TODO
+        // Finish set env
+        resolve(true)
+    }
+    
     @objc(start:withRejecter:)
     func start(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.start()
