@@ -57,6 +57,15 @@ export function excludeViewByTestID(
 ): Promise<void> | null {
   return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
 }
+export function setEnvironmentProduction(value: Boolean) {
+  // Pre-release
+  console.log('NeuroID environment set: ', value);
+}
+
+export function setSiteId(siteId: String) {
+  // Pre-release
+  console.log('SiteID set ', siteId);
+}
 export function setScreenName(screenName: String): Promise<void> | null {
   return NeuroidReactnativeSdk.setScreenName(screenName);
 }

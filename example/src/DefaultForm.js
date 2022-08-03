@@ -10,7 +10,6 @@ import {
   TouchableHighlight,
   Button,
   ScrollView,
-  NativeModules,
   Platform,
 } from 'react-native';
 
@@ -18,8 +17,18 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
 import uuid from 'react-native-uuid';
 import { months, days, dobYears } from './utils/helpers';
+import {
+  configure,
+  setEnvironmentProduction,
+  getSessionID,
+  configureWithOptions,
+  setSiteId,
+  setScreenName,
+  setUserID,
+  excludeViewByTestID,
+  start,
+} from 'neuroid-reactnative-sdk';
 
-const NeuroIDModule = NativeModules.NeuroidReactnativeSdk;
 const bootstrapStyleSheet = new BootstrapStyleSheet();
 const { s, c } = bootstrapStyleSheet;
 
@@ -27,30 +36,32 @@ export const DefaultForm = ({ navigation }) => {
   const [sid, setSID] = useState();
   const [text, onChangeText] = React.useState();
   const getSIDInterval = async () => {
-    NeuroIDModule.getSessionID().then(setSID);
+    getSessionID().then(setSID);
   };
 
   useEffect(() => {
     const timer = setInterval(getSIDInterval, 2000);
     if (Platform.OS === 'ios') {
       // iOS API key
-      NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+      configure('key_live_suj4CX90v0un2k1ufGrbItT5');
     } else {
       // Android API key
       // NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
-      NeuroIDModule.configureWithOptions(
+      configureWithOptions(
         'key_live_suj4CX90v0un2k1ufGrbItT5',
         'http://localhost:8080'
       );
     }
-    let start = async () => {
-      let startValue = await NeuroIDModule.start();
+    let begin = async () => {
+      let startValue = await start();
       console.log('Started:', startValue);
     };
-    start();
-    NeuroIDModule.setScreenName('DefaultForm');
-    NeuroIDModule.excludeViewByTestID('sid');
-    NeuroIDModule.setUserID(`${uuid.v4()}`);
+    begin();
+    setEnvironmentProduction(true);
+    setSiteId('form_dream102');
+    setScreenName('DefaultForm');
+    excludeViewByTestID('sid');
+    setUserID(`${uuid.v4()}`);
     return () => clearInterval(timer);
   }, []);
 
