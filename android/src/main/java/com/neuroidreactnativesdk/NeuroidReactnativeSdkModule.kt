@@ -82,4 +82,14 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         NeuroID.getInstance()?.excludeViewByResourceID(id)
     }
 
+    @ReactMethod
+    fun setEnvironment(environment: String) {
+        NeuroID.getInstance()?.setEnvironment(environment)
+    }
+
+    @ReactMethod
+    fun setSiteId(siteId: String) {
+        NeuroID.getInstance()?.setSiteId(siteId)
+    }
+
 }
