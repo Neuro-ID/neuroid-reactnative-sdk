@@ -22,9 +22,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         val activityCaller = reactApplicationCtx.currentActivity
         val neuroID = NeuroID.Builder(application, key).build()
         NeuroID.setNeuroIdInstance(neuroID)
-        if (activityCaller != null) {
-            NeuroID.getInstance().registerAllViewsForCallerActivity(activityCaller)
-        }
     }
 
     @ReactMethod
@@ -32,60 +29,57 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         val activityCaller = reactApplicationCtx.currentActivity
         val neuroID = NeuroID.Builder(application, key).build()
         NeuroID.setNeuroIdInstance(neuroID)
-        NeuroID.getInstance().configureWithOptions(key,endpoint)
-        if (activityCaller != null) {
-            NeuroID.getInstance().registerAllViewsForCallerActivity(activityCaller)
-        }
+        NeuroID.getInstance()?.configureWithOptions(key, endpoint)
     }
 
     @ReactMethod
     fun start() {
-        NeuroID.getInstance().start()
+        NeuroID.getInstance()?.start()
     }
 
     @ReactMethod
     fun stop() {
-        NeuroID.getInstance().stop()
+        NeuroID.getInstance()?.stop()
     }
 
     @ReactMethod
     fun formSubmit() {
-        NeuroID.getInstance().formSubmit()
+        NeuroID.getInstance()?.formSubmit()
     }
 
     @ReactMethod
     fun formSubmitSuccess() {
-        NeuroID.getInstance().formSubmitSuccess()
+        NeuroID.getInstance()?.formSubmitSuccess()
     }
 
     @ReactMethod
     fun formSubmitFailure() {
-        NeuroID.getInstance().formSubmitFailure()
+        NeuroID.getInstance()?.formSubmitFailure()
     }
 
     @ReactMethod
     fun captureEvent(event: String, tags: String) {
-        NeuroID.getInstance().captureEvent(event, tags)
+        NeuroID.getInstance()?.captureEvent(event, tags)
     }
 
     @ReactMethod
     fun setUserID(id: String) {
-        NeuroID.getInstance().setUserID(id)
+        NeuroID.getInstance()?.setUserID(id)
     }
 
     @ReactMethod
     fun setScreenName(screen: String) {
-        NeuroID.getInstance().setScreenName(screen)
+        NeuroID.getInstance()?.setScreenName(screen)
     }
 
     @ReactMethod
     fun getSessionID(promise: Promise) {
-        promise.resolve(NeuroID.getInstance().getSessionId())
+        promise.resolve(NeuroID.getInstance()?.getSessionId())
     }
 
     @ReactMethod
     fun excludeViewByTestID(id: String) {
-        NeuroID.getInstance().excludeViewByResourceID(id)
+        NeuroID.getInstance()?.excludeViewByResourceID(id)
     }
 
 }
