@@ -84,7 +84,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun setEnvironmentProduction(isProd: Boolean) {
-    println("---------------------------------------------------- setEnvironmentProduction: $isProd")
         val environment = if(isProd) {
             "PRODUCTION"
         } else {
@@ -96,7 +95,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun setSiteId(siteId: String) {
-        println("---------------------------------------------------- setSiteId: $siteId")
         NeuroID.getInstance()?.setSiteId(siteId)
     }
 
