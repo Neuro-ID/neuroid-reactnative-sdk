@@ -54,7 +54,7 @@ export const DefaultForm = ({ navigation }) => {
       console.log('Started:', startValue);
     };
     begin();
-    setEnvironmentProduction(true);
+    setEnvironmentProduction(false);
     setSiteId('form_dream102');
     setScreenName('DefaultForm');
     excludeViewByTestID('sid');
