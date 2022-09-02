@@ -85,7 +85,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun setEnvironmentProduction(isProd: Boolean) {
         val environment = if(isProd) {
-            "PRODUCTION"
+            "LIVE"
         } else {
             "TEST"
         }
