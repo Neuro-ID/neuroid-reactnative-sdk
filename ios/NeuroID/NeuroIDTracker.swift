@@ -46,16 +46,29 @@ public struct NeuroID {
         if NeuroID.clientKey != nil {
             print("NeuroID Error: You already configured the SDK")
         }
+        
         NeuroID.clientKey = clientKey
         let key = "nid_key";
         let defaults = UserDefaults.standard
         defaults.set(clientKey, forKey: key)
+        
+        // Reset tab id on configure
+        UserDefaults.standard.set(nil, forKey: "nid_tid")
+        
+        NeuroID.createSession()
     }
     
     // Allow for configuring of collector endpoint (useful for testing before MSA is signed)
     public static func configure(clientKey: String, collectorEndPoint: String) {
         collectorURLFromConfig = collectorEndPoint
         configure(clientKey: clientKey)
+    }
+    
+    /**
+     Public user facing getClientID function
+     */
+    public static func getClientID() -> String {
+        return ParamsCreator.getClientId()
     }
     
     public static func setEnvironmentProduction(_ value: Bool) {
@@ -101,6 +114,15 @@ public struct NeuroID {
         return UserDefaults.standard.string(forKey: "nid_sid")
     }
     
+    
+    static func createSession() {
+        // Since we are creating a new session, clear any existing session ID
+        NeuroID.clearSession()
+        // TODO, return session if already exists
+        let event = NIDEvent(session: .createSession, f: ParamsCreator.getClientKey(), sid: ParamsCreator.getSessionID(), lsid: nil, cid: ParamsCreator.getClientId(), did: ParamsCreator.getDeviceId(), loc: ParamsCreator.getLocale(), ua: ParamsCreator.getUserAgent(), tzo: ParamsCreator.getTimezone(), lng: ParamsCreator.getLanguage(),p: ParamsCreator.getPlatform(), dnt: false, tch: ParamsCreator.getTouch(),          pageTag: NeuroID.getScreenName(), ns: ParamsCreator.getCommandQueueNamespace(), jsv: ParamsCreator.getSDKVersion())
+        
+        saveEventToLocalDataStore(event)
+    }
     // When start is called, enable swizzling, as well as dispatch queue to send to API
     public static func start(){
         NeuroID.isSDKStarted = true
@@ -275,9 +297,9 @@ public struct NeuroID {
 //        params["jsonEvents"] = jsonEvents
 //        params["pageTag"] = screen
 //
-        let tabId = UUID()
+        let tabId = ParamsCreator.getTabId()
         let pageid = UUID()
-        let neuroHTTPRequest = NeuroHTTPRequest.init(clientId: ParamsCreator.getClientId(), environment: NeuroID.getEnvironment(), sdkVersion: ParamsCreator.getSDKVersion(), pageTag: NeuroID.getScreenName() ?? "UNKNOWN", responseId: ParamsCreator.generateUniqueHexId(), siteId: NeuroID.siteId ?? "", userId: ParamsCreator.getUserID() ?? "", jsonEvents: events, tabId: "\(tabId)", pageId: "\(pageid)", url: "ios://\(NeuroID.getScreenName() ?? "")" , jsVersion: "")
+        let neuroHTTPRequest = NeuroHTTPRequest.init(clientId: ParamsCreator.getClientId(), environment: NeuroID.getEnvironment(), sdkVersion: ParamsCreator.getSDKVersion(), pageTag: NeuroID.getScreenName() ?? "UNKNOWN", responseId: ParamsCreator.generateUniqueHexId(), siteId: NeuroID.siteId ?? "", userId: ParamsCreator.getUserID() ?? "", jsonEvents: events, tabId: "\(tabId)", pageId: "\(pageid)", url: "ios://\(NeuroID.getScreenName() ?? "")")
 
         if ProcessInfo.processInfo.environment["debugJSON"] == "true" {
             saveDebugJSON(events: "******************** New POST to NID Collector")
@@ -293,6 +315,8 @@ public struct NeuroID {
         ]
 
         AF.request(url, method: .post, parameters: neuroHTTPRequest, encoder: JSONParameterEncoder.default, headers: headers).responseData { response in
+                // 204 invalid, 200 valid
+                NIDPrintLog("NID Response \(response.response?.statusCode)")
                 switch response.result {
                 case .success:
                     NIDPrintLog("Neuro-ID post to API Successfull")
@@ -405,14 +429,11 @@ public class NeuroIDTracker: NSObject {
         super.init()
         self.screen = screen
         if (!NeuroID.isStopped()){
-            if(getCurrentSession() == nil){
-                NeuroID.setScreenName(screen: "AppInit")
-                self.createSessionEvent = createSession(screen: screen)
-            }
             subscribe(inScreen: controller)
         }
         className = controller?.className
     }
+
     
     public func captureEvent(event: NIDEvent) {
         if (NeuroID.isStopped()){
@@ -482,11 +503,13 @@ public class NeuroIDTracker: NSObject {
             
             var temp = getParentClasses(currView: currView, hierarchyString: "UITextField")
             var nidEvent = NIDEvent(eventName: NIDEventName.registerTarget, tgs: tfView.id, en: tfView.id, etn: "INPUT", et: "UITextField::\(tfView.className)", ec: screenName, v: "S~C~~\(tfView.placeholder?.count ?? 0)" , url: screenName)
-//            var attrVal = Attr.init(n: "guid", v: guid)
-//            // Screen hierarchy
-//            var shVal = Attr.init(n: "screenHierarchy", v: fullViewString)
-            var attrVal = Attr.init(guid: guid, screenHierarchy: fullViewString)
-            nidEvent.tg = ["attr": TargetValue.attr(attrVal)]
+            nidEvent.hv = tfView.placeholder?.sha256().prefix(8).string
+            var attrVal = Attrs.init(n: "guid", v: guid)
+            // Screen hierarchy
+            var shVal = Attrs.init(n: "screenHierarchy", v: fullViewString)
+//            var attrValue = Attr.init(guid: guid, screenHierarchy: fullViewString)
+//            nidEvent.tg = ["attr": TargetValue.attr(attrValue)]
+            nidEvent.attrs = [attrVal,shVal]
             NeuroID.saveEventToLocalDataStore(nidEvent)
         case is UITextView:
             let tv = v as! UITextView
@@ -494,20 +517,24 @@ public class NeuroIDTracker: NSObject {
             var temp = getParentClasses(currView: currView, hierarchyString: "UITextView")
 
             var nidEvent = NIDEvent(eventName: NIDEventName.registerTarget, tgs: tv.id, en: tv.id, etn: "INPUT", et: "UITextView::\(tv.className)", ec: screenName, v: "S~C~~\(tv.text?.count ?? 0)" , url: screenName)
-//            var attrVal = Attr.init(n: "guid", v: guid)
-//            // Screen hierarchy
-//            var shVal = Attr.init(n: "screenHierarchy", v: fullViewString)
-            var attrVal = Attr.init(guid: guid, screenHierarchy: fullViewString)
-            nidEvent.tg = ["attr": TargetValue.attr(attrVal)]
+            nidEvent.hv = tv.text?.sha256().prefix(8).string
+            var attrVal = Attrs.init(n: "guid", v: guid)
+            // Screen hierarchy
+            var shVal = Attrs.init(n: "screenHierarchy", v: fullViewString)
+//            var attrValue = Attr.init(guid: guid, screenHierarchy: fullViewString)
+//            nidEvent.tg = ["attr": TargetValue.attr(attrValue)]
+            nidEvent.attrs = [attrVal,shVal]
             NeuroID.saveEventToLocalDataStore(nidEvent)
         case is UIButton:
             let tb = v as! UIButton
             var nidEvent = NIDEvent(eventName: NIDEventName.registerTarget, tgs: tb.id, en: tb.id, etn: "BUTTON", et: "UIButton::\(tb.className)", ec: screenName, v: "S~C~~\(tb.titleLabel?.text?.count ?? 0)" , url: screenName)
-//            var attrVal = Attr.init(n: "guid", v: guid)
-//            // Screen hierarchy
-//            var shVal = Attr.init(n: "screenHierarchy", v: fullViewString)
-            var attrVal = Attr.init(guid: guid, screenHierarchy: fullViewString)
-            nidEvent.tg = ["attr": TargetValue.attr(attrVal)]
+            nidEvent.hv = tb.titleLabel?.text?.sha256().prefix(8).string
+            var attrVal = Attrs.init(n: "guid", v: guid)
+            // Screen hierarchy
+            var shVal = Attrs.init(n: "screenHierarchy", v: fullViewString)
+//            var attrValue = Attr.init(guid: guid, screenHierarchy: fullViewString)
+            nidEvent.attrs = [attrVal,shVal]
+//            nidEvent.tg = ["attr": TargetValue.attr(attrValue)]
             NeuroID.saveEventToLocalDataStore(nidEvent)
         case is UISlider:
             print("Slider")
@@ -615,16 +642,6 @@ private extension NeuroIDTracker {
                 continue
             }
         }
-    }
-
-    func createSession(screen: String) -> NIDEvent {
-        // Since we are creating a new session, clear any existing session ID
-        NeuroID.clearSession()
-        // TODO, return session if already exists
-        let event = NIDEvent(session: .createSession, f: ParamsCreator.getClientKey(), sid: ParamsCreator.getSessionID(), lsid: nil, cid: ParamsCreator.getClientId(), did: ParamsCreator.getDeviceId(), loc: ParamsCreator.getLocale(), ua: ParamsCreator.getUserAgent(), tzo: ParamsCreator.getTimezone(), lng: ParamsCreator.getLanguage(),p: ParamsCreator.getPlatform(), dnt: false, tch: ParamsCreator.getTouch(),          pageTag: NeuroID.getScreenName(), ns: ParamsCreator.getCommandQueueNamespace(), jsv: ParamsCreator.getSDKVersion())
-        
-        captureEvent(event: event)
-        return event;
     }
 }
 
@@ -748,6 +765,7 @@ private extension NeuroIDTracker {
             }
             
             let lengthValue = "S~C~~\(textControl.text?.count ?? 0)"
+            let hashValue = textControl.text?.sha256().prefix(8).string
             if (eventType == NIDEventName.input) {
                 NIDPrintLog("NID keydown field = <\(textControl.id)>")
 //                // Keydown
@@ -760,6 +778,8 @@ private extension NeuroIDTracker {
                 let inputTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.input, view: textControl, type: inputType, attrParams: ["v": lengthValue, "hash": textControl.text])
                 var inputEvent = NIDEvent(type: NIDEventName.input, tg: inputTG)
 //                inputEvent.v = lengthValue
+                inputEvent.v = lengthValue
+                inputEvent.hv = hashValue
                 captureEvent(event: inputEvent)
             } else if (eventType == NIDEventName.focus || eventType == NIDEventName.blur) {
                 // Focus / Blur
@@ -774,6 +794,7 @@ private extension NeuroIDTracker {
                     let textChangeTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.textChange, view: textControl, type: inputType, attrParams: ["v": lengthValue, "hash": textControl.text])
                     var textChangeEvent = NIDEvent(type:NIDEventName.textChange, tg: textChangeTG, sm: sm, pd: pd)
                     textChangeEvent.v = lengthValue
+//                    textChangeEvent.hv = hashValue
                     captureEvent(event:  textChangeEvent)
                 }
             }
@@ -788,7 +809,8 @@ private extension NeuroIDTracker {
             if #available(iOS 12.0, *) {
                 if textControl.textContentType == .newPassword { return }
             }
-
+            
+            let hashValue = textControl.text?.sha256().prefix(8).string
             let lengthValue = "S~C~~\(textControl.text?.count ?? 0)"
             if (eventType == NIDEventName.input) {
                 NIDPrintLog("NID keydown field = <\(textControl.id)>")
@@ -797,18 +819,21 @@ private extension NeuroIDTracker {
                 let keydownTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.keyDown, view: textControl, type: inputType, attrParams: ["v": lengthValue, "hash": textControl.text])
                 var keyDownEvent = NIDEvent(type: NIDEventName.keyDown, tg: keydownTG)
                 keyDownEvent.v = lengthValue
+//                keyDownEvent.hv = hashValue
                 captureEvent(event: keyDownEvent)
                 
                 // Text Change
                 let textChangeTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.textChange, view: textControl, type: inputType, attrParams: nil)
                 var textChangeEvent = NIDEvent(type:NIDEventName.textChange, tg: textChangeTG, sm: sm, pd: pd)
                 textChangeEvent.v = lengthValue
+                textChangeEvent.hv = hashValue
                 captureEvent(event:  textChangeEvent)
                 
                 // Input
                 let inputTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.input, view: textControl, type: inputType, attrParams: nil)
                 var inputEvent = NIDEvent(type: NIDEventName.input, tg: inputTG)
                 inputEvent.v = lengthValue
+                inputEvent.hv = hashValue
                 captureEvent(event: inputEvent)
             } else if (eventType == NIDEventName.focus || eventType == NIDEventName.blur) {
                 // Focus / Blur
@@ -823,6 +848,7 @@ private extension NeuroIDTracker {
                     let textChangeTG = ParamsCreator.getTGParamsForInput(eventName: NIDEventName.textChange, view: textControl, type: inputType, attrParams: nil)
                     var textChangeEvent = NIDEvent(type:NIDEventName.textChange, tg: textChangeTG, sm: sm, pd: pd)
                     textChangeEvent.v = lengthValue
+//                    textChangeEvent.hv = hashValue
                     captureEvent(event:  textChangeEvent)
                 }
             }
@@ -1054,17 +1080,16 @@ struct ParamsCreator {
             
 //            var attrParams:Attr;
             var inputValue = attrParams?["v"] as? String ?? "S~C~~"
-//            var attrVal = Attr.init(n: "v", v: inputValue)
+            //var attrVal = Attrs.init(n: "v", v: inputValue)
 //
-            var textValue = attrParams?["hash"] as? String ?? ""
-//            var hashValue = Attr.init(n: "hash", v: textValue.sha256().prefix(8).string)
-//            var attrArraryVal:[Attr] = [attrVal, hashValue]
-            var attrVal = Attr.init(v: inputValue, hash: textValue.sha256().prefix(8).string)
+//            var textValue = attrParams?["hash"] as? String ?? ""
+            //var hashValue = Attrs.init(n: "hash", v: textValue.sha256().prefix(8).string)
+//            var attrArraryVal:Attr = Attr.init(n: inputValue, hash: textValue.sha256().prefix(8).string)
             params = [
                 "tgs": TargetValue.string(view.id),
                 "etn": TargetValue.string(view.id),
                 "et": TargetValue.string(type),
-                "attr": TargetValue.attr(attrVal)
+//                "attr": TargetValue.attr(attrArraryVal)
             ]
             
         case NIDEventName.keyDown:
@@ -1158,12 +1183,7 @@ struct ParamsCreator {
             return sid ?? "";
         }
 
-        var id = ""
-        for _ in 0 ..< 16 {
-            let digit = Int.random(in: 0..<10)
-            id += "\(digit)"
-            defaults.set(id, forKey: sidName)
-        }
+        var id = UUID().uuidString
         print("Session ID:", id);
         return id
     }
@@ -1196,7 +1216,8 @@ struct ParamsCreator {
         let clientIdName = "nid_cid";
         var cid = UserDefaults.standard.string(forKey: clientIdName);
         
-        if (cid != nil && cid!.contains("_")){
+        // Ensure we aren't on old client id
+        if (cid != nil && !cid!.contains("_")){
             return cid!;
         } else {
             cid = genId()
@@ -1205,6 +1226,18 @@ struct ParamsCreator {
         }
     }
     
+    static func getTabId() -> String {
+        let tabIdName = "nid_tid";
+        var tid = UserDefaults.standard.string(forKey: tabIdName);
+        
+        if (tid != nil){
+            return tid!;
+        } else {
+            tid = genId()
+            UserDefaults.standard.set(tid, forKey: tabIdName)
+            return tid!
+        }
+    }
     
     static func getUserID() -> String? {
         let nidUserID = "nid_user_id";

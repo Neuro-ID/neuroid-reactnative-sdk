@@ -78,19 +78,15 @@ public enum NIDEventName: String {
     }
 }
 
+public struct Attrs: Codable, Equatable {
+    var n:String?
+    var v:String?
+}
 public struct Attr: Codable, Equatable {
     var guid:String?
     var screenHierarchy:String?
-    var v:String?
+    var n:String?
     var hash:String?
-    init(guid:String?, screenHierarchy:String?) {
-        self.guid = guid
-        self.screenHierarchy = screenHierarchy
-    }
-    init(v:String?, hash:String?) {
-        self.v = v
-        self.hash = hash
-    }
 }
 
 public struct NIDTouches: Codable, Equatable {
@@ -111,9 +107,9 @@ public struct NeuroHTTPRequest: Codable {
     var tabId: String
     var pageId:String
     var url:String
-    var jsVersion:String
+    var jsVersion:String = "5.0.0"
     
-    public init(clientId: String, environment: String, sdkVersion: String, pageTag: String, responseId:String, siteId:String, userId:String, jsonEvents:[NIDEvent], tabId: String, pageId:String, url:String, jsVersion:String){
+    public init(clientId: String, environment: String, sdkVersion: String, pageTag: String, responseId:String, siteId:String, userId:String, jsonEvents:[NIDEvent], tabId: String, pageId:String, url:String){
         self.clientId = clientId
         self.environment = environment
         self.sdkVersion = sdkVersion
@@ -125,13 +121,12 @@ public struct NeuroHTTPRequest: Codable {
         self.tabId = tabId
         self.pageId = pageId
         self.url = url
-        self.jsVersion = jsVersion
     }
 }
 
 public enum TargetValue: Codable,Equatable {
     
-    case int(Int), string(String), bool(Bool), double(Double), attr(Attr)
+    case int(Int), string(String), bool(Bool), double(Double), attrs([Attrs]), attr(Attr)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -141,6 +136,7 @@ public enum TargetValue: Codable,Equatable {
             case .string(let value): try container.encode(value)
             case .bool(let value): try container.encode(value)
             case .double(let value): try container.encode(value)
+            case .attrs(let value): try container.encode(value)
             case .attr(let value): try container.encode(value)
 
         }
@@ -157,6 +153,8 @@ public enum TargetValue: Codable,Equatable {
         case .double(let double):
             return String(double)
         case .attr(let array):
+            return String(describing: array)
+        case .attrs(let array):
             return String(describing: array)
         }
     }
@@ -182,6 +180,10 @@ public enum TargetValue: Codable,Equatable {
             return
         }
         
+        if let attrs = try? decoder.singleValueContainer().decode(Attrs.self) {
+            self = .attrs([attrs])
+            return
+        }
         if let attr = try? decoder.singleValueContainer().decode(Attr.self) {
             self = .attr(attr)
             return
@@ -206,6 +208,7 @@ public struct NIDEvent: Codable {
     var tgs: String?
     var key: String?
     var v: String?
+    var hv: String?
     var en: String?
     var etn: String? // Tag name (input)
     var et: String? // Element Type (text)
@@ -233,6 +236,7 @@ public struct NIDEvent: Codable {
     var uid: String?
     var sm: Double?
     var pd: Double?
+    var attrs:[Attrs]?
     var gyro: NIDSensorData?
     var accel: NIDSensorData?
     var touches: [NIDTouches]?
