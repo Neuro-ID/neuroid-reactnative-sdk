@@ -99,15 +99,11 @@ public struct NeuroID {
      Set screen name. We ensure that this is a URL valid name by replacing non alphanumber chars with underscore
      */
     public static func setScreenName(screen: String) {
-        if (screen == ""){
-            logError(content: "Invalid Screenname for NeuroID. Must be alphanumeric")
-            return
+        if let urlEncode = screen.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+            currentScreenName = urlEncode
+        } else {
+            logError(content: "Invalid Screenname for NeuroID. \(screen) can't be encode")
         }
-        if let regex = try? NSRegularExpression(pattern: "[^a-zA-Z0-9]", options: .caseInsensitive) {
-            let modString = regex.stringByReplacingMatches(in: screen, options: [], range: NSRange(location: 0, length:  screen.count), withTemplate: "_")
-            currentScreenName = modString
-        }
-        logError(content: "Invalid Screenname for NeuroID. Must be alphanumeric")
     }
     
     public static func getScreenName() -> String? {
@@ -1591,7 +1587,6 @@ private extension UITextField {
     @objc static func startSwizzling() {
         let textField = UITextField.self
 
-        
         textFieldSwizzling(element: textField,
                            originalSelector: #selector(textField.paste(_:)),
                   swizzledSelector: #selector(textField.neuroIDPaste))
@@ -1613,6 +1608,7 @@ private extension UITextField {
         // Make sure we have a valid url set
         newEvent.url = screenName
         DataStore.insertEvent(screen: screenName, event: newEvent)
+        self.neuroIDPaste(caller: caller)
     }
 }
 
@@ -1631,7 +1627,6 @@ private extension UITextView {
     
     @objc static func startSwizzling() {
         let textField = UITextView.self
-        
         
         textViewSwizzling(element: textField,
                            originalSelector: #selector(textField.paste(_:)),
