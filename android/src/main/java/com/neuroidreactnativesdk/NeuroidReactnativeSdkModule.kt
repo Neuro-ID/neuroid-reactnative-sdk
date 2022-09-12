@@ -1,10 +1,8 @@
 package com.neuroidreactnativesdk
 
 import android.app.Application
-import com.facebook.react.bridge.Promise
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
+import android.util.Log
+import com.facebook.react.bridge.*
 import com.neuroid.tracker.NeuroID
 
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
@@ -20,15 +18,20 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun configure(key: String) {
         val activityCaller = reactApplicationCtx.currentActivity
-        val neuroID = NeuroID.Builder(application, key).build()
-        NeuroID.setNeuroIdInstance(neuroID)
+        if(NeuroID.getInstance() == null) {
+            val neuroID = NeuroID.Builder(application, key).build()
+            NeuroID.setNeuroIdInstance(neuroID)
+        }
+        NeuroID.getInstance()?.configureWithOptions(key, null)
     }
 
     @ReactMethod
-    fun configureWithOptions(key: String, endpoint: String) {
+    fun configureWithOptions(key: String, endpoint: String?) {
         val activityCaller = reactApplicationCtx.currentActivity
-        val neuroID = NeuroID.Builder(application, key).build()
-        NeuroID.setNeuroIdInstance(neuroID)
+        if(NeuroID.getInstance() == null) {
+            val neuroID = NeuroID.Builder(application, key).build()
+            NeuroID.setNeuroIdInstance(neuroID)
+        }
         NeuroID.getInstance()?.configureWithOptions(key, endpoint)
     }
 
@@ -98,4 +101,12 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         NeuroID.getInstance()?.setSiteId(siteId)
     }
 
+    @ReactMethod
+    fun isStopped(promise: Promise) {
+        val instance = NeuroID.getInstance()
+        if(instance == null)
+            promise.resolve(true)
+        else
+            promise.resolve(instance.isStopped())
+    }
 }
