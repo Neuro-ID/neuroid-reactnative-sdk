@@ -26,7 +26,7 @@ export function configureWithOptions(
   collectorEndPoint?: String
 ): Promise<void> {
   return Promise.resolve(
-    NeuroidReactnativeSdk.configure(apiKey, collectorEndPoint)
+    NeuroidReactnativeSdk.configureWithOptions(apiKey, collectorEndPoint)
   );
 }
 
