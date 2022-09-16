@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.facebook.react.*;
 import com.facebook.soloader.SoLoader;
+import com.neuroidreactnativesdk.NeuroidReactnativeSdkModule;
 import com.neuroidreactnativesdk.NeuroidReactnativeSdkPackage;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +25,7 @@ public class MainApplication extends Application implements ReactApplication {
                     @SuppressWarnings("UnnecessaryLocalVariable")
                     List<ReactPackage> packages = new PackageList(this).getPackages();
                     // Packages that cannot be autolinked yet can be added manually here, for NeuroidReactnativeSdkExample:
-                    packages.add(new NeuroidReactnativeSdkPackage(getApplication(), "key_live_suj4CX90v0un2k1ufGrbItT5", null));
+                    packages.add(new NeuroidReactnativeSdkPackage());
 
                     return packages;
                 }
@@ -45,6 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
         initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
+        NeuroidReactnativeSdkModule.configure(this, "key_live_suj4CX90v0un2k1ufGrbItT5");
     }
 
     /**

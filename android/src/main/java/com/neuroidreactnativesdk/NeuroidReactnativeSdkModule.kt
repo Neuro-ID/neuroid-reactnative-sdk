@@ -8,6 +8,22 @@ import com.neuroid.tracker.NeuroID
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
+    companion object {
+        @JvmStatic
+        fun configure(application: Application, key: String) {
+            configure(application, key, null)
+        }
+
+        @JvmStatic
+        fun configure(application: Application, key: String, endpoint: String?) {
+            if (NeuroID.getInstance() == null) {
+                val neuroID = NeuroID.Builder(application, key).build()
+                NeuroID.setNeuroIdInstance(neuroID)
+            }
+            NeuroID.getInstance()?.configureWithOptions(key, endpoint)
+        }
+    }
+
     private var reactApplicationCtx: ReactApplicationContext = reactContext
     private var application: Application? = reactContext.applicationContext as Application
 
@@ -17,8 +33,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun configure(key: String) {
-        val activityCaller = reactApplicationCtx.currentActivity
-        if(NeuroID.getInstance() == null) {
+        if (NeuroID.getInstance() == null) {
             val neuroID = NeuroID.Builder(application, key).build()
             NeuroID.setNeuroIdInstance(neuroID)
         }
@@ -27,8 +42,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun configureWithOptions(key: String, endpoint: String?) {
-        val activityCaller = reactApplicationCtx.currentActivity
-        if(NeuroID.getInstance() == null) {
+        if (NeuroID.getInstance() == null) {
             val neuroID = NeuroID.Builder(application, key).build()
             NeuroID.setNeuroIdInstance(neuroID)
         }
@@ -87,7 +101,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun setEnvironmentProduction(isProd: Boolean) {
-        val environment = if(isProd) {
+        val environment = if (isProd) {
             "LIVE"
         } else {
             "TEST"
@@ -104,7 +118,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun isStopped(promise: Promise) {
         val instance = NeuroID.getInstance()
-        if(instance == null)
+        if (instance == null)
             promise.resolve(true)
         else
             promise.resolve(instance.isStopped())
