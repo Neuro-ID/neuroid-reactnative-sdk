@@ -1,6 +1,6 @@
 {
   "name": "neuroid-reactnative-sdk",
-  "version": "2.2.3",
+  "version": "2.3.1",
   "description": "Neuro-ID React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
