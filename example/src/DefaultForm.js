@@ -65,7 +65,7 @@ export const DefaultForm = ({ navigation }) => {
     setUserID(`${uuid.v4()}`);
     manuallyRegisterRNTarget(
       'manualID',
-      'UITextView',
+      'UITextView::',
       'MYSCREEN',
       'placehodler textgoes here'
     );
