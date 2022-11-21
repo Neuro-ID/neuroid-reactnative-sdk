@@ -1,3 +1,4 @@
+import UIKit
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
 
@@ -58,6 +59,12 @@ class NeuroidReactnativeSdk: NSObject {
     @objc(setScreenName:withResolver:withRejecter:)
     func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.setScreenName(screen: screenName)
+        resolve(true)
+    }
+    
+    @objc(manuallyRegisterTarget:withResolver:withRejecter:)
+    func manuallyRegisterTarget(view: UIView, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.manuallyRegisterTarget(view: view)
         resolve(true)
     }
     
