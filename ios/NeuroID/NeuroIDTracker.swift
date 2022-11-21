@@ -282,7 +282,11 @@ public struct NeuroID {
     public static func manuallyRegisterRNTarget(id: String, className: String, screenName: String, placeHolder: String) -> NIDEvent {
         let guid = UUID().uuidString
         let fullViewString = NeuroIDTracker.getFullViewlURLPath(currView: nil, screenName: screenName)
+<<<<<<< HEAD
         var nidEvent = NIDEvent(eventName: NIDEventName.registerTarget, tgs: id, en: id, etn: "INPUT", et: "UITextField::\(className)", ec: screenName, v: "S~C~~\(placeHolder.coun)" , url: screenName)
+=======
+        var nidEvent = NIDEvent(eventName: NIDEventName.registerTarget, tgs: id, en: id, etn: "INPUT", et: "\(className)", ec: screenName, v: "S~C~~\(placeHolder.count)" , url: screenName)
+>>>>>>> main
         nidEvent.hv = placeHolder.sha256().prefix(8).string
         let attrVal = Attrs.init(n: "guid", v: guid)
         // Screen hierarchy
