@@ -1,4 +1,4 @@
-import UIKit
+import SwiftUI
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
 
@@ -62,10 +62,9 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
-    @objc(manuallyRegisterTarget:withResolver:withRejecter:)
-    func manuallyRegisterTarget(view: UIView, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.manuallyRegisterTarget(view: view)
-        resolve(true)
+    @objc(manuallyRegisterRNTarget:className:screenName:placeHolder:)
+    func manuallyRegisterRNTarget(id: String, className: String, screenName: String, placeHolder: String) -> Void {
+        NeuroID.manuallyRegisterRNTarget(id: id, className: className, screenName: screenName, placeHolder: placeHolder)
     }
     
     @objc(formSubmit:withRejecter:)

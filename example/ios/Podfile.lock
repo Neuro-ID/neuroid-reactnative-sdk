@@ -388,7 +388,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 0138a8fe208c628ca5163333d4bb58e084173dc3
+  FBReactNativeSpec: 579128450742fc11bd24803337cb0d3e11e35efb
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   neuroid-reactnative-sdk: ff1ff7157bad471851a51272edeb8f26bea5af2c
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c

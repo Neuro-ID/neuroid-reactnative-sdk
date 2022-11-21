@@ -90,3 +90,19 @@ export function formSubmitFailure(): Promise<void> {
 export function isStopped(): Promise<boolean> {
   return Promise.resolve(NeuroidReactnativeSdk.isStopped());
 }
+
+export function manuallyRegisterRNTarget(
+  id: String,
+  className: String,
+  screenName: String,
+  placeHolder: String
+): Promise<void> {
+  return Promise.resolve(
+    NeuroidReactnativeSdk.manuallyRegisterRNTarget(
+      id,
+      className,
+      screenName,
+      placeHolder
+    )
+  );
+}
