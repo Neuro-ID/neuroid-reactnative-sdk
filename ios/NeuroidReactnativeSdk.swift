@@ -1,4 +1,4 @@
-import UIKit
+import SwiftUI
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
 
@@ -62,10 +62,23 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
-    @objc(manuallyRegisterTarget:withResolver:withRejecter:)
-    func manuallyRegisterTarget(view: UIView, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.manuallyRegisterTarget(view: view)
-        resolve(true)
+    @objc(manuallyRegisterRNTarget:className:screenName:placeHolder:)
+    func manuallyRegisterRNTarget(id: String, className: String, screenName: String, placeHolder: String) -> Void {
+        // Valid names for et field
+        
+        var types = ["UITextField::", "UITextView::", "UIButton::" ]
+        var validType = false
+        for t in types {
+            if (className.contains(t)) {
+                validType = true
+                break;
+            }
+        }
+        if (!validType){
+            NIDPrintLog("INVALID CLASSNAME TYPE [\(className)]. Must be in \(types).")
+            return
+        }
+        NeuroID.manuallyRegisterRNTarget(id: id, className: className, screenName: screenName, placeHolder: placeHolder)
     }
     
     @objc(formSubmit:withRejecter:)
