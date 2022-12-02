@@ -22,6 +22,7 @@ import {
   setEnvironmentProduction,
   getSessionID,
   configureWithOptions,
+  manuallyRegisterRNTarget,
   setSiteId,
   setScreenName,
   setUserID,
@@ -47,18 +48,27 @@ export const DefaultForm = ({ navigation }) => {
     } else {
       // Android API key
       // NeuroIDModule.configure('key_live_suj4CX90v0un2k1ufGrbItT5');
-      //configure('key_live_suj4CX90v0un2k1ufGrbItT5');
+      /*configureWithOptions(
+        'key_live_suj4CX90v0un2k1ufGrbItT5',
+        'http://localhost:8080'
+      );*/
     }
     let begin = async () => {
       let startValue = await start();
       console.log('Started:', startValue);
     };
     begin();
-    setEnvironmentProduction(false);
+    setEnvironmentProduction(true);
     setSiteId('form_dream102');
     setScreenName('DefaultForm');
     excludeViewByTestID('sid');
     setUserID(`${uuid.v4()}`);
+    manuallyRegisterRNTarget(
+      'manualID',
+      'UITextView::',
+      'MYSCREEN',
+      'placehodler textgoes here'
+    );
     return () => clearInterval(timer);
   }, []);
 

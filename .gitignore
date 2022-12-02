@@ -72,3 +72,4 @@ report.xml
 *.p8
 
 keystore.properties
+schema.json

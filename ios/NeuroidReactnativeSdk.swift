@@ -1,3 +1,4 @@
+import SwiftUI
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
 
@@ -15,17 +16,13 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(setEnvironmentProduction:withResolver:withRejecter:)
     func setEnvironmentProduction(value: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-
-        // TODO
-        // Finish set env
+        NeuroID.setEnvironmentProduction(true)
         resolve(true)
     }
     
     @objc(setSiteId:withResolver:withRejecter:)
     func setSiteId(siteId: NSString, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-
-        // TODO
-        // Finish set env
+        NeuroID.setSiteId(siteId: siteId as String)
         resolve(true)
     }
     
@@ -63,6 +60,25 @@ class NeuroidReactnativeSdk: NSObject {
     func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.setScreenName(screen: screenName)
         resolve(true)
+    }
+    
+    @objc(manuallyRegisterRNTarget:className:screenName:placeHolder:)
+    func manuallyRegisterRNTarget(id: String, className: String, screenName: String, placeHolder: String) -> Void {
+        // Valid names for et field
+        
+        var types = ["UITextField::", "UITextView::", "UIButton::" ]
+        var validType = false
+        for t in types {
+            if (className.contains(t)) {
+                validType = true
+                break;
+            }
+        }
+        if (!validType){
+            NIDPrintLog("INVALID CLASSNAME TYPE [\(className)]. Must be in \(types).")
+            return
+        }
+        NeuroID.manuallyRegisterRNTarget(id: id, className: className, screenName: screenName, placeHolder: placeHolder)
     }
     
     @objc(formSubmit:withRejecter:)
