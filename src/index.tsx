@@ -17,69 +17,92 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
-export function configure(apiKey: String): void {
-  NeuroidReactnativeSdk.configure(apiKey);
+export function configure(apiKey: String): Promise<void> {
+  return Promise.resolve(NeuroidReactnativeSdk.configure(apiKey));
 }
 
 export function configureWithOptions(
   apiKey: String,
-  collectorEndPoint: String
-): void {
-  NeuroidReactnativeSdk.configure(apiKey, collectorEndPoint);
+  collectorEndPoint?: String
+): Promise<void> {
+  return Promise.resolve(
+    NeuroidReactnativeSdk.configureWithOptions(apiKey, collectorEndPoint)
+  );
 }
+
 export function start(): Promise<Boolean> {
-  let promise: Promise<Boolean> = new Promise(function (resolve) {
+  return new Promise(async function (resolve) {
     try {
-      NeuroidReactnativeSdk.start();
+      await Promise.resolve(NeuroidReactnativeSdk.start());
       resolve(true);
     } catch (e) {
+      console.warn('Failed to start NID', e);
       resolve(false);
     }
   });
-  return promise;
 }
-export function stop(): Boolean {
-  try {
-    NeuroidReactnativeSdk.stop();
-    return true;
-  } catch (e) {
-    return false;
-  }
+export function stop(): Promise<Boolean> {
+  return new Promise(async function (resolve) {
+    try {
+      await Promise.resolve(NeuroidReactnativeSdk.stop());
+      resolve(true);
+    } catch (e) {
+      console.warn('Failed to stop NID', e);
+      resolve(false);
+    }
+  });
 }
-export function getSessionID(): Promise<String> | null {
-  return NeuroidReactnativeSdk.getSessionID();
+
+export function getSessionID(): Promise<String> {
+  return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
 }
-export function setUserID(userID: String): Promise<void> | null {
-  return NeuroidReactnativeSdk.setUserID(userID);
+export function setUserID(userID: String): Promise<void> {
+  return Promise.resolve(NeuroidReactnativeSdk.setUserID(userID));
 }
-export function excludeViewByTestID(
-  excludedView: String
-): Promise<void> | null {
-  return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
+export function excludeViewByTestID(excludedView: String): Promise<void> {
+  return Promise.resolve(
+    NeuroidReactnativeSdk.excludeViewByTestID(excludedView)
+  );
 }
 export function setEnvironmentProduction(value: Boolean) {
   // Pre-release
   console.log('NeuroID environment set: ', value);
-  NeuroidReactnativeSdk.setEnvironmentProduction(value);
+  return Promise.resolve(NeuroidReactnativeSdk.setEnvironmentProduction(value));
 }
 
-export function setSiteId(siteId: String) {
+export function setSiteId(siteId: String): Promise<void> {
   // Pre-release
   console.log('SiteID set ', siteId);
-  NeuroidReactnativeSdk.setSiteId(siteId);
+  return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
 }
-export function setScreenName(screenName: String): Promise<void> | null {
-  return NeuroidReactnativeSdk.setScreenName(screenName);
+export function setScreenName(screenName: String): Promise<void> {
+  return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
 }
-export function formSubmit(): Promise<void> | null {
-  return NeuroidReactnativeSdk.formSubmit();
+export function formSubmit(): Promise<void> {
+  return Promise.resolve(NeuroidReactnativeSdk.formSubmit());
 }
-export function formSubmitSuccess(): Promise<void> | null {
-  return NeuroidReactnativeSdk.formSubmitSuccess();
+export function formSubmitSuccess(): Promise<void> {
+  return Promise.resolve(NeuroidReactnativeSdk.formSubmitSuccess());
 }
-export function formSubmitFailure(): Promise<void> | null {
-  return NeuroidReactnativeSdk.formSubmitFailure();
+export function formSubmitFailure(): Promise<void> {
+  return Promise.resolve(NeuroidReactnativeSdk.formSubmitFailure());
 }
-export function isStopped(): Promise<boolean> | null {
-  return NeuroidReactnativeSdk.isStopped();
+export function isStopped(): Promise<boolean> {
+  return Promise.resolve(NeuroidReactnativeSdk.isStopped());
+}
+
+export function manuallyRegisterRNTarget(
+  id: String,
+  className: String,
+  screenName: String,
+  placeHolder: String
+): Promise<void> {
+  return Promise.resolve(
+    NeuroidReactnativeSdk.manuallyRegisterRNTarget(
+      id,
+      className,
+      screenName,
+      placeHolder
+    )
+  );
 }

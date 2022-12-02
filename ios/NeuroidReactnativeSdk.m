@@ -40,6 +40,11 @@ RCT_EXTERN_METHOD(setScreenName:(NSString)screenName
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(manuallyRegisterRNTarget:(NSString)id
+                 className:(NSString)className
+                 screenName:(NSString)screenName
+                 placeHolder:(NSString)placeHolder)
+
 RCT_EXTERN_METHOD(formSubmit: (RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 

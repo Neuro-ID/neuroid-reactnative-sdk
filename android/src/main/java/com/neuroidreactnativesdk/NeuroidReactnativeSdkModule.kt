@@ -1,14 +1,28 @@
 package com.neuroidreactnativesdk
 
 import android.app.Application
-import com.facebook.react.bridge.Promise
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
+import android.util.Log
+import com.facebook.react.bridge.*
 import com.neuroid.tracker.NeuroID
 
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
+
+    companion object {
+        @JvmStatic
+        fun configure(application: Application, key: String) {
+            configure(application, key, null)
+        }
+
+        @JvmStatic
+        fun configure(application: Application, key: String, endpoint: String?) {
+            if (NeuroID.getInstance() == null) {
+                val neuroID = NeuroID.Builder(application, key).build()
+                NeuroID.setNeuroIdInstance(neuroID)
+            }
+            NeuroID.getInstance()?.configureWithOptions(key, endpoint)
+        }
+    }
 
     private var reactApplicationCtx: ReactApplicationContext = reactContext
     private var application: Application? = reactContext.applicationContext as Application
@@ -19,16 +33,19 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun configure(key: String) {
-        val activityCaller = reactApplicationCtx.currentActivity
-        val neuroID = NeuroID.Builder(application, key).build()
-        NeuroID.setNeuroIdInstance(neuroID)
+        if (NeuroID.getInstance() == null) {
+            val neuroID = NeuroID.Builder(application, key).build()
+            NeuroID.setNeuroIdInstance(neuroID)
+        }
+        NeuroID.getInstance()?.configureWithOptions(key, null)
     }
 
     @ReactMethod
-    fun configureWithOptions(key: String, endpoint: String) {
-        val activityCaller = reactApplicationCtx.currentActivity
-        val neuroID = NeuroID.Builder(application, key).build()
-        NeuroID.setNeuroIdInstance(neuroID)
+    fun configureWithOptions(key: String, endpoint: String?) {
+        if (NeuroID.getInstance() == null) {
+            val neuroID = NeuroID.Builder(application, key).build()
+            NeuroID.setNeuroIdInstance(neuroID)
+        }
         NeuroID.getInstance()?.configureWithOptions(key, endpoint)
     }
 
@@ -84,8 +101,8 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun setEnvironmentProduction(isProd: Boolean) {
-        val environment = if(isProd) {
-            "PRODUCTION"
+        val environment = if (isProd) {
+            "LIVE"
         } else {
             "TEST"
         }
@@ -98,4 +115,12 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         NeuroID.getInstance()?.setSiteId(siteId)
     }
 
+    @ReactMethod
+    fun isStopped(promise: Promise) {
+        val instance = NeuroID.getInstance()
+        if (instance == null)
+            promise.resolve(true)
+        else
+            promise.resolve(instance.isStopped())
+    }
 }
