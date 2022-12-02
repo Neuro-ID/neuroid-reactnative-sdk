@@ -22,17 +22,10 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.6'
-
-      - name: Cache Ruby - Bundler
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+          ruby-version: '3.0'
+          bundler-cache: true
 
       - name: Cache Gradle and wrapper
         uses: actions/cache@v2
