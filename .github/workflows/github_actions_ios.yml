@@ -1,6 +1,7 @@
 name: Github Actions for iOS NeuroID SDK and ReactNative Sandbox
 
 on:
+  workflow_dispatch:
   repository_dispatch:
         types: [on-demand-testflight]
 env:
