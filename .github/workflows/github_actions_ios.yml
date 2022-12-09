@@ -22,6 +22,7 @@ jobs:
         with:
          repository: Neuro-ID/neuroid-ios-sdk
          path: './neuroid-ios-sdk'
+         ref: ${{ github.head_ref }}
         
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
