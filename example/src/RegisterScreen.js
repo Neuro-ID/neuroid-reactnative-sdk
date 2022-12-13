@@ -10,9 +10,15 @@ import {
   TouchableHighlight,
   Button,
   ScrollView,
-  Platform,
-  NativeModules, //Android import
 } from 'react-native';
+
+import {
+  setScreenName,
+  formSubmit,
+  formSubmitSuccess,
+  formSubmitFailure,
+} from 'neuroid-reactnative-sdk';
+
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
 import { RadioButton } from 'react-native-paper';
 
@@ -21,18 +27,17 @@ const { s, c } = bootstrapStyleSheet;
 
 export const RegisterScreen = () => {
   const [valueOne, setValueOne] = React.useState('first');
-  const NeuroIDModule = NativeModules.NeuroidReactnativeSdk;
 
   const formSubmitNID = () => {
     // Various types of form submits.
     console.log('Form Submit!');
-    NeuroIDModule.formSubmitSuccess();
-    NeuroIDModule.formSubmitFailure();
-    NeuroIDModule.formSubmit();
+    formSubmitSuccess();
+    formSubmitFailure();
+    formSubmit();
   };
 
   useEffect(() => {
-    NeuroIDModule.setScreenName('RegisterScreen');
+    setScreenName('RegisterScreen');
   }, []);
 
   return (
@@ -69,18 +74,19 @@ export const RegisterScreen = () => {
             >
               <View>
                 <Text>Yes</Text>
-                <RadioButton 
+                <RadioButton
                   testID="radioButtonOwnYes"
                   id="radioButtonOwnYes"
                   value="first"
-                  />
+                />
               </View>
               <View>
                 <Text>No</Text>
-                <RadioButton 
+                <RadioButton
                   testID="radioButtonOwnNo"
                   id="radioButtonOwn"
-                  value="second" />
+                  value="second"
+                />
               </View>
             </RadioButton.Group>
           </View>
