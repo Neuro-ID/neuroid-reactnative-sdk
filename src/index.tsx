@@ -9,13 +9,13 @@ const LINKING_ERROR =
 const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
   ? NativeModules.NeuroidReactnativeSdk
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 export function configure(apiKey: String): Promise<void> {
   return Promise.resolve(NeuroidReactnativeSdk.configure(apiKey));
@@ -34,6 +34,8 @@ export function start(): Promise<Boolean> {
   return new Promise(async function (resolve) {
     try {
       await Promise.resolve(NeuroidReactnativeSdk.start());
+      let _cid = await NeuroidReactnativeSdk.getSessionID();
+      console.log('Client ID: ' + _cid);
       resolve(true);
     } catch (e) {
       console.warn('Failed to start NID', e);
@@ -57,6 +59,7 @@ export function getSessionID(): Promise<String> {
   return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
 }
 export function setUserID(userID: String): Promise<void> {
+  console.log('Setting User ID: ' + userID);
   return Promise.resolve(NeuroidReactnativeSdk.setUserID(userID));
 }
 export function excludeViewByTestID(excludedView: String): Promise<void> {
