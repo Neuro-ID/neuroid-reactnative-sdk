@@ -22,7 +22,6 @@ import {
   setEnvironmentProduction,
   getSessionID,
   configureWithOptions,
-  manuallyRegisterRNTarget,
   setSiteId,
   setScreenName,
   setUserID,
@@ -63,12 +62,6 @@ export const DefaultForm = ({ navigation }) => {
     setScreenName('DefaultForm');
     excludeViewByTestID('sid');
     setUserID(`${uuid.v4()}`);
-    manuallyRegisterRNTarget(
-      'manualID',
-      'UITextView::',
-      'MYSCREEN',
-      'placehodler textgoes here'
-    );
     return () => clearInterval(timer);
   }, []);
 
