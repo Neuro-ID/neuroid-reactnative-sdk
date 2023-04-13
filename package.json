@@ -1,6 +1,6 @@
 {
   "name": "neuroid-reactnative-sdk",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "description": "Neuro-ID React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -146,7 +146,7 @@
   },
   "dependencies": {
     "@react-native-community/cli-platform-android": "^7.0.1",
-    "patch-package": "^6.4.7",
+    "patch-package": "^6.5.1",
     "postinstall-postinstall": "^2.1.0",
     "react-dev-utils": "^10.0.0",
     "react-scripts": "^5.0.0"
