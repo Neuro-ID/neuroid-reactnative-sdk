@@ -7,12 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F4A980D28C9564600A0A5C0 /* SDKPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4A980528C9564600A0A5C0 /* SDKPreferences.swift */; };
-		6F4A980E28C9564600A0A5C0 /* NeuroIDTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4A980628C9564600A0A5C0 /* NeuroIDTracker.swift */; };
-		6F4A980F28C9564600A0A5C0 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4A980728C9564600A0A5C0 /* DataStore.swift */; };
-		6F4A981028C9564600A0A5C0 /* NeuroIDSensors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4A980828C9564600A0A5C0 /* NeuroIDSensors.swift */; };
-		6F4A981128C9564600A0A5C0 /* NIDEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4A980A28C9564600A0A5C0 /* NIDEvent.swift */; };
-		6F4A981228C9564600A0A5C0 /* NIDMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4A980C28C9564600A0A5C0 /* NIDMetadata.swift */; };
+		6F3816CC2A2658EB003A484E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816932A2658EA003A484E /* Constants.swift */; };
+		6F3816CD2A2658EB003A484E /* NIDParamsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816942A2658EB003A484E /* NIDParamsCreator.swift */; };
+		6F3816CE2A2658EB003A484E /* NIDErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816952A2658EB003A484E /* NIDErrors.swift */; };
+		6F3816CF2A2658EB003A484E /* TouchEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816972A2658EB003A484E /* TouchEvents.swift */; };
+		6F3816D02A2658EB003A484E /* AppEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816982A2658EB003A484E /* AppEvents.swift */; };
+		6F3816D12A2658EB003A484E /* DeviceEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816992A2658EB003A484E /* DeviceEvents.swift */; };
+		6F3816D22A2658EB003A484E /* CustomEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F38169A2A2658EB003A484E /* CustomEvents.swift */; };
+		6F3816D32A2658EB003A484E /* ValueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F38169B2A2658EB003A484E /* ValueEvents.swift */; };
+		6F3816D42A2658EB003A484E /* TextControlEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F38169C2A2658EB003A484E /* TextControlEvents.swift */; };
+		6F3816D52A2658EB003A484E /* CharacterSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F38169F2A2658EB003A484E /* CharacterSet.swift */; };
+		6F3816D62A2658EB003A484E /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A02A2658EB003A484E /* Data.swift */; };
+		6F3816D72A2658EB003A484E /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A12A2658EB003A484E /* Sequence.swift */; };
+		6F3816D82A2658EB003A484E /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A22A2658EB003A484E /* Dictionary.swift */; };
+		6F3816D92A2658EB003A484E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A32A2658EB003A484E /* String.swift */; };
+		6F3816DA2A2658EB003A484E /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A42A2658EB003A484E /* Double.swift */; };
+		6F3816DB2A2658EB003A484E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A62A2658EB003A484E /* UIView.swift */; };
+		6F3816DC2A2658EB003A484E /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A72A2658EB003A484E /* UITableView.swift */; };
+		6F3816DD2A2658EB003A484E /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A82A2658EB003A484E /* UITextField.swift */; };
+		6F3816DE2A2658EB003A484E /* UIDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816A92A2658EB003A484E /* UIDatePicker.swift */; };
+		6F3816DF2A2658EB003A484E /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816AA2A2658EB003A484E /* UIButton.swift */; };
+		6F3816E02A2658EB003A484E /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816AB2A2658EB003A484E /* UIViewController.swift */; };
+		6F3816E12A2658EB003A484E /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816AC2A2658EB003A484E /* UITextView.swift */; };
+		6F3816E22A2658EB003A484E /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816AD2A2658EB003A484E /* UINavigationController.swift */; };
+		6F3816E32A2658EB003A484E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816AE2A2658EB003A484E /* Utils.swift */; };
+		6F3816E42A2658EB003A484E /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816AF2A2658EB003A484E /* Bundle.swift */; };
+		6F3816E52A2658EB003A484E /* SDKPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816C02A2658EB003A484E /* SDKPreferences.swift */; };
+		6F3816E62A2658EB003A484E /* IntegrationHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816C22A2658EB003A484E /* IntegrationHealth.swift */; };
+		6F3816E72A2658EB003A484E /* FileCreationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816C32A2658EB003A484E /* FileCreationUtils.swift */; };
+		6F3816E82A2658EB003A484E /* NeuroIDTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816C42A2658EB003A484E /* NeuroIDTracker.swift */; };
+		6F3816E92A2658EB003A484E /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816C52A2658EB003A484E /* DataStore.swift */; };
+		6F3816EA2A2658EB003A484E /* NeuroIDSensors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816C62A2658EB003A484E /* NeuroIDSensors.swift */; };
+		6F3816EB2A2658EB003A484E /* NeuroID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816C82A2658EB003A484E /* NeuroID.swift */; };
+		6F3816EC2A2658EB003A484E /* NIDEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816C92A2658EB003A484E /* NIDEvent.swift */; };
+		6F3816ED2A2658EB003A484E /* NIDMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3816CB2A2658EB003A484E /* NIDMetadata.swift */; };
 		F4FF95D7245B92E800C19C63 /* NeuroidReactnativeSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* NeuroidReactnativeSdk.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,14 +58,53 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libNeuroidReactnativeSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNeuroidReactnativeSdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F4A980428C9564600A0A5C0 /* NeuroID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuroID.h; sourceTree = "<group>"; };
-		6F4A980528C9564600A0A5C0 /* SDKPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDKPreferences.swift; sourceTree = "<group>"; };
-		6F4A980628C9564600A0A5C0 /* NeuroIDTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuroIDTracker.swift; sourceTree = "<group>"; };
-		6F4A980728C9564600A0A5C0 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
-		6F4A980828C9564600A0A5C0 /* NeuroIDSensors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuroIDSensors.swift; sourceTree = "<group>"; };
-		6F4A980A28C9564600A0A5C0 /* NIDEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIDEvent.swift; sourceTree = "<group>"; };
-		6F4A980B28C9564600A0A5C0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6F4A980C28C9564600A0A5C0 /* NIDMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIDMetadata.swift; sourceTree = "<group>"; };
+		6F3816932A2658EA003A484E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6F3816942A2658EB003A484E /* NIDParamsCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIDParamsCreator.swift; sourceTree = "<group>"; };
+		6F3816952A2658EB003A484E /* NIDErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIDErrors.swift; sourceTree = "<group>"; };
+		6F3816972A2658EB003A484E /* TouchEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchEvents.swift; sourceTree = "<group>"; };
+		6F3816982A2658EB003A484E /* AppEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppEvents.swift; sourceTree = "<group>"; };
+		6F3816992A2658EB003A484E /* DeviceEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceEvents.swift; sourceTree = "<group>"; };
+		6F38169A2A2658EB003A484E /* CustomEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomEvents.swift; sourceTree = "<group>"; };
+		6F38169B2A2658EB003A484E /* ValueEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueEvents.swift; sourceTree = "<group>"; };
+		6F38169C2A2658EB003A484E /* TextControlEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextControlEvents.swift; sourceTree = "<group>"; };
+		6F38169F2A2658EB003A484E /* CharacterSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterSet.swift; sourceTree = "<group>"; };
+		6F3816A02A2658EB003A484E /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		6F3816A12A2658EB003A484E /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
+		6F3816A22A2658EB003A484E /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		6F3816A32A2658EB003A484E /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		6F3816A42A2658EB003A484E /* Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		6F3816A62A2658EB003A484E /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		6F3816A72A2658EB003A484E /* UITableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		6F3816A82A2658EB003A484E /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		6F3816A92A2658EB003A484E /* UIDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDatePicker.swift; sourceTree = "<group>"; };
+		6F3816AA2A2658EB003A484E /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		6F3816AB2A2658EB003A484E /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		6F3816AC2A2658EB003A484E /* UITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
+		6F3816AD2A2658EB003A484E /* UINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		6F3816AE2A2658EB003A484E /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		6F3816AF2A2658EB003A484E /* Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
+		6F3816B02A2658EB003A484E /* NeuroID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuroID.h; sourceTree = "<group>"; };
+		6F3816B22A2658EB003A484E /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		6F3816B32A2658EB003A484E /* server.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = server.js; sourceTree = "<group>"; };
+		6F3816B62A2658EB003A484E /* main.fe4e6393.css.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = main.fe4e6393.css.map; sourceTree = "<group>"; };
+		6F3816B72A2658EB003A484E /* main.fe4e6393.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = main.fe4e6393.css; sourceTree = "<group>"; };
+		6F3816B92A2658EB003A484E /* main.2ea1424c.js.LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.2ea1424c.js.LICENSE.txt; sourceTree = "<group>"; };
+		6F3816BA2A2658EB003A484E /* main.2ea1424c.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.2ea1424c.js; sourceTree = "<group>"; };
+		6F3816BB2A2658EB003A484E /* main.2ea1424c.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = main.2ea1424c.js.map; sourceTree = "<group>"; };
+		6F3816BD2A2658EB003A484E /* f-check.610bbc99fb6c9f96a05bb167cff3e716.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "f-check.610bbc99fb6c9f96a05bb167cff3e716.svg"; sourceTree = "<group>"; };
+		6F3816BE2A2658EB003A484E /* warning-sign.2e860857db38390072e6b2558eb18ab9.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "warning-sign.2e860857db38390072e6b2558eb18ab9.svg"; sourceTree = "<group>"; };
+		6F3816BF2A2658EB003A484E /* c-warning.fe0bab0784038253b2e1660525d18b63.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "c-warning.fe0bab0784038253b2e1660525d18b63.svg"; sourceTree = "<group>"; };
+		6F3816C02A2658EB003A484E /* SDKPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDKPreferences.swift; sourceTree = "<group>"; };
+		6F3816C22A2658EB003A484E /* IntegrationHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationHealth.swift; sourceTree = "<group>"; };
+		6F3816C32A2658EB003A484E /* FileCreationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCreationUtils.swift; sourceTree = "<group>"; };
+		6F3816C42A2658EB003A484E /* NeuroIDTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuroIDTracker.swift; sourceTree = "<group>"; };
+		6F3816C52A2658EB003A484E /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		6F3816C62A2658EB003A484E /* NeuroIDSensors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuroIDSensors.swift; sourceTree = "<group>"; };
+		6F3816C72A2658EB003A484E /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
+		6F3816C82A2658EB003A484E /* NeuroID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuroID.swift; sourceTree = "<group>"; };
+		6F3816C92A2658EB003A484E /* NIDEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIDEvent.swift; sourceTree = "<group>"; };
+		6F3816CA2A2658EB003A484E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F3816CB2A2658EB003A484E /* NIDMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIDMetadata.swift; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* NeuroidReactnativeSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeuroidReactnativeSdk.m; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* NeuroidReactnativeSdk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NeuroidReactnativeSdk-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4FF95D6245B92E800C19C63 /* NeuroidReactnativeSdk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuroidReactnativeSdk.swift; sourceTree = "<group>"; };
@@ -65,7 +132,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				6F4A980328C9564600A0A5C0 /* NeuroID */,
+				6F3816922A2658EA003A484E /* NeuroID */,
 				F4FF95D6245B92E800C19C63 /* NeuroidReactnativeSdk.swift */,
 				B3E7B5891CC2AC0600A0062D /* NeuroidReactnativeSdk.m */,
 				F4FF95D5245B92E700C19C63 /* NeuroidReactnativeSdk-Bridging-Header.h */,
@@ -73,19 +140,138 @@
 			);
 			sourceTree = "<group>";
 		};
-		6F4A980328C9564600A0A5C0 /* NeuroID */ = {
+		6F3816922A2658EA003A484E /* NeuroID */ = {
 			isa = PBXGroup;
 			children = (
-				6F4A980428C9564600A0A5C0 /* NeuroID.h */,
-				6F4A980528C9564600A0A5C0 /* SDKPreferences.swift */,
-				6F4A980628C9564600A0A5C0 /* NeuroIDTracker.swift */,
-				6F4A980728C9564600A0A5C0 /* DataStore.swift */,
-				6F4A980828C9564600A0A5C0 /* NeuroIDSensors.swift */,
-				6F4A980A28C9564600A0A5C0 /* NIDEvent.swift */,
-				6F4A980B28C9564600A0A5C0 /* Info.plist */,
-				6F4A980C28C9564600A0A5C0 /* NIDMetadata.swift */,
+				6F3816932A2658EA003A484E /* Constants.swift */,
+				6F3816942A2658EB003A484E /* NIDParamsCreator.swift */,
+				6F3816952A2658EB003A484E /* NIDErrors.swift */,
+				6F3816962A2658EB003A484E /* TrackerEvents */,
+				6F38169D2A2658EB003A484E /* TrackerClassExtensions */,
+				6F3816B02A2658EB003A484E /* NeuroID.h */,
+				6F3816B12A2658EB003A484E /* Resources */,
+				6F3816C02A2658EB003A484E /* SDKPreferences.swift */,
+				6F3816C12A2658EB003A484E /* Utilities */,
+				6F3816C42A2658EB003A484E /* NeuroIDTracker.swift */,
+				6F3816C52A2658EB003A484E /* DataStore.swift */,
+				6F3816C62A2658EB003A484E /* NeuroIDSensors.swift */,
+				6F3816C72A2658EB003A484E /* schema.json */,
+				6F3816C82A2658EB003A484E /* NeuroID.swift */,
+				6F3816C92A2658EB003A484E /* NIDEvent.swift */,
+				6F3816CA2A2658EB003A484E /* Info.plist */,
+				6F3816CB2A2658EB003A484E /* NIDMetadata.swift */,
 			);
 			path = NeuroID;
+			sourceTree = "<group>";
+		};
+		6F3816962A2658EB003A484E /* TrackerEvents */ = {
+			isa = PBXGroup;
+			children = (
+				6F3816972A2658EB003A484E /* TouchEvents.swift */,
+				6F3816982A2658EB003A484E /* AppEvents.swift */,
+				6F3816992A2658EB003A484E /* DeviceEvents.swift */,
+				6F38169A2A2658EB003A484E /* CustomEvents.swift */,
+				6F38169B2A2658EB003A484E /* ValueEvents.swift */,
+				6F38169C2A2658EB003A484E /* TextControlEvents.swift */,
+			);
+			path = TrackerEvents;
+			sourceTree = "<group>";
+		};
+		6F38169D2A2658EB003A484E /* TrackerClassExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				6F38169E2A2658EB003A484E /* BaseClassExtensions */,
+				6F3816A52A2658EB003A484E /* UIClassExtensions */,
+				6F3816AE2A2658EB003A484E /* Utils.swift */,
+				6F3816AF2A2658EB003A484E /* Bundle.swift */,
+			);
+			path = TrackerClassExtensions;
+			sourceTree = "<group>";
+		};
+		6F38169E2A2658EB003A484E /* BaseClassExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				6F38169F2A2658EB003A484E /* CharacterSet.swift */,
+				6F3816A02A2658EB003A484E /* Data.swift */,
+				6F3816A12A2658EB003A484E /* Sequence.swift */,
+				6F3816A22A2658EB003A484E /* Dictionary.swift */,
+				6F3816A32A2658EB003A484E /* String.swift */,
+				6F3816A42A2658EB003A484E /* Double.swift */,
+			);
+			path = BaseClassExtensions;
+			sourceTree = "<group>";
+		};
+		6F3816A52A2658EB003A484E /* UIClassExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				6F3816A62A2658EB003A484E /* UIView.swift */,
+				6F3816A72A2658EB003A484E /* UITableView.swift */,
+				6F3816A82A2658EB003A484E /* UITextField.swift */,
+				6F3816A92A2658EB003A484E /* UIDatePicker.swift */,
+				6F3816AA2A2658EB003A484E /* UIButton.swift */,
+				6F3816AB2A2658EB003A484E /* UIViewController.swift */,
+				6F3816AC2A2658EB003A484E /* UITextView.swift */,
+				6F3816AD2A2658EB003A484E /* UINavigationController.swift */,
+			);
+			path = UIClassExtensions;
+			sourceTree = "<group>";
+		};
+		6F3816B12A2658EB003A484E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6F3816B22A2658EB003A484E /* index.html */,
+				6F3816B32A2658EB003A484E /* server.js */,
+				6F3816B42A2658EB003A484E /* static */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6F3816B42A2658EB003A484E /* static */ = {
+			isa = PBXGroup;
+			children = (
+				6F3816B52A2658EB003A484E /* css */,
+				6F3816B82A2658EB003A484E /* js */,
+				6F3816BC2A2658EB003A484E /* media */,
+			);
+			path = static;
+			sourceTree = "<group>";
+		};
+		6F3816B52A2658EB003A484E /* css */ = {
+			isa = PBXGroup;
+			children = (
+				6F3816B62A2658EB003A484E /* main.fe4e6393.css.map */,
+				6F3816B72A2658EB003A484E /* main.fe4e6393.css */,
+			);
+			path = css;
+			sourceTree = "<group>";
+		};
+		6F3816B82A2658EB003A484E /* js */ = {
+			isa = PBXGroup;
+			children = (
+				6F3816B92A2658EB003A484E /* main.2ea1424c.js.LICENSE.txt */,
+				6F3816BA2A2658EB003A484E /* main.2ea1424c.js */,
+				6F3816BB2A2658EB003A484E /* main.2ea1424c.js.map */,
+			);
+			path = js;
+			sourceTree = "<group>";
+		};
+		6F3816BC2A2658EB003A484E /* media */ = {
+			isa = PBXGroup;
+			children = (
+				6F3816BD2A2658EB003A484E /* f-check.610bbc99fb6c9f96a05bb167cff3e716.svg */,
+				6F3816BE2A2658EB003A484E /* warning-sign.2e860857db38390072e6b2558eb18ab9.svg */,
+				6F3816BF2A2658EB003A484E /* c-warning.fe0bab0784038253b2e1660525d18b63.svg */,
+			);
+			path = media;
+			sourceTree = "<group>";
+		};
+		6F3816C12A2658EB003A484E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				6F3816C22A2658EB003A484E /* IntegrationHealth.swift */,
+				6F3816C32A2658EB003A484E /* FileCreationUtils.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,13 +331,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F3816D32A2658EB003A484E /* ValueEvents.swift in Sources */,
+				6F3816E82A2658EB003A484E /* NeuroIDTracker.swift in Sources */,
+				6F3816EA2A2658EB003A484E /* NeuroIDSensors.swift in Sources */,
+				6F3816E42A2658EB003A484E /* Bundle.swift in Sources */,
+				6F3816DD2A2658EB003A484E /* UITextField.swift in Sources */,
+				6F3816D82A2658EB003A484E /* Dictionary.swift in Sources */,
+				6F3816CD2A2658EB003A484E /* NIDParamsCreator.swift in Sources */,
+				6F3816CF2A2658EB003A484E /* TouchEvents.swift in Sources */,
 				F4FF95D7245B92E800C19C63 /* NeuroidReactnativeSdk.swift in Sources */,
-				6F4A980F28C9564600A0A5C0 /* DataStore.swift in Sources */,
-				6F4A981128C9564600A0A5C0 /* NIDEvent.swift in Sources */,
-				6F4A981228C9564600A0A5C0 /* NIDMetadata.swift in Sources */,
-				6F4A981028C9564600A0A5C0 /* NeuroIDSensors.swift in Sources */,
-				6F4A980E28C9564600A0A5C0 /* NeuroIDTracker.swift in Sources */,
-				6F4A980D28C9564600A0A5C0 /* SDKPreferences.swift in Sources */,
+				6F3816DC2A2658EB003A484E /* UITableView.swift in Sources */,
+				6F3816E12A2658EB003A484E /* UITextView.swift in Sources */,
+				6F3816D02A2658EB003A484E /* AppEvents.swift in Sources */,
+				6F3816DB2A2658EB003A484E /* UIView.swift in Sources */,
+				6F3816D62A2658EB003A484E /* Data.swift in Sources */,
+				6F3816E92A2658EB003A484E /* DataStore.swift in Sources */,
+				6F3816D22A2658EB003A484E /* CustomEvents.swift in Sources */,
+				6F3816E02A2658EB003A484E /* UIViewController.swift in Sources */,
+				6F3816EB2A2658EB003A484E /* NeuroID.swift in Sources */,
+				6F3816D12A2658EB003A484E /* DeviceEvents.swift in Sources */,
+				6F3816DE2A2658EB003A484E /* UIDatePicker.swift in Sources */,
+				6F3816E32A2658EB003A484E /* Utils.swift in Sources */,
+				6F3816E22A2658EB003A484E /* UINavigationController.swift in Sources */,
+				6F3816E72A2658EB003A484E /* FileCreationUtils.swift in Sources */,
+				6F3816D42A2658EB003A484E /* TextControlEvents.swift in Sources */,
+				6F3816EC2A2658EB003A484E /* NIDEvent.swift in Sources */,
+				6F3816D52A2658EB003A484E /* CharacterSet.swift in Sources */,
+				6F3816ED2A2658EB003A484E /* NIDMetadata.swift in Sources */,
+				6F3816D72A2658EB003A484E /* Sequence.swift in Sources */,
+				6F3816D92A2658EB003A484E /* String.swift in Sources */,
+				6F3816E62A2658EB003A484E /* IntegrationHealth.swift in Sources */,
+				6F3816CE2A2658EB003A484E /* NIDErrors.swift in Sources */,
+				6F3816E52A2658EB003A484E /* SDKPreferences.swift in Sources */,
+				6F3816DA2A2658EB003A484E /* Double.swift in Sources */,
+				6F3816CC2A2658EB003A484E /* Constants.swift in Sources */,
+				6F3816DF2A2658EB003A484E /* UIButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +472,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = NO;
-				EXCLUDED_ARCHS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../example/ios/Pods/Headers/**",
@@ -278,7 +491,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = NO;
-				EXCLUDED_ARCHS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../example/ios/Pods/Headers/**",

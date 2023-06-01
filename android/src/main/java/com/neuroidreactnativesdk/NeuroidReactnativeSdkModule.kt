@@ -111,6 +111,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
+    fun setVerifyIntegrationHealth(healthFlag: Boolean) {
+        NeuroID.getInstance()?.setVerifyIntegrationHealth(healthFlag)
+    }
+
+    @ReactMethod
     fun setSiteId(siteId: String) {
         NeuroID.getInstance()?.setSiteId(siteId)
     }

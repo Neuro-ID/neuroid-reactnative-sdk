@@ -13,6 +13,8 @@ import {
   Platform,
 } from 'react-native';
 
+import { Controller, useForm } from 'react-hook-form';
+
 import DropDownPicker from 'react-native-dropdown-picker';
 import BootstrapStyleSheet from 'react-native-bootstrap-styles';
 import uuid from 'react-native-uuid';
@@ -26,11 +28,20 @@ import {
   setScreenName,
   setUserID,
   excludeViewByTestID,
+  setVerifyIntegrationHealth,
   start,
 } from 'neuroid-reactnative-sdk';
 
 const bootstrapStyleSheet = new BootstrapStyleSheet();
 const { s, c } = bootstrapStyleSheet;
+
+export const FormControl = ({ children, sx, ...props }) => {
+  return (
+    <View sx={{ mb: 6, minHeight: 50, ...sx }} {...props}>
+      {children}
+    </View>
+  );
+};
 
 export const DefaultForm = ({ navigation }) => {
   const [sid, setSID] = useState();
@@ -38,6 +49,24 @@ export const DefaultForm = ({ navigation }) => {
   const getSIDInterval = async () => {
     getSessionID().then(setSID);
   };
+
+  const formMethods = useForm({
+    defaultValues: {
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+    },
+    // resolver: yupResolver(schema),
+    reValidateMode: 'onChange',
+    mode: 'onChange',
+  });
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting, isValid },
+    trigger,
+  } = formMethods;
 
   useEffect(() => {
     const timer = setInterval(getSIDInterval, 2000);
@@ -54,14 +83,15 @@ export const DefaultForm = ({ navigation }) => {
     }
     let begin = async () => {
       let startValue = await start();
+      setScreenName('DefaultForm');
+      excludeViewByTestID('sid');
+      setUserID(`${uuid.v4()}`);
       console.log('Started:', startValue);
     };
     begin();
-    setEnvironmentProduction(true);
+    setEnvironmentProduction(false);
+    setVerifyIntegrationHealth(true);
     setSiteId('form_dream102');
-    setScreenName('DefaultForm');
-    excludeViewByTestID('sid');
-    setUserID(`${uuid.v4()}`);
     return () => clearInterval(timer);
   }, []);
 
@@ -150,13 +180,26 @@ export const DefaultForm = ({ navigation }) => {
             </View>
             <View style={[s.mb3]}>
               <Text style={[s.text, styles.text, s.mb2]}>Last Name:</Text>
-              <TextInput
-                style={[s.formControl]}
-                autoCapitalize="none"
-                autoCorrect={false}
-                id="lastName"
-                testID="lastName"
-              />
+              <FormControl>
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState: { error, isDirty, isTouched },
+                  }) => (
+                    <TextInput
+                      secureTextEntry={true}
+                      autoCompleteType="password"
+                      style={[s.formControl]}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      id="lastName"
+                      testID="lastName"
+                    />
+                  )}
+                />
+              </FormControl>
             </View>
             <View style={[s.mb3]}>
               <Text style={[s.text, styles.text, s.mb2]}>Date of Birth:</Text>
