@@ -32,7 +32,7 @@ jobs:
       
       - name: determine update type
         run: |
-        if (${{inputs.major-update}}) {
+        if (${{ inputs.major-update }}) {
           RELEASE_TYPE = "major"
         } else if (${{ inputs.minor-update }}) {
           RELEASE_TYPE = "minor"
