@@ -19,17 +19,17 @@ on:
         default: true
 jobs:
   update_version:
-    name: Updating package version
+    name: Update package version
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
+      - name: Main branch checkout
         uses: actions/checkout@v3
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: determine update type
+      - name: Determine update type
         run: |
           if [ ${{ inputs.major-update }} == "true" ]; then 
             RELEASE_TYPE = "major"
@@ -40,7 +40,7 @@ jobs:
           fi
           console.log(`>> Release will be a ${RELEASE_TYPE}` version)
 
-      - name: update version
+      - name: Update version
         run: |
           npm version $RELEASE_TYPE
       
@@ -50,20 +50,20 @@ jobs:
           git push
   
   create_tag:
-    name: Creates tag
+    name: Create tag
     runs-on: ubuntu-latest
     steps:
       - name: Read package version
         id: package_version
         run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
 
-      - name: Create Tag
+      - name: Update tag
         run: |
           git tag -a ${{ steps.package_version.outputs.version }} -m "Release version ${{ steps.package_version.outputs.version }}"
           git push origin ${{ steps.package_version.outputs.version }}
 
   publish_npm_package:
-    name: Publishes npm package
+    name: Publish npm package
     runs-on: ubuntu-latest
     steps:
       - name: Set up Node.js
