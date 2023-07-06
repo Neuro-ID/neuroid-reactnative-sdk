@@ -32,14 +32,14 @@ jobs:
       
       - name: determine update type
         run: |
-        if [ ${{ inputs.major-update }} == "true" ]; then 
-          RELEASE_TYPE = "major"
-        elif [ ${{ inputs.minor-update }} == "true" ]; then 
-          RELEASE_TYPE = "minor"
-        else 
-          RELEASE_TYPE = "patch"
-        fi
-        console.log(`>> Release will be a ${RELEASE_TYPE}` version)
+          if [ ${{ inputs.major-update }} == "true" ]; then 
+            RELEASE_TYPE = "major"
+          elif [ ${{ inputs.minor-update }} == "true" ]; then 
+            RELEASE_TYPE = "minor"
+          else 
+            RELEASE_TYPE = "patch"
+          fi
+          console.log(`>> Release will be a ${RELEASE_TYPE}` version)
 
       - name: update version
         run: |
