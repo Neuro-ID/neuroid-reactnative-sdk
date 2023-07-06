@@ -6,16 +6,19 @@ on:
   workflow_dispatch:
     inputs:
       major-update:
-        description: Set `true` if there is are breaking changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+        description: Set `true` if there are breaking changes affecting sdk's across platforms i.e. react-native, android, ios etc.
         required: false
+        type: boolean
         default: false
       minor-update:
         description: Set `true` if there are multiple minor changes affecting sdk's across platforms i.e. react-native, android, ios etc.
         required: false
+        type: boolean
         default: false
       patch-update:
         description: Set `true` if the change affects only the react-native platform.
         required: false
+        type: boolean
         default: true
 jobs:
   update_version:
@@ -54,13 +57,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Read package version
-        id: package_version
-        run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
+        run: echo "PACKAGE_VERSION=node -p "require('./package.json').version"" >> $GITHUB_ENV
 
       - name: Update tag
         run: |
-          git tag -a ${{ steps.package_version.outputs.version }} -m "Release version ${{ steps.package_version.outputs.version }}"
-          git push origin ${{ steps.package_version.outputs.version }}
+          git tag -a ${{ env.PACKAGE_VERSION }} -m "Release version ${{ env.PACKAGE_VERSION }}"
+          git push origin ${{ env.PACKAGE_VERSION }}
 
   publish_npm_package:
     name: Publish npm package
