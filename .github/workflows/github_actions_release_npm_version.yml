@@ -1,0 +1,86 @@
+---
+name: Publish to npm with updated package version
+description: | 
+  Updates package version number in package.json depending on whether the 
+  release is meant to be a major, minor or patch. Adds the version tag and publishes to npm registry.
+on:
+  workflow_dispatch:
+    inputs:
+      major-update:
+        description: Set `true` if there is are breaking changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+        required: false
+        default: false
+      minor-update:
+        description: Set `true` if there are multiple minor changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+        required: false
+        default: false
+      patch-update:
+        description: Set `true` if the change affects only the react-native platform.
+        required: false
+        default: true
+jobs:
+  update_version:
+    name: Updating package version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: determine update type
+        run: |
+        if (${{inputs.major-update}}) {
+          RELEASE_TYPE = "major"
+        } else if (${{ inputs.minor-update }}) {
+          RELEASE_TYPE = "minor"
+        } else {
+          RELEASE_TYPE = "patch"
+        }
+        console.log(`>> Release will be a ${RELEASE_TYPE}` version)
+
+      - name: update version
+        run: |
+          npm version $RELEASE_TYPE
+      
+      - name: Commit change
+        run: |
+          git commit -am "Bumping release package version"
+          git push
+  
+  create_tag:
+    name: Creates tag
+    runs-on: ubuntu-latest
+      steps:
+        - name: Read package version
+          id: package_version
+          run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
+
+        - name: Create Tag
+          run: |
+            git tag -a ${{ steps.package_version.outputs.version }} -m "Release version ${{ steps.package_version.outputs.version }}"
+            git push origin ${{ steps.package_version.outputs.version }}
+
+  publish_npm_package:
+    name: Publishes npm package
+    runs-on: ubuntu-latest
+      steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: "https://artifact-neuro-id-829251675013.d.codeartifact.us-west-2.amazonaws.com/npm/npm/"
+          always-auth: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Publish to npm
+        run: npm publish --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
