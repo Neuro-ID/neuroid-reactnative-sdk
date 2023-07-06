@@ -1,0 +1,74 @@
+name: Publish to npm with updated package version
+description: | 
+  Updates package version number in package.json depending on whether the 
+  release is meant to be a major, minor or patch. Adds the version tag and publishes to npm registry.
+on:
+  workflow_dispatch:
+    inputs:
+      major-update:
+        description: Set `true` if there are breaking changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+        required: false
+        type: boolean
+        default: false
+      minor-update:
+        description: Set `true` if there are multiple minor changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+        required: false
+        type: boolean
+        default: false
+      patch-update:
+        description: Set `true` if the change affects only the react-native platform.
+        required: false
+        type: boolean
+        default: true
+jobs:
+  update_version:
+    name: Update package version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Main branch checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Determine update type
+        run: |
+          if [ ${{ inputs.major-update }} == "true" ]; then 
+            RELEASE_TYPE = "major"
+          elif [ ${{ inputs.minor-update }} == "true" ]; then 
+            RELEASE_TYPE = "minor"
+          else 
+            RELEASE_TYPE = "patch"
+          fi
+          console.log(`>> Release will be a ${RELEASE_TYPE}` version)
+
+      - name: Update version
+        run: |
+          npm version $RELEASE_TYPE
+      
+      - name: Commit change
+        run: |
+          git commit -am "Bumping release package version"
+          git push
+  
+  create_tag:
+    name: Create tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read package version
+        run: echo "PACKAGE_VERSION=node -p "require('./package.json').version"" >> $GITHUB_ENV
+
+      - name: Update tag
+        run: |
+          git tag -a ${{ env.PACKAGE_VERSION }} -m "Release version ${{ env.PACKAGE_VERSION }}"
+          git push origin ${{ env.PACKAGE_VERSION }}
+
+  publish_npm_package:
+    name: Publish npm package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish to npm
+        run: npm publish --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
