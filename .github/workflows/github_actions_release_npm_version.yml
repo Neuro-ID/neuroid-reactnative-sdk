@@ -53,20 +53,20 @@ jobs:
   create_tag:
     name: Creates tag
     runs-on: ubuntu-latest
-      steps:
-        - name: Read package version
-          id: package_version
-          run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
+    steps:
+      - name: Read package version
+        id: package_version
+        run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
 
-        - name: Create Tag
-          run: |
-            git tag -a ${{ steps.package_version.outputs.version }} -m "Release version ${{ steps.package_version.outputs.version }}"
-            git push origin ${{ steps.package_version.outputs.version }}
+      - name: Create Tag
+        run: |
+          git tag -a ${{ steps.package_version.outputs.version }} -m "Release version ${{ steps.package_version.outputs.version }}"
+          git push origin ${{ steps.package_version.outputs.version }}
 
   publish_npm_package:
     name: Publishes npm package
     runs-on: ubuntu-latest
-      steps:
+    steps:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
