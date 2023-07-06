@@ -35,17 +35,16 @@ jobs:
       - name: Determine update type
         run: |
           if [ ${{ inputs.major-update }} == "true" ]; then 
-            RELEASE_TYPE = "major"
+            echo "RELEASE_TYPE=major" >> $GITHUB_ENV
           elif [ ${{ inputs.minor-update }} == "true" ]; then 
-            RELEASE_TYPE = "minor"
+            echo "RELEASE_TYPE=minor" >> $GITHUB_ENV
           else 
-            RELEASE_TYPE = "patch"
+            echo "RELEASE_TYPE=patch" >> $GITHUB_ENV
           fi
-          console.log(`>> Release will be a ${RELEASE_TYPE}` version)
 
       - name: Update version
         run: |
-          npm version $RELEASE_TYPE
+          npm version ${{ env.RELEASE_TYPE }}
       
       - name: Commit change
         run: |
