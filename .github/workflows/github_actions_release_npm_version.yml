@@ -66,19 +66,6 @@ jobs:
     name: Publish npm package
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          registry-url: "https://artifact-neuro-id-829251675013.d.codeartifact.us-west-2.amazonaws.com/npm/npm/"
-          always-auth: true
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build package
-        run: npm run build
-
       - name: Publish to npm
         run: npm publish --tag latest
         env:
