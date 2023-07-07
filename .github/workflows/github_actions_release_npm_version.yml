@@ -47,7 +47,7 @@ jobs:
           npm version ${{ env.RELEASE_TYPE }}
           git add ./package.json
           git commit -m "Bumping release package version"
-          git push  
+          git push origin
           
   create_tag:
     name: Create tag
