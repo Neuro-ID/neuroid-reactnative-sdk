@@ -1,4 +1,4 @@
-name: Updates package version and creates a PR
+name: Updates npm package version and creates a PR
 
 on:
   workflow_dispatch:
