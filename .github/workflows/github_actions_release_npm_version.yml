@@ -1,7 +1,5 @@
 name: Publish to npm with updated package version
-description: | 
-  Updates package version number in package.json depending on whether the 
-  release is meant to be a major, minor or patch. Adds the version tag and publishes to npm registry.
+
 on:
   workflow_dispatch:
     inputs:
