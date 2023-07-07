@@ -27,7 +27,7 @@ jobs:
       - name: Main branch checkout
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: ENG-5623-syntax-fix
           token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Determine update type
@@ -57,7 +57,8 @@ jobs:
     steps:
       - name: Read package version
         run: |
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "PWD=$(basename $(pwd))"
+          PACKAGE_VERSION=$(node -p "require('${{ PWD} }/package.json').version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
 
       - name: Update tag
