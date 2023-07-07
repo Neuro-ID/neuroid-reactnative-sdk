@@ -58,7 +58,7 @@ jobs:
     steps:
       - name: Read package version
         run: |
-          export DIR=$(basename $(pwd))
+          export DIR=$(pwd)
           echo "${DIR}/package.json"
           PACKAGE_VERSION=$(node -p "require('${DIR}/package.json').version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
