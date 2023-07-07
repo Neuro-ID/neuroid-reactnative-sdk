@@ -27,6 +27,7 @@ jobs:
       - name: Main branch checkout
         uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           ref: ENG-5623-syntax-fix
           token: ${{ secrets.GITHUB_TOKEN }}
       
@@ -58,6 +59,7 @@ jobs:
       - name: Read package version
         run: |
           echo "DIR=$(basename $(pwd))"
+          echo "${DIR}/package.json"
           PACKAGE_VERSION=$(node -p "require('${DIR}/package.json').version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
 
