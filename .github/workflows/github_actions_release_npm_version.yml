@@ -58,7 +58,7 @@ jobs:
       - name: Read package version
         run: |
           echo "PWD=$(basename $(pwd))"
-          PACKAGE_VERSION=$(node -p "require('${{ PWD} }/package.json').version")
+          PACKAGE_VERSION=$(node -p "require('${{ PWD }}/package.json').version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
 
       - name: Update tag
