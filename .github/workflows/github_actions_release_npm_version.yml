@@ -42,12 +42,12 @@ jobs:
 
       - name: Update version
         run: |
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer
           npm version ${{ env.RELEASE_TYPE }}
       
       - name: Commit change
-        run: |
-          git config --global user.email developer@neuro-id.com
-          git config --global user.name neuroid-developer
+        run: |    
           git commit -am "Bumping release package version"
           git push
   
@@ -56,7 +56,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Read package version
-        run: echo "PACKAGE_VERSION=node -p "require('./package.json').version"" >> $GITHUB_ENV
+        run: |
+        const PACKAGE_VERSION=node -p "require('./package.json').version"
+        echo "${{ PACKAGE_VERSION }} " >> $GITHUB_ENV
 
       - name: Update tag
         run: |
