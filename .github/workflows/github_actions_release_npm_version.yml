@@ -46,6 +46,8 @@ jobs:
       
       - name: Commit change
         run: |
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer
           git commit -am "Bumping release package version"
           git push
   
