@@ -27,8 +27,7 @@ jobs:
       - name: Main branch checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-          ref: ENG-5623-syntax-fix
+          ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Determine update type
@@ -46,21 +45,17 @@ jobs:
           git config --global user.email developer@neuro-id.com
           git config --global user.name neuroid-developer
           npm version ${{ env.RELEASE_TYPE }}
-      
-      - name: Commit change
-        run: |    
-          git commit -am "Bumping release package version"
-          git push
-  
+          git add ./package.json
+          git commit -m "Bumping release package version"
+          git push  
+          
   create_tag:
     name: Create tag
     runs-on: ubuntu-latest
     steps:
       - name: Read package version
         run: |
-          export DIR=$(pwd)
-          echo "${DIR}/package.json"
-          PACKAGE_VERSION=$(node -p "require('${DIR}/package.json').version")
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
 
       - name: Update tag
