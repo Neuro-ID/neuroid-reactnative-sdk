@@ -16,6 +16,6 @@ jobs:
       - run: yarn
 
       - name: Publish to npm
-        run: npm publish --tag latest --dry-run
+        run: npm publish --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
