@@ -6,7 +6,7 @@ on:
 jobs:
   publish_npm_package:
     name: Publish npm package
-    runs-on: [self-hosted, group-default]
+    runs-on: ubuntu-latest
     steps:
       - name: Publish to npm
         run: npm publish --tag latest --dry-run
