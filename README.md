@@ -2,7 +2,7 @@
 
 ## Installation
 
-Visit https://neuro-id.readme.io/docs/overview for full installation documentation
+Visit https://neuro-id.readme.io/docs/react-native-installation for full installation documentation
 
 ## Contributing
 
