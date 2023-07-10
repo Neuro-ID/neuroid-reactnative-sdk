@@ -1,0 +1,60 @@
+name: Updates npm package version and creates a PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      major-update:
+        description: Set `true` if there are breaking changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+        required: false
+        type: boolean
+        default: false
+      minor-update:
+        description: Set `true` if there are multiple minor changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+        required: false
+        type: boolean
+        default: false
+      patch-update:
+        description: Set `true` if the change affects only the react-native platform.
+        required: false
+        type: boolean
+        default: true
+jobs:
+  update_version:
+    name: Update package version
+    runs-on: [self-hosted, group-default]
+    steps:
+      - name: Determine update type
+        run: |
+          if [ ${{ inputs.major-update }} == "true" ]; then 
+            echo "RELEASE_TYPE=major" >> $GITHUB_ENV
+          elif [ ${{ inputs.minor-update }} == "true" ]; then 
+            echo "RELEASE_TYPE=minor" >> $GITHUB_ENV
+          else 
+            echo "RELEASE_TYPE=patch" >> $GITHUB_ENV
+          fi
+
+      - name: Main branch checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update version
+        run: |
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer
+          npm version ${{ env.RELEASE_TYPE }}
+
+      - name: Read package version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${PACKAGE_VERSION}_version_update" >> $GITHUB_ENV
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: update package version to ${PACKAGE_VERSION}
+          title: Update version
+          branch: ${{ env.BRANCH_NAME }}
+
+
