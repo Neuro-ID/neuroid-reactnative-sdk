@@ -29,10 +29,18 @@ on:
         - major
         - minor
         - patch
-      tags:
-        description: Select Major for cross platform breaking changes, Minor for multiple minor cross platform changes and Patch if change only affects this platform.
-        required: true
-        type: string
+      major_description:
+        description: 'Select major for cross platform breaking changes'
+        required: false
+        default: 'Select major for cross platform breaking changes'
+      minor_description:
+        description: 'Select minor for multiple minor cross platform changes'
+        required: false
+        default: 'Select minor for multiple minor cross platform changes'
+      patch_description:
+        description: 'Select patch if change only affects this platform'
+        required: false
+        default: 'Select patch if change only affects this platform'
 
 jobs:
   update_version:
