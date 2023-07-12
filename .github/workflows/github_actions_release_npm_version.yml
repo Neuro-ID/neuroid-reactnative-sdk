@@ -1,11 +1,19 @@
-name: Publish to npm
+# ******************************************************************
+# Merge "releases/**" PR to kick off the release to NPM registry.
+# ******************************************************************
+
+name: Auto publish to npm registry once release PR is merged
 
 on:
-  workflow_dispatch:
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - 'releases/**'
     
 jobs:
-  publish_npm_package:
-    name: Publish npm package
+  if_merged:
+    if: github.event.pull_request.merged
     runs-on: ubuntu-latest
     steps:
       - name: Main branch checkout
@@ -13,7 +21,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-       # Setup .npmrc file to publish to npm
+      # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
@@ -25,3 +33,9 @@ jobs:
         run: npm publish --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+
+      - run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "PACKAGE_VERSION=v${PACKAGE_VERSION}" >> $GITHUB_ENV
+          gh release create $PACKAGE_VERSION --generate-notes --title "$PACKAGE_VERSION"
+            
