@@ -26,7 +26,6 @@ on:
           - major: Cross platform breaking changes
           - minor: Cross platform minor changes
           - patch: Changes affecting only this platform'
-        description: 'Version Update Type'
         required: true
         default: 'patch'
         type: choice
