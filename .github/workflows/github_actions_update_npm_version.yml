@@ -22,10 +22,10 @@ on:
     inputs:
       version_update:
         description: |
-          'Version Update Type:
-          - major: Cross platform breaking changes
-          - minor: Cross platform minor changes
-          - patch: Changes affecting only this platform'
+          'Version Update Type: \n
+          -> major: Cross platform breaking changes \n
+          -> minor: Cross platform minor changes \n
+          -> patch: Changes affecting only this platform'
         required: true
         default: 'patch'
         type: choice
