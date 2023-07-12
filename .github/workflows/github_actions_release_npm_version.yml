@@ -13,31 +13,31 @@ on:
     
 jobs:
   if_merged:
-    if: github.event.pull_request.merged == true
-      publish_npm_package:
-        name: Publish npm package
-        runs-on: ubuntu-latest
-        steps:
-          - name: Main branch checkout
-            uses: actions/checkout@v3
-            with:
-              token: ${{ secrets.GITHUB_TOKEN }}
+    if: github.event.pull_request.merged
+    publish_npm_package:
+      name: Publish npm package
+      runs-on: ubuntu-latest
+      steps:
+        - name: Main branch checkout
+          uses: actions/checkout@v3
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
 
-          # Setup .npmrc file to publish to npm
-          - uses: actions/setup-node@v3
-            with:
-              node-version: '16.x'
-              registry-url: 'https://registry.npmjs.org'
+        # Setup .npmrc file to publish to npm
+        - uses: actions/setup-node@v3
+          with:
+            node-version: '16.x'
+            registry-url: 'https://registry.npmjs.org'
 
-          - run: yarn
+        - run: yarn
 
-          - name: Publish to npm
-            run: npm publish --tag latest
-            env:
-              NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+        - name: Publish to npm
+          run: npm publish --tag latest
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
 
-          - run: |
-              PACKAGE_VERSION=$(node -p "require('./package.json').version")
-              echo "PACKAGE_VERSION=v${PACKAGE_VERSION}" >> $GITHUB_ENV
-              gh release create $PACKAGE_VERSION --generate-notes --title "$PACKAGE_VERSION"
+        - run: |
+            PACKAGE_VERSION=$(node -p "require('./package.json').version")
+            echo "PACKAGE_VERSION=v${PACKAGE_VERSION}" >> $GITHUB_ENV
+            gh release create $PACKAGE_VERSION --generate-notes --title "$PACKAGE_VERSION"
             
