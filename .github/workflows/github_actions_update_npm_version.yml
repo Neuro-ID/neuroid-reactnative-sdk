@@ -15,26 +15,25 @@
 #   Set `true` if the change affects only the react-native platform.
 # ******************************************************************
 
-name: NID Reactnative SDK NPM package release PR
+name: Create version update release PR
 
 on:
   workflow_dispatch:
     inputs:
-      major-update:
-        description: Set `true` if there are breaking changes affecting sdk's across platforms i.e. react-native, android, ios etc.
-        required: false
-        type: boolean
-        default: false
-      minor-update:
-        description: Set `true` if there are multiple minor changes affecting sdk's across platforms i.e. react-native, android, ios etc.
-        required: false
-        type: boolean
-        default: false
-      patch-update:
-        description: Set `true` if the change affects only the react-native platform.
-        required: false
-        type: boolean
-        default: true
+      version_update:
+        description: 'Version Update Type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - major
+        - minor
+        - patch
+      tags:
+        description: Select Major for cross platform breaking changes, Minor for multiple minor cross platform changes and Patch if change only affects this platform.
+        required: true
+        type: string
+
 jobs:
   update_version:
     name: Update package version
@@ -42,13 +41,7 @@ jobs:
     steps:
       - name: Determine update type
         run: |
-          if [ ${{ inputs.major-update }} == "true" ]; then 
-            echo "RELEASE_TYPE=major" >> $GITHUB_ENV
-          elif [ ${{ inputs.minor-update }} == "true" ]; then 
-            echo "RELEASE_TYPE=minor" >> $GITHUB_ENV
-          else 
-            echo "RELEASE_TYPE=patch" >> $GITHUB_ENV
-          fi
+          echo "RELEASE_TYPE=${{ inputs.version_update}}" >> $GITHUB_ENV
 
       - name: Main branch checkout
         uses: actions/checkout@v3

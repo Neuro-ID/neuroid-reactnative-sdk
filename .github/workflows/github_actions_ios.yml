@@ -1,4 +1,4 @@
-name: Github Actions for iOS NeuroID SDK and ReactNative Sandbox
+name: Publish to Internal iOS Example App
 
 on:
   workflow_dispatch:
