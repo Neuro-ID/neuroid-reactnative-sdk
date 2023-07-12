@@ -1,4 +1,21 @@
-name: Updates npm package version and creates a PR
+# ******************************************************************
+# To create an NPM package release PR, run this workflow from the GitHub UI and
+# select parameters based on the type of release:
+#
+# - Major Update
+#   Select "Branch: main"
+#   Set `true` if there are breaking changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+#
+# - Minor Update 
+#   Select "Branch: main"
+#   Set `true` if there are multiple minor changes affecting sdk's across platforms i.e. react-native, android, ios etc.
+#
+# - Patch Update
+#   Select "Branch: main"
+#   Set `true` if the change affects only the react-native platform.
+# ******************************************************************
+
+name: NID Reactnative SDK NPM package release PR
 
 on:
   workflow_dispatch:
@@ -48,7 +65,7 @@ jobs:
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
-          echo "BRANCH_NAME=${PACKAGE_VERSION}_version_update" >> $GITHUB_ENV
+          echo "BRANCH_NAME=releases/${PACKAGE_VERSION}_version_update" >> $GITHUB_ENV
       
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
