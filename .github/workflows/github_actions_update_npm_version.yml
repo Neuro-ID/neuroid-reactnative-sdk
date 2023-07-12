@@ -21,6 +21,11 @@ on:
   workflow_dispatch:
     inputs:
       version_update:
+        description: |
+          'Version Update Type:
+          - major: Cross platform breaking changes
+          - minor: Cross platform minor changes
+          - patch: Changes affecting only this platform'
         description: 'Version Update Type'
         required: true
         default: 'patch'
@@ -29,18 +34,6 @@ on:
         - major
         - minor
         - patch
-      major_description:
-        description: 'Select major for cross platform breaking changes'
-        required: false
-        default: 'Select major for cross platform breaking changes'
-      minor_description:
-        description: 'Select minor for multiple minor cross platform changes'
-        required: false
-        default: 'Select minor for multiple minor cross platform changes'
-      patch_description:
-        description: 'Select patch if change only affects this platform'
-        required: false
-        default: 'Select patch if change only affects this platform'
 
 jobs:
   update_version:
