@@ -1,4 +1,4 @@
-name: Publishing Internal Version
+name: Publish to Internal Android Example App
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ env:
   BUILD_NUMBER: ${{github.run_number}}
 jobs:
   publish:
-    name: Publishing Internal Version
+    name: Updating Internal Android Example App
     runs-on: ubuntu-latest
 
     steps:
