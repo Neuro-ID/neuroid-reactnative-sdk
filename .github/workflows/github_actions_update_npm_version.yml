@@ -23,9 +23,9 @@ on:
       version_update:
         description: >
           Choose type of version update: 
-          - major: Cross platform breaking changes                                   
-          - minor: Cross platform minor changes                    
-          - patch: Changes affecting only this platform
+          ** major: Cross platform breaking changes                                   
+          ** minor: Cross platform minor changes                    
+          ** patch: Changes affecting only this platform
         required: true
         default: 'patch'
         type: choice
