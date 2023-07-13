@@ -21,11 +21,11 @@ on:
   workflow_dispatch:
     inputs:
       version_update:
-        description: |
-          Version Update Type: 
-          1. Major: Cross platform breaking changes                                   
-          2. Minor: Cross platform minor changes                    
-          3. Patch: Changes affecting only this platform
+        description: >
+          Choose type of version update: 
+          - major: Cross platform breaking changes                                   
+          - minor: Cross platform minor changes                    
+          - patch: Changes affecting only this platform
         required: true
         default: 'patch'
         type: choice
