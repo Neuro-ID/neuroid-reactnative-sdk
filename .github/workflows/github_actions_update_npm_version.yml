@@ -30,6 +30,12 @@ on:
         default: 'patch'
         type: choice
         options: ['major','minor','patch']
+
+permissions:
+    pull-requests: write
+    contents: write
+    issues: write
+    
 jobs:
   update_version:
     name: Update package version
@@ -56,11 +62,43 @@ jobs:
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
           echo "BRANCH_NAME=releases/${PACKAGE_VERSION}_version_update" >> $GITHUB_ENV
       
+      - name: Commit version update
+        run: |
+          package_version=${{ env.PACKAGE_VERSION }}
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer   
+          git checkout -b ${{ env.BRANCH_NAME }}
+          git status
+          set +e
+          git add package.json
+          git add package-lock.json
+          git commit -m "Update React native SDK to ${package_version}"
+          git tag "v${package_version}"
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
+          set -e
+
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: actions/github-script@v6
         with:
-          commit-message: update package version to ${PACKAGE_VERSION}
-          title: Update version
-          branch: ${{ env.BRANCH_NAME }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const title = 'Update To Version: ${{ env.PACKAGE_VERSION }}';
+            const body = 'Once merged, this PR will trigger an action to release version: ${{ env.PACKAGE_VERSION }}';
+            const headBranch = '${{ env.BRANCH_NAME }}';
+            const baseBranch = 'main';
+            
+            const createPullRequest = async () => {
+              const response = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                head: headBranch,
+                base: baseBranch
+              });
+              console.log(`Pull request ${response.data.number} created`);
+            };
+            
+            createPullRequest();
 
 
