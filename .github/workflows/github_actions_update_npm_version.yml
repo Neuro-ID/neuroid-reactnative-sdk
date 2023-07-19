@@ -61,7 +61,22 @@ jobs:
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
           echo "BRANCH_NAME=releases/${PACKAGE_VERSION}_version_update" >> $GITHUB_ENV
-        
+      
+      - name: Commit version update
+        run: |
+          package_version=${{ env.PACKAGE_VERSION }}
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer   
+          git checkout -b ${{ env.BRANCH_NAME }}
+          git status
+          set +e
+          git add package.json
+          git add package-lock.json
+          git commit -m "Update React native SDK to ${package_version}"
+          git tag "v${package_version}"
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
+          set -e
+
       - name: Create Pull Request
         uses: actions/github-script@v6
         with:
