@@ -12,7 +12,7 @@
     "@react-navigation/native": "^6.0.4",
     "@react-navigation/native-stack": "^6.2.2",
     "react": "16.13.1",
-    "react-native": "0.64.0",
+    "react-native": "0.69.0",
     "react-native-bootstrap-styles": "^4.5.0-r",
     "react-native-dropdown-picker": "^5.1.28",
     "react-native-paper": "^4.11.2",
