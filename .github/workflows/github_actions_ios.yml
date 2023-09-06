@@ -11,7 +11,12 @@ jobs:
   updating_files:
     runs-on: macos-latest
     steps:
-    
+      - name: Checking if commit message is set
+        run: |
+          if [[ -z "${{ env.MESSAGE }}" ]]; then
+            echo "MESSAGE is not sent in workflow trigger event"
+            echo "MESSAGE=Manual update of iOS sdk" >> $GITHUB_ENV
+          fi
       - name: Main branch Checkout
         uses: actions/checkout@v3
         with:
