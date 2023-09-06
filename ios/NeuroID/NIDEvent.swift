@@ -11,10 +11,7 @@ internal enum NIDSessionEventName: String {
     case setCustomEvent = "SET_CUSTOM_EVENT"
     case heartBeat = "HEARTBEAT"
 
-    func log() {
-        let event = NIDEvent(session: self, tg: nil, x: nil, y: nil)
-        NeuroID.saveEventToLocalDataStore(event)
-    }
+    case mobileMetadataIOS = "MOBILE_METADATA_IOS"
 }
 
 public enum NIDEventName: String {
@@ -49,6 +46,8 @@ public enum NIDEventName: String {
     case keyDown = "KEY_DOWN"
     case keyUp = "KEY_UP"
     case change = "CHANGE"
+    case stepperChange = "STEPPER_CHANGE"
+    case colorWellChange = "COLOR_WELL_CHANGE"
     case selectChange = "SELECT_CHANGE"
     case textChange = "TEXT_CHANGE"
     case radioChange = "RADIO_CHANGE"
@@ -69,7 +68,18 @@ public enum NIDEventName: String {
     case windowResize = "WINDOW_RESIZE"
     case deviceMotion = "DEVICE_MOTION"
     case deviceOrientation = "DEVICE_ORIENTATION"
-    
+
+    case customTouchStart = "CUSTOM_TOUCH_START"
+    case customTouchEnd = "CUSTOM_TOUCH_END"
+    case customDoubleTap = "CUSTOM_DOUBLE_TAP"
+    case customTap = "CUSTOM_TAP"
+    case customLongPress = "CUSTOM_LONG_PRESS"
+    case doubleClick = "DB_CLICK"
+    case navControllerPush = "NAV_CONTROLLER_PUSH"
+    case navControllerPop = "NAV_CONTROLLER_POP"
+
+    case mobileMetadataIOS = "MOBILE_METADATA_IOS"
+
     var etn: String? {
         switch self {
         case .change, .textChange, .radioChange, .inputChange,
@@ -113,7 +123,7 @@ public struct NeuroHTTPRequest: Codable {
     var pageId: String
     var url: String
     var jsVersion: String = "5.0.0"
-    
+
     public init(clientId: String, environment: String, sdkVersion: String, pageTag: String,
                 responseId: String, siteId: String, userId: String, jsonEvents: [NIDEvent],
                 tabId: String, pageId: String, url: String)
@@ -137,7 +147,7 @@ public enum TargetValue: Codable, Equatable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        
+
         switch self {
         case .int(let value): try container.encode(value)
         case .string(let value): try container.encode(value)
@@ -147,7 +157,7 @@ public enum TargetValue: Codable, Equatable {
         case .attr(let value): try container.encode(value)
         }
     }
-    
+
     public func toString() -> String {
         switch self {
         case .int(let int):
@@ -164,28 +174,43 @@ public enum TargetValue: Codable, Equatable {
             return String(describing: array)
         }
     }
-    
+
+    public func toArrayString() -> String {
+        switch self {
+        case .attr(let array):
+            return array.map { value in
+                "attr(guid=\(value.guid ?? ""), screenHierarchy=\(value.screenHierarchy ?? ""), n=\(value.n ?? ""), v=\(value.v ?? ""), hash=\(value.hash ?? ""))"
+            }.joined(separator: ",  ")
+        case .attrs(let array):
+            return array.map { value in
+                "n=\(value.n ?? ""), v=\(value.v ?? "")"
+            }.joined(separator: ", ")
+        default:
+            return ""
+        }
+    }
+
     public init(from decoder: Decoder) throws {
         if let int = try? decoder.singleValueContainer().decode(Int.self) {
             self = .int(int)
             return
         }
-        
+
         if let double = try? decoder.singleValueContainer().decode(Double.self) {
             self = .double(double)
             return
         }
-        
+
         if let string = try? decoder.singleValueContainer().decode(String.self) {
             self = .string(string)
             return
         }
-        
+
         if let bool = try? decoder.singleValueContainer().decode(Bool.self) {
             self = .bool(bool)
             return
         }
-        
+
         if let attrs = try? decoder.singleValueContainer().decode(Attrs.self) {
             self = .attrs([attrs])
             return
@@ -194,10 +219,10 @@ public enum TargetValue: Codable, Equatable {
             self = .attr([attr])
             return
         }
-        
+
         throw TG.missingValue
     }
-    
+
     enum TG: Error {
         case missingValue
     }
@@ -207,7 +232,7 @@ public struct EventCache: Codable {
     var nidEvents: [NIDEvent]
 }
 
-public struct NIDEvent: Codable {
+public class NIDEvent: Codable {
     public let type: String
     var tg: [String: TargetValue]? = nil
     var tgs: String?
@@ -223,6 +248,8 @@ public struct NIDEvent: Codable {
     var ts: Int64 = ParamsCreator.getTimeStamp()
     var x: CGFloat?
     var y: CGFloat?
+    var h: CGFloat?
+    var w: CGFloat?
     var f: String?
     var lsid: String?
     var sid: String? // Done
@@ -249,11 +276,29 @@ public struct NIDEvent: Codable {
     var metadata: NIDMetadata?
     var sh: CGFloat?
     var sw: CGFloat?
+    var rts: String?
+
+    /** Register Target
+       {"type":"REGISTER_TARGET","tgs":"#happyforms_message_nonce","en":"happyforms_message_nonce","eid":"happyforms_message_nonce","ec":"","etn":"INPUT","et":"hidden","ef":null,"v":"S~C~~10","ts":1633972363470}
+         ET - Submit, Blank, Hidden
+     */
+
+    init(type: NIDEventName) {
+        self.type = type.rawValue
+    }
+
+    init(sessionEvent: NIDSessionEventName) {
+        self.type = sessionEvent.rawValue
+    }
+
+    init(rawType: String) {
+        self.type = rawType
+    }
 
     /**
         Use to initiate a new session
          Element mapping:
-         
+
          type: CREATE_SESSION,
          f: key,
          siteId: siteId,
@@ -283,7 +328,7 @@ public struct NIDEvent: Codable {
         sdkVersion: sdkVersion,
          is: idleSince,
          ts: Date.now(),
-     
+
         Event Change
         type: CHANGE,
        tg: { tgs: target, et: eventMetadata.elementType, etn: eventMetadata.elementTagName },
@@ -295,10 +340,7 @@ public struct NIDEvent: Codable {
        ld: eventMetadata.levenshtein,
        ts: Date.now(),
      */
-        
-//    public init(from decoder: Decoder) throws {
-//        //
-//    }
+
     init(session: NIDSessionEventName,
          f: String? = nil,
          sid: String? = nil,
@@ -316,7 +358,11 @@ public struct NIDEvent: Codable {
          ns: String? = nil,
          jsv: String? = nil,
          gyro: NIDSensorData? = nil,
-         accel: NIDSensorData? = nil)
+         accel: NIDSensorData? = nil,
+         rts: String? = nil,
+         sh: CGFloat? = nil,
+         sw: CGFloat? = nil,
+         metadata: NIDMetadata? = nil)
     {
         self.type = session.rawValue
         self.f = f
@@ -337,148 +383,53 @@ public struct NIDEvent: Codable {
         self.jsl = []
         self.gyro = gyro
         self.accel = accel
-    }
-    
-    /** Register Target
-       {"type":"REGISTER_TARGET","tgs":"#happyforms_message_nonce","en":"happyforms_message_nonce","eid":"happyforms_message_nonce","ec":"","etn":"INPUT","et":"hidden","ef":null,"v":"S~C~~10","ts":1633972363470}
-         ET - Submit, Blank, Hidden
-     
-     */
-
-    init(type: NIDEventName) {
-        self.type = type.rawValue
-    }
-    
-    init(eventName: NIDEventName, tgs: String, en: String, etn: String, et: String, ec: String, v: String, url: String) {
-        self.type = eventName.rawValue
-        self.tgs = tgs
-        self.en = en
-        self.eid = tgs
-        self.ec = ec
-        self.etn = etn
-        self.et = et
-        var ef: Any = String?.none
-        self.v = v
-        self.url = url
-    }
-    
-    /**
-        Text Change
-     */
-    init(type: NIDEventName, tg: [String: TargetValue]?, sm: Double, pd: Double) {
-        self.type = type.rawValue
-        self.tg = tg
-        self.sm = sm
-        self.pd = pd
+        self.rts = rts
+        self.sh = sh
+        self.sw = sw
+        self.metadata = metadata
     }
 
-    /**
-     Primary View Controller will be the URL that we are tracking.
-     */
-    public init(type: NIDEventName, tg: [String: TargetValue]?, primaryViewController: UIViewController?, view: UIView?) {
-        self.type = type.rawValue
-        var newTg = tg ?? [String: TargetValue]()
-        newTg["tgs"] = TargetValue.string(view != nil ? view!.id : "")
-        self.tg = newTg
-        self.tgs = TargetValue.string(view != nil ? view!.id : "").toString()
-        self.url = primaryViewController?.className
-        self.x = view?.frame.origin.x
-        self.y = view?.frame.origin.y
-    }
-    
-    init(session: NIDSessionEventName, tg: [String: TargetValue]?, x: CGFloat?, y: CGFloat?) {
-        self.type = session.rawValue
-        self.tg = tg
-        self.x = x
-        self.y = y
-    }
-    
-    /**
-     * Form submit, Sucess Submit, Failure Submit
-     */
-    init(typeName: NIDEventName) {
-        self.type = typeName.rawValue
-    }
-    
-    init(type: NIDEventName, tg: [String: TargetValue]?, v: String) {
-        self.type = type.rawValue
-        self.tg = tg
-        self.v = v
-    }
-    
-    /**
-     Set custom variable
-        - Parameters:
-            - type: NIDEventName
-            - key: String value of key
-            - v: String value of the value
-        - Returns: An NIDEvent instance
-     */
-    init(type: NIDSessionEventName, key: String, v: String) {
-        self.type = type.rawValue
-        self.key = key
-        self.v = v
-    }
-    
-    /**
-     Set UserID Event
-     */
-    init(session: NIDSessionEventName, userId: String) {
-        self.uid = userId
-        self.type = session.rawValue
-    }
-    
-    init(type: NIDEventName, tg: [String: TargetValue]?, x: CGFloat?, y: CGFloat?) {
-        self.type = type.rawValue
-        self.tg = tg
-        self.x = x
-        self.y = y
-    }
-
-    init(customEvent: String, tg: [String: TargetValue]?, x: CGFloat?, y: CGFloat?) {
-        self.type = customEvent
-        self.tg = tg
-        self.x = x
-        self.y = y
-    }
-    
     /**
      FOCUS
      BLUR
      LOAD
      */
-    
-    public init(type: NIDEventName, view: UIView) {
-        self.url = NeuroIDTracker.getFullViewlURLPath(currView: view, screenName: NeuroID.getScreenName() ?? view.className ?? "")
-        self.type = type.rawValue
-        self.ts = ParamsCreator.getTimeStamp()
-    }
-    
+
     public init(type: NIDEventName, tg: [String: TargetValue]?) {
         self.type = type.rawValue
         self.tg = tg
     }
 
     public init(type: NIDEventName, tg: [String: TargetValue]?, view: UIView?) {
-        self.type = type.rawValue
-        self.tgs = TargetValue.string(view != nil ? view!.id : "").toString()
+        let viewId = TargetValue.string(view != nil ? view!.id : "")
+
         var newTg = tg ?? [String: TargetValue]()
-        newTg["tgs"] = TargetValue.string(view != nil ? view!.id : "")
+        newTg["\(Constants.tgsKey.rawValue)"] = viewId
+
+        self.type = type.rawValue
         self.ts = ParamsCreator.getTimeStamp()
+        self.url = UtilFunctions.getFullViewlURLPath(
+            currView: view,
+            screenName: NeuroID.getScreenName() ?? view?.className ?? ""
+        )
+
+        self.tgs = viewId.toString()
         self.tg = newTg
-        self.url = NeuroIDTracker.getFullViewlURLPath(currView: view, screenName: NeuroID.getScreenName() ?? view?.className ?? "")
-        self.ts = ParamsCreator.getTimeStamp()
+
         switch type {
         case .touchStart, .touchMove, .touchEnd, .touchCancel:
-            let touch = NIDTouches(x: view?.frame.origin.x, y: view?.frame.origin.y, tid: Int.random(in: 0 ... 10000))
-            self.touches = []
-            self.touches?.append(touch)
+            let touch = NIDTouches(
+                x: view?.frame.origin.x,
+                y: view?.frame.origin.y,
+                tid: Int.random(in: 0 ... 10000)
+            )
+            self.touches = [touch]
         default:
             self.x = view?.frame.origin.x
             self.y = view?.frame.origin.y
         }
     }
-    
+
     var asDictionary: [String: Any] {
         let mirror = Mirror(reflecting: self)
         let dict = Dictionary(uniqueKeysWithValues: mirror.children.lazy.map { (label: String?, value: Any) -> (String, Any)? in
@@ -487,31 +438,66 @@ public struct NIDEvent: Codable {
         }.compactMap { $0 })
         return dict
     }
-    
+
     func toDict() -> [String: Any?] {
         let valuesAsDict = self.asDictionary
         return valuesAsDict
     }
-}
 
-extension Collection where Iterator.Element == [String: Any?] {
-    func toJSONString() -> String {
-        if let arr = self as? [[String: Any?]],
-           let dat = try? JSONSerialization.data(withJSONObject: arr),
-           let str = String(data: dat, encoding: String.Encoding.utf8)
-        {
-            return str
+    func setRTS(_ addRts: Bool? = false) {
+        if addRts ?? false {
+            self.rts = "targetInteractionEvent"
         }
-        return "[]"
     }
-}
 
-extension Collection where Iterator.Element == NIDEvent {
-    func toArrayOfDicts() -> [[String: Any?]] {
-        let dat = self.map { $0.asDictionary.mapValues { value in
-            value
-        } }
+    func copy(with zone: NSZone? = nil) -> NIDEvent {
+        let copy = NIDEvent(
+            rawType: self.type
+        )
 
-        return dat
+        copy.tg = self.tg
+        copy.tgs = self.tgs
+        copy.key = self.key
+        copy.ct = self.ct
+        copy.v = self.v
+        copy.hv = self.hv
+        copy.en = self.en
+        copy.etn = self.etn
+        copy.et = self.et
+        copy.ec = self.ec
+        copy.eid = self.eid
+        copy.ts = self.ts
+        copy.x = self.x
+        copy.y = self.y
+        copy.h = self.h
+        copy.w = self.w
+        copy.f = self.f
+        copy.lsid = self.lsid
+        copy.sid = self.sid
+        copy.cid = self.cid
+        copy.did = self.did
+        copy.loc = self.loc
+        copy.ua = self.ua
+        copy.tzo = self.tzo
+        copy.lng = self.lng
+        copy.p = self.p
+        copy.dnt = self.dnt
+        copy.tch = self.tch
+        copy.url = self.url
+        copy.ns = self.ns
+        copy.jsl = self.jsl
+        copy.jsv = self.jsv
+        copy.uid = self.uid
+        copy.sm = self.sm
+        copy.pd = self.pd
+        copy.attrs = self.attrs
+        copy.gyro = self.gyro
+        copy.accel = self.accel
+        copy.touches = self.touches
+        copy.metadata = self.metadata
+        copy.sh = self.sh
+        copy.sw = self.sw
+        copy.rts = self.rts
+        return copy
     }
 }
