@@ -46,7 +46,7 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(setUserID:withResolver:withRejecter:)
     func setUserID(userID: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.setUserID(userID)
+        try? NeuroID.setUserID(userID)
         resolve(true)
     }
     
@@ -58,7 +58,7 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(setScreenName:withResolver:withRejecter:)
     func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.setScreenName(screen: screenName)
+        try? NeuroID.setScreenName(screen: screenName)
         resolve(true)
     }
     
