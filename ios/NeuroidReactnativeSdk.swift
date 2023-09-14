@@ -8,12 +8,6 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
-    @objc(configureWithOptions:collectorEndPoint:withResolver:withRejecter:)
-    func configureWithOptions(apiKey: String, collectorEndPoint: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.configure(clientKey: apiKey, collectorEndPoint: collectorEndPoint)
-        resolve(true)
-    }
-    
     @objc(setEnvironmentProduction:withResolver:withRejecter:)
     func setEnvironmentProduction(value: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.setEnvironmentProduction(true)

@@ -9,25 +9,16 @@ const LINKING_ERROR =
 const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
   ? NativeModules.NeuroidReactnativeSdk
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 export function configure(apiKey: String): Promise<void> {
   return Promise.resolve(NeuroidReactnativeSdk.configure(apiKey));
-}
-
-export function configureWithOptions(
-  apiKey: String,
-  collectorEndPoint?: String
-): Promise<void> {
-  return Promise.resolve(
-    NeuroidReactnativeSdk.configureWithOptions(apiKey, collectorEndPoint)
-  );
 }
 
 export function start(): Promise<Boolean> {
