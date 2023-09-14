@@ -72,15 +72,7 @@ export function setSiteId(siteId: String): Promise<void> {
 export function setScreenName(screenName: String): Promise<void> {
   return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
 }
-export function formSubmit(): Promise<void> {
-  return Promise.resolve(NeuroidReactnativeSdk.formSubmit());
-}
-export function formSubmitSuccess(): Promise<void> {
-  return Promise.resolve(NeuroidReactnativeSdk.formSubmitSuccess());
-}
-export function formSubmitFailure(): Promise<void> {
-  return Promise.resolve(NeuroidReactnativeSdk.formSubmitFailure());
-}
+
 export function isStopped(): Promise<boolean> {
   return Promise.resolve(NeuroidReactnativeSdk.isStopped());
 }

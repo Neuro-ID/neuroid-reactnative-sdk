@@ -34,19 +34,4 @@ RCT_EXTERN_METHOD(excludeViewByTestID:(NSString)excludedView
 RCT_EXTERN_METHOD(setScreenName:(NSString)screenName
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(manuallyRegisterRNTarget:(NSString)id
-                 className:(NSString)className
-                 screenName:(NSString)screenName
-                 placeHolder:(NSString)placeHolder)
-
-RCT_EXTERN_METHOD(formSubmit: (RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(formSubmitSuccess: (RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(formSubmitFailure: (RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
-
 @end

@@ -59,20 +59,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         NeuroID.getInstance()?.stop()
     }
 
-    @ReactMethod
-    fun formSubmit() {
-        NeuroID.getInstance()?.formSubmit()
-    }
-
-    @ReactMethod
-    fun formSubmitSuccess() {
-        NeuroID.getInstance()?.formSubmitSuccess()
-    }
-
-    @ReactMethod
-    fun formSubmitFailure() {
-        NeuroID.getInstance()?.formSubmitFailure()
-    }
 
     @ReactMethod
     fun captureEvent(event: String, tags: String) {
