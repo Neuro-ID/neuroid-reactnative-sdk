@@ -39,16 +39,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         }
         NeuroID.getInstance()?.configureWithOptions(key, null)
     }
-
-    @ReactMethod
-    fun configureWithOptions(key: String, endpoint: String?) {
-        if (NeuroID.getInstance() == null) {
-            val neuroID = NeuroID.Builder(application, key).build()
-            NeuroID.setNeuroIdInstance(neuroID)
-        }
-        NeuroID.getInstance()?.configureWithOptions(key, endpoint)
-    }
-
+    
     @ReactMethod
     fun start() {
         NeuroID.getInstance()?.start()
