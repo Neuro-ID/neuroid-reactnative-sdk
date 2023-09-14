@@ -1,4 +1,6 @@
+import NeuroID
 import SwiftUI
+
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
 
