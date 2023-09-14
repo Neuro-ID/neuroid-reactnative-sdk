@@ -6,6 +6,7 @@ buildscript {
     google()
     mavenCentral()
     jcenter()
+    maven { url 'https://jitpack.io' }
   }
 
   dependencies {
@@ -128,8 +129,8 @@ dependencies {
   api 'com.facebook.react:react-native:+'
 
   implementation 'androidx.core:core-ktx:1.6.0'
-  releaseImplementation files('libs/reactNativeLib/neuro-id-android-sdk-reactNativeLib-release.aar')
-  debugImplementation files('libs/reactNativeLib/neuro-id-android-sdk-reactNativeLib-debug.aar')
+  releaseImplementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:v3.+'
+  debugImplementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk-debug:v3.+'
   implementation("androidx.lifecycle:lifecycle-process:2.3.0")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 }
