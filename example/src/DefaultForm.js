@@ -21,7 +21,6 @@ import {
   configure,
   setEnvironmentProduction,
   getSessionID,
-  configureWithOptions,
   setSiteId,
   setScreenName,
   setUserID,

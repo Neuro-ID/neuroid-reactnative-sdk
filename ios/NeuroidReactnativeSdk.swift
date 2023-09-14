@@ -8,12 +8,6 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
     
-    @objc(configureWithOptions:collectorEndPoint:withResolver:withRejecter:)
-    func configureWithOptions(apiKey: String, collectorEndPoint: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.configure(clientKey: apiKey, collectorEndPoint: collectorEndPoint)
-        resolve(true)
-    }
-    
     @objc(setEnvironmentProduction:withResolver:withRejecter:)
     func setEnvironmentProduction(value: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.setEnvironmentProduction(true)
@@ -46,7 +40,7 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(setUserID:withResolver:withRejecter:)
     func setUserID(userID: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.setUserID(userID)
+        try? NeuroID.setUserID(userID)
         resolve(true)
     }
     
@@ -58,45 +52,7 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(setScreenName:withResolver:withRejecter:)
     func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.setScreenName(screen: screenName)
+        try? NeuroID.setScreenName(screen: screenName)
         resolve(true)
     }
-    
-    @objc(manuallyRegisterRNTarget:className:screenName:placeHolder:)
-    func manuallyRegisterRNTarget(id: String, className: String, screenName: String, placeHolder: String) -> Void {
-        // Valid names for et field
-        
-        var types = ["UITextField::", "UITextView::", "UIButton::" ]
-        var validType = false
-        for t in types {
-            if (className.contains(t)) {
-                validType = true
-                break;
-            }
-        }
-        if (!validType){
-            NIDPrintLog("INVALID CLASSNAME TYPE [\(className)]. Must be in \(types).")
-            return
-        }
-        NeuroID.manuallyRegisterRNTarget(id: id, className: className, screenName: screenName, placeHolder: placeHolder)
-    }
-    
-    @objc(formSubmit:withRejecter:)
-    func formSubmit(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.formSubmit()
-        resolve(true)
-    }
-    
-    @objc(formSubmitSuccess:withRejecter:)
-    func formSubmitSuccess(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.formSubmitSuccess()
-        resolve(true)
-    }
-    
-    @objc(formSubmitFailure:withRejecter:)
-    func formSubmitFailure(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.formSubmitFailure()
-        resolve(true)
-    }
-    
 }

@@ -9,25 +9,16 @@ const LINKING_ERROR =
 const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
   ? NativeModules.NeuroidReactnativeSdk
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 export function configure(apiKey: String): Promise<void> {
   return Promise.resolve(NeuroidReactnativeSdk.configure(apiKey));
-}
-
-export function configureWithOptions(
-  apiKey: String,
-  collectorEndPoint?: String
-): Promise<void> {
-  return Promise.resolve(
-    NeuroidReactnativeSdk.configureWithOptions(apiKey, collectorEndPoint)
-  );
 }
 
 export function start(): Promise<Boolean> {
@@ -81,31 +72,7 @@ export function setSiteId(siteId: String): Promise<void> {
 export function setScreenName(screenName: String): Promise<void> {
   return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
 }
-export function formSubmit(): Promise<void> {
-  return Promise.resolve(NeuroidReactnativeSdk.formSubmit());
-}
-export function formSubmitSuccess(): Promise<void> {
-  return Promise.resolve(NeuroidReactnativeSdk.formSubmitSuccess());
-}
-export function formSubmitFailure(): Promise<void> {
-  return Promise.resolve(NeuroidReactnativeSdk.formSubmitFailure());
-}
+
 export function isStopped(): Promise<boolean> {
   return Promise.resolve(NeuroidReactnativeSdk.isStopped());
-}
-
-export function manuallyRegisterRNTarget(
-  id: String,
-  className: String,
-  screenName: String,
-  placeHolder: String
-): Promise<void> {
-  return Promise.resolve(
-    NeuroidReactnativeSdk.manuallyRegisterRNTarget(
-      id,
-      className,
-      screenName,
-      placeHolder
-    )
-  );
 }
