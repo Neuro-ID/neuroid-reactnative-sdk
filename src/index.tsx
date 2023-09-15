@@ -9,13 +9,13 @@ const LINKING_ERROR =
 const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
   ? NativeModules.NeuroidReactnativeSdk
   : new Proxy(
-    {},
-    {
-      get() {
-        throw new Error(LINKING_ERROR);
-      },
-    }
-  );
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
 
 export function configure(apiKey: String): Promise<void> {
   return Promise.resolve(NeuroidReactnativeSdk.configure(apiKey));
@@ -67,10 +67,19 @@ export function excludeViewByTestID(excludedView: String): Promise<void> {
     NeuroidReactnativeSdk.excludeViewByTestID(excludedView)
   );
 }
+
 export function setEnvironmentProduction(value: Boolean) {
   // Pre-release
   console.log('NeuroID environment set: ', value);
   return Promise.resolve(NeuroidReactnativeSdk.setEnvironmentProduction(value));
+}
+
+export function setVerifyIntegrationHealth(value: Boolean) {
+  // Pre-release
+  console.log('NeuroID setVerifyIntegrationHealth: ', value);
+  return Promise.resolve(
+    NeuroidReactnativeSdk.setVerifyIntegrationHealth(value)
+  );
 }
 
 export function setSiteId(siteId: String): Promise<void> {
