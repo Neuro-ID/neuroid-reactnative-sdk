@@ -39,7 +39,7 @@ jobs:
       - name: Refresh dependencies
         run: ./gradlew :app:assemble --refresh-dependencies
   
-  triggerRNSandboxDev:
+  triggerRNSandboxAndroidDev:
     name: Trigger React Native Dev Sandbox release
     runs-on: ubuntu-latest
     needs: refreshDependencies
@@ -58,7 +58,7 @@ jobs:
     needs: triggerRNSandboxAndroidDev
     steps:
       - name: Send Slack Notification on Failure
-        if: ${{ needs.refreshDependencies.result == 'failure' }}
+        if: ${{ needs.triggerRNSandboxAndroidDev.result == 'failure' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: ${{ secrets.MOBILE_SLACK_NOTIFICATIONS_CHANNEL }}
