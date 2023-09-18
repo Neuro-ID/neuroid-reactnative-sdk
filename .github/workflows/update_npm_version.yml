@@ -1,6 +1,6 @@
 # ******************************************************************
 # To create an NPM package release PR, run this workflow from the GitHub UI and
-# select parameters based on the type of release:
+# 1. select parameters based on the type of release:
 #
 # - Major Update
 #   Select "Branch: main"
@@ -13,6 +13,8 @@
 # - Patch Update
 #   Select "Branch: main"
 #   Set `true` if the change affects only the react-native platform.
+# 
+# 2. Include Android SDK version released in Jitpack (https://jitpack.io/)
 # ******************************************************************
 
 name: Create version update release PR
@@ -20,7 +22,7 @@ name: Create version update release PR
 on:
   workflow_dispatch:
     inputs:
-      version_update:
+      versionUpdate:
         description: >
           Choose the type of version update:            
           ** major: Cross platform breaking changes                                   
@@ -30,6 +32,9 @@ on:
         default: 'patch'
         type: choice
         options: ['major','minor','patch']
+      androidSdkVersion:
+        description: 'Enter a NID Android SDK version w/o v prefix:'
+        required: false
 
 permissions:
     pull-requests: write
@@ -43,7 +48,16 @@ jobs:
     steps:
       - name: Determine update type
         run: |
-          echo "RELEASE_TYPE=${{ inputs.version_update}}" >> $GITHUB_ENV
+          echo "RELEASE_TYPE=${{ inputs.versionUpdate}}" >> $GITHUB_ENV
+
+      - name: Set Android SDK version to default version if not provided
+        run: |
+          if [[ -z "${{ github.event.inputs.androidSdkVersion }}" ]]; then
+            echo "Android version is not sent in workflow trigger event. Setting to default"
+            echo "ANDROID_SDK_VERSION=v3.0.+" >> $GITHUB_ENV
+          else
+            echo "ANDROID_SDK_VERSION=v${{ github.event.inputs.androidSdkVersion }}" >> $GITHUB_ENV
+          fi
 
       - name: Main branch checkout
         uses: actions/checkout@v3
@@ -62,6 +76,11 @@ jobs:
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
           echo "BRANCH_NAME=releases/${PACKAGE_VERSION}_version_update" >> $GITHUB_ENV
       
+      - name: Update Android Sdk version to latest release version
+        run: |
+          sed -i "s/:react-android-sdk:master-SNAPSHOT/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
+          sed -i "s/:react-android-sdk-debug:master-SNAPSHOT/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
+      
       - name: Commit version update
         run: |
           package_version=${{ env.PACKAGE_VERSION }}
@@ -72,6 +91,7 @@ jobs:
           set +e
           git add package.json
           git add package-lock.json
+          git add android/build.gradle
           git commit -m "Update React native SDK to ${package_version}"
           git tag "v${package_version}"
           git push --set-upstream origin ${{ env.BRANCH_NAME }}
