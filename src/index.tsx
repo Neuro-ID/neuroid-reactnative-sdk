@@ -64,6 +64,14 @@ export function setEnvironmentProduction(value: Boolean) {
   return Promise.resolve(NeuroidReactnativeSdk.setEnvironmentProduction(value));
 }
 
+export function setVerifyIntegrationHealth(value: Boolean) {
+  // Pre-release
+  console.log('NeuroID setVerifyIntegrationHealth: ', value);
+  return Promise.resolve(
+    NeuroidReactnativeSdk.setVerifyIntegrationHealth(value)
+  );
+}
+
 export function setSiteId(siteId: String): Promise<void> {
   // Pre-release
   console.log('SiteID set ', siteId);
