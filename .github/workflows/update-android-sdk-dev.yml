@@ -3,50 +3,29 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types: [publish-dev-android]
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - main
 
 jobs:
-  refreshDependencies:
-    name: Pull recent Android SDK master build
+  createTag:
+    name: Create Development tag
     runs-on: ubuntu-latest
 
     steps:
       - name: checkout
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
-          bundler-cache: true
-
-      - name: Cache Gradle and wrapper
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Grant Permission for Gradlew to Execute
-        run: chmod +x gradlew
-
-      - name: Refresh dependencies
-        run: ./gradlew :app:assemble --refresh-dependencies
-      
       - name: Create Development Tag
         run: |
             git tag development
-            git push origin development
+            git push -f origin development
   triggerRNSandboxAndroidDev:
     name: Trigger React Native Dev Sandbox release
     runs-on: ubuntu-latest
-    needs: refreshDependencies
+    needs: createTag
     steps:
       - name: Trigger ReactNative Sandbox Dev Deployment
         run: |
