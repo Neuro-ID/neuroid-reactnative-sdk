@@ -27,11 +27,8 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
     "release": "release-it",
-    "example": "yarn --cwd example",
-    "pods": "cd example && pod-install --quiet",
     "postinstall": "patch-package",
-    "bootstrap": "yarn example && yarn && yarn pods",
-    "updateSDK": "cd ./example/ios && pod install && sudo cp -R ./Pods/NeuroID/NeuroID ../../ios  ",
+    "bootstrap": "yarn",
     "updateLocalSDK": "sudo cp -R ~/Developer/neuroid-ios-sdk/NeuroID ./ios"
   },
   "keywords": [
