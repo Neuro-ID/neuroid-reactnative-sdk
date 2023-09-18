@@ -38,7 +38,11 @@ jobs:
 
       - name: Refresh dependencies
         run: ./gradlew :app:assemble --refresh-dependencies
-  
+      
+      - name: Create Development Tag
+        run: |
+            git tag development
+            git push origin development
   triggerRNSandboxAndroidDev:
     name: Trigger React Native Dev Sandbox release
     runs-on: ubuntu-latest

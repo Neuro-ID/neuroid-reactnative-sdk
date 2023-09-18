@@ -63,6 +63,10 @@ jobs:
                 console.log(`Release created`);
             }
             createRelease();
+      - name: Create Latest Tag
+        run: |
+            git tag latest
+            git push origin latest
   triggerRNSandboxProd:
     name: Trigger React Native Prod Sandbox release
     runs-on: ubuntu-latest
