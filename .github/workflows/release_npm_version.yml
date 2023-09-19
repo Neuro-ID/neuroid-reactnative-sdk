@@ -46,7 +46,11 @@ jobs:
           gh release create ${{ env.PACKAGE_VERSION }} --generate-notes --latest --title "${{ env.PACKAGE_VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      
+      - name: Create latest Tag
+        run: |
+            git tag latest
+            git push -f origin latest
   triggerRNSandboxProd:
     name: Trigger React Native Prod Sandbox release
     runs-on: ubuntu-latest
