@@ -1,9 +1,9 @@
 package com.neuroidreactnativesdk
 
 import android.app.Application
-import android.util.Log
 import com.facebook.react.bridge.*
 import com.neuroid.tracker.NeuroID
+import com.neuroid.tracker.extensions.setVerifyIntegrationHealth
 
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
