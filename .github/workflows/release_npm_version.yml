@@ -62,14 +62,23 @@ jobs:
     runs-on: ubuntu-latest
     needs: createRelease
     steps:
-      - name: Trigger ReactNative Sandbox Prod Deployment
+      - name: Trigger ReactNative Sandbox Android Deployment
         run: |
-         curl \
+          curl \
              -X POST \
              -H "Accept: application/vnd.github.v3+json" \
              -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
              https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
              -d '{"event_type":"publish-prod-android","client_payload":{"version":"${{env.PACKAGE_VERSION}}", "message": "${{ github.event.commit.message }}"}}'
+      
+      - name: Trigger ReactNative Sandbox iOS Deployment
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
+            https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
+            -d '{"event_type":"on-demand-testflight","client_payload":{"version":"${{env.PACKAGE_VERSION}}", "message": "${{ github.event.commit.message }}"}}'
   notifications:
     runs-on: ubuntu-latest
     needs: triggerRNSandboxProd
@@ -81,7 +90,7 @@ jobs:
           SLACK_CHANNEL:  ${{ secrets.MOBILE_SLACK_NOTIFICATIONS_CHANNEL }}
           SLACK_COLOR: ${{ job.status }}
           SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: "Failed to trigger React Native Android Sandbox release (Prod)"
-          SLACK_TITLE: Failed to trigger React Native Android Sandbox release (Prod)
+          SLACK_MESSAGE: "Failed to trigger React Native Sandbox release (Prod)"
+          SLACK_TITLE: Failed to trigger React Native Sandbox release (Prod)
           SLACK_USERNAME: rtBot
           SLACK_WEBHOOK: ${{ secrets.MOBILE_SLACK_WEBHOOK }}

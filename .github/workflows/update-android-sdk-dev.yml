@@ -41,7 +41,7 @@ jobs:
              -H "Accept: application/vnd.github.v3+json" \
              -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
              https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
-             -d '{"event_type":"publish-dev-android","client_payload":{"version":"master-SNAPSHOT", "message": "${{ github.event.commit.message }}"}}'
+             -d '{"event_type":"publish-dev-android","client_payload":{"version":"master-SNAPSHOT", "message": "Android sdk master-SNAPSHOT"}}'
 
   notifications:
     runs-on: ubuntu-latest
