@@ -38,4 +38,7 @@ RCT_EXTERN_METHOD(excludeViewByTestID:(NSString)excludedView
 RCT_EXTERN_METHOD(setScreenName:(NSString)screenName
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(registerPageTargets: (RCTPromiseResolveBlock)resolve
+                 withRejecter:(RCTPromiseRejectBlock)reject)
 @end

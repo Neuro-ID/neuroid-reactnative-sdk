@@ -110,4 +110,14 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         else
             promise.resolve(instance.isStopped())
     }
+
+    @ReactMethod
+    fun registerPageTargets(promise: Promise){
+        val reactCurrentActivity = currentActivity
+        if (reactCurrentActivity != null) {
+            NeuroID.getInstance()?.setForceStart(reactCurrentActivity)
+        }
+
+          promise.resolve(true)
+    }
 }

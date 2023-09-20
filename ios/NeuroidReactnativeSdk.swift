@@ -63,4 +63,10 @@ class NeuroidReactnativeSdk: NSObject {
         try? NeuroID.setScreenName(screen: screenName)
         resolve(true)
     }
+
+    @objc(registerPageTargets:withRejecter:)
+    func registerPageTargets(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        resolve(true)
+    }
+
 }
