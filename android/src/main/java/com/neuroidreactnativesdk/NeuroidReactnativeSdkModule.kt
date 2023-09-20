@@ -38,6 +38,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
             NeuroID.setNeuroIdInstance(neuroID)
         }
         NeuroID.getInstance()?.configureWithOptions(key, null)
+
+        val currentActivity = currentActivity
+        if (currentActivity != null) {
+            NeuroID.getInstance()?.setForceStart(currentActivity)
+        }
     }
     
     @ReactMethod
