@@ -18,10 +18,17 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
-      - name: Create Development Tag
+      - name: Update new commit to have "Development" Tag
         run: |
-            git tag development
-            git push -f origin development
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer
+          set +e
+          git push origin :development
+          git tag -d development
+          git tag development
+          git push origin development
+          set -e
+
   triggerRNSandboxAndroidDev:
     name: Trigger React Native Dev Sandbox release
     runs-on: ubuntu-latest

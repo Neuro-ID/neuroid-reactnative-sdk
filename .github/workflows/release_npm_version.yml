@@ -47,10 +47,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Create latest Tag
+      - name: Update new commit to have "Latest" Tag
         run: |
+            git config --global user.email developer@neuro-id.com
+            git config --global user.name neuroid-developer
+            set +e
+            git push origin :latest
+            git tag -d latest
             git tag latest
-            git push -f origin latest
+            git push origin latest
+            set -e
   triggerRNSandboxProd:
     name: Trigger React Native Prod Sandbox release
     runs-on: ubuntu-latest
