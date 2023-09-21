@@ -88,6 +88,9 @@ export const NeuroID: NeuroIDClass = {
   isStopped: function isStopped(): Promise<boolean> {
     return Promise.resolve(NeuroidReactnativeSdk.isStopped());
   },
+  registerPageTargets: function isStopped(): Promise<void> {
+    return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+  },
 };
 
 export default NeuroID;

@@ -10,4 +10,5 @@ export interface NeuroIDClass {
   setSiteId: (siteId: String) => Promise<void>;
   setScreenName: (screenName: String) => Promise<void>;
   isStopped: () => Promise<boolean>;
+  registerPageTargets: () => Promise<void>;
 }
