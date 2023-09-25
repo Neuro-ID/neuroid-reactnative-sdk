@@ -1,0 +1,24 @@
+# ******************************************************************
+# This workflow will trigger once a PR opens to main
+# ******************************************************************
+
+name: SDK Testing
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  runUpdate:
+    name: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update new commit to have "Development" Tag
+        run: |
+          npm run update
