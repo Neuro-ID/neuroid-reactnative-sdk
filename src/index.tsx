@@ -1,5 +1,6 @@
 import { NativeModules, Platform } from 'react-native';
 import type { NeuroIDClass } from './types';
+import { version } from '../package.json';
 
 const LINKING_ERROR =
   `The package 'neuroid-reactnative-sdk' doesn't seem to be linked. Make sure: \n\n` +
@@ -19,7 +20,7 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
     );
 
 export const NeuroID: NeuroIDClass = {
-  configure: function configure(apiKey: String): Promise<void> {
+  configure: function configure(apiKey: string): Promise<void> {
     return Promise.resolve(NeuroidReactnativeSdk.configure(apiKey));
   },
   start: function start(): Promise<Boolean> {
@@ -47,15 +48,12 @@ export const NeuroID: NeuroIDClass = {
       }
     });
   },
-  getSessionID: function getSessionID(): Promise<String> {
-    return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
-  },
-  setUserID: function setUserID(userID: String): Promise<void> {
+  setUserID: function setUserID(userID: string): Promise<void> {
     console.log('Setting User ID: ' + userID);
     return Promise.resolve(NeuroidReactnativeSdk.setUserID(userID));
   },
   excludeViewByTestID: function excludeViewByTestID(
-    excludedView: String
+    excludedView: string
   ): Promise<void> {
     return Promise.resolve(
       NeuroidReactnativeSdk.excludeViewByTestID(excludedView)
@@ -77,12 +75,12 @@ export const NeuroID: NeuroIDClass = {
       NeuroidReactnativeSdk.setVerifyIntegrationHealth(value)
     );
   },
-  setSiteId: function setSiteId(siteId: String): Promise<void> {
+  setSiteId: function setSiteId(siteId: string): Promise<void> {
     // Pre-release
     console.log('SiteID set ', siteId);
     return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
   },
-  setScreenName: function setScreenName(screenName: String): Promise<void> {
+  setScreenName: function setScreenName(screenName: string): Promise<void> {
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
   },
   isStopped: function isStopped(): Promise<boolean> {
@@ -90,6 +88,27 @@ export const NeuroID: NeuroIDClass = {
   },
   registerPageTargets: function isStopped(): Promise<void> {
     return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+  },
+  setupPage: async function setupPage(screenName: string): Promise<void> {
+    await Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
+
+    return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+  },
+
+  getClientID: function getClientID(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getClientID());
+  },
+  getSessionID: function getSessionID(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
+  },
+  getUserID: function getUserID(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getUserID());
+  },
+  getSDKVersion: function getSDKVersion(): Promise<string> {
+    return new Promise((res) => res(`React-Native:${version}`));
+  },
+  getScreenName: function getScreenName(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getScreenName());
   },
 };
 
