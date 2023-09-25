@@ -64,25 +64,25 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(getClientID:withRejecter:)
-    func getClientID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> String {
+    func getClientID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         var cid = NeuroID.getClientID()
         resolve(cid)
     }
 
     @objc(getSessionID:withRejecter:)
-    func getSessionID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> String {
+    func getSessionID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         var sid = NeuroID.getSessionID()
         resolve(sid)
     }
 
     @objc(getUserID:withRejecter:)
-    func getUserID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> String {
+    func getUserID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         var uid = NeuroID.getUserID()
         resolve(uid)
     }
 
     @objc(getScreenName:withRejecter:)
-    func getScreenName(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> String {
+    func getScreenName(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         var screen = NeuroID.getScreenName()
         resolve(screen)
     }
