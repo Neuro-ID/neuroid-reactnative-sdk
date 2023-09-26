@@ -72,11 +72,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun getSessionID(promise: Promise) {
-        promise.resolve(NeuroID.getInstance()?.getSessionId())
-    }
-
-    @ReactMethod
     fun excludeViewByTestID(id: String) {
         NeuroID.getInstance()?.excludeViewByResourceID(id)
     }
@@ -119,5 +114,26 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         }
 
           promise.resolve(true)
+    }
+
+    @ReactMethod
+    fun getClientID(promise: Promise){
+        promise.resolve(NeuroID.getInstance()?.getClientId())
+    }
+
+    @ReactMethod
+    fun getSessionID(promise: Promise) {
+        promise.resolve(NeuroID.getInstance()?.getSessionId())
+    }
+
+    @ReactMethod
+    fun getUserID(promise: Promise) {
+        promise.resolve(NeuroID.getInstance()?.getUserId())
+    }
+
+    @ReactMethod
+    fun getScreenName(promise: Promise) {
+        // not exposed in Android
+        promise.resolve("")
     }
 }
