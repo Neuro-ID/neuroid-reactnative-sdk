@@ -70,6 +70,13 @@ jobs:
           git config --global user.name neuroid-developer
           npm version ${{ env.RELEASE_TYPE }}
 
+      - name: Update types version
+        working-directory: neuroid-reactnative-sdk-types/
+        run: |
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer
+          npm version ${{ env.RELEASE_TYPE }}
+
       - name: Read package version
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
@@ -90,6 +97,7 @@ jobs:
           git status
           set +e
           git add package.json
+          git add neuroid-reactnative-sdk-types
           git add package-lock.json
           git add android/build.gradle
           git commit -m "Update React native SDK to ${package_version}"

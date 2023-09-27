@@ -1,0 +1,52 @@
+# ******************************************************************
+# This workflow will trigger once a PR opens to main
+# ******************************************************************
+
+name: SDK Testing
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  pull-requests: write
+  contents: write
+  issues: write
+
+jobs:
+  runUpdate:
+    name: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Main branch checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref }}
+
+      # Setup .npmrc file to run npm update
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: 'build types, copy to types directory and commit'
+        run: |
+          git branch
+          echo 'npm install and prepare'
+          npm install
+          npm run prepare
+          echo 'copy files'
+          cp -r lib/typescript/* neuroid-reactnative-sdk-types
+          echo 'setup git config'
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer
+          git add neuroid-reactnative-sdk-types
+          set +e
+          echo 'commit'
+          git commit -m "update type definitions"
+          echo 'push'
+          git push --set-upstream origin
+          set -e

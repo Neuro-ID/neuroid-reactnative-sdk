@@ -36,6 +36,12 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
 
+      - name: Publish to npm type script
+        run: npm publish --tag latest
+        working-directory: neuroid-reactnative-sdk-types/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+
       - name: Retrieve package version
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
