@@ -30,6 +30,7 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(start:withRejecter:)
     func start(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.setIsRN()
         NeuroID.start()
         resolve(true)
     }
