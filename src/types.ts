@@ -1,5 +1,5 @@
 export interface NeuroIDClass {
-  configure: (apiKey: string) => Promise<void>;
+  configure: (apiKey: string, options: NeuroIDConfigOptions) => Promise<void>;
   start: () => Promise<Boolean>;
   stop: () => Promise<Boolean>;
   setUserID: (userID: string) => Promise<void>;
@@ -17,4 +17,8 @@ export interface NeuroIDClass {
   getUserID: () => Promise<string>; // ios, android
   getSDKVersion: () => Promise<string>; // RUN FROM NPM NOT NATIVE
   getScreenName: () => Promise<string>; // ios, NOT Android
+}
+
+export interface NeuroIDConfigOptions {
+  usingReactNavigation: boolean;
 }

@@ -19,8 +19,14 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
+var usingRNNavigation = false;
+
 export const NeuroID: NeuroIDClass = {
-  configure: function configure(apiKey: string): Promise<void> {
+  configure: function configure(
+    apiKey: string,
+    { usingReactNavigation = false }
+  ): Promise<void> {
+    usingRNNavigation = usingReactNavigation;
     return Promise.resolve(NeuroidReactnativeSdk.configure(apiKey));
   },
   start: function start(): Promise<Boolean> {
@@ -87,6 +93,13 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.isStopped());
   },
   registerPageTargets: function isStopped(): Promise<void> {
+    if (Platform.OS === 'ios') {
+      if (!usingRNNavigation) {
+        return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+      } else {
+        return Promise.resolve();
+      }
+    }
     return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
   },
   setupPage: async function setupPage(screenName: string): Promise<void> {
