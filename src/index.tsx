@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import type { NeuroIDClass } from './types';
+import type { NeuroIDClass, NeuroIDConfigOptions } from './types';
 import { version } from '../package.json';
 
 const LINKING_ERROR =
@@ -24,10 +24,12 @@ var usingRNNavigation = false;
 export const NeuroID: NeuroIDClass = {
   configure: function configure(
     apiKey: string,
-    { usingReactNavigation = false }
+    configOptions?: NeuroIDConfigOptions
   ): Promise<void> {
-    usingRNNavigation = usingReactNavigation;
-    return Promise.resolve(NeuroidReactnativeSdk.configure(apiKey));
+    usingRNNavigation = !!configOptions?.usingReactNavigation;
+    return Promise.resolve(
+      NeuroidReactnativeSdk.configure(apiKey, configOptions)
+    );
   },
   start: function start(): Promise<Boolean> {
     return new Promise(async function (resolve) {

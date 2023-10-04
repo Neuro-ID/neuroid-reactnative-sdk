@@ -3,6 +3,7 @@
 @interface RCT_EXTERN_MODULE(NeuroidReactnativeSdk, NSObject)
 
 RCT_EXTERN_METHOD(configure:(NSString)apiKey
+                 parameters:(NSDictionary *)parameters
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
