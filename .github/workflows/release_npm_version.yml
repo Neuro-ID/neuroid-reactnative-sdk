@@ -5,6 +5,7 @@
 name: Auto publish to npm registry once release PR is merged
 
 on:
+  workflow_dispatch:
   pull_request_target:
     types:
       - closed
@@ -28,8 +29,14 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: |
+          rm -rf node-modules
+          rm package-lock.json
+          npm install
 
       - name: Publish to npm
         run: npm publish --tag latest
