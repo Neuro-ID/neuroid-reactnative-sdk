@@ -1,7 +1,7 @@
 {
   "name": "@types/neuroid-reactnative-sdk",
-  "version": "1.0.0",
-  "description": "Typescript Definitions for the NeuroID SDK",
+  "version": "3.0.0",
+  "description": "Typescript Definitions for the Official NeuroID SDK",
   "main": "",
   "types": "index.d.ts",
   "author": "Neuro-ID <engineering@neuro-id.com> (https://github.com/Neuro-ID/neuroid-reactnative-sdk)",
