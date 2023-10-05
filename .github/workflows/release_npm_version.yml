@@ -26,17 +26,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://registry.npmjs.org'
-
       - name: Install dependencies
-        run: |
-          rm -rf node-modules
-          rm package-lock.json
-          npm install
+        run: yarn
 
       - name: Publish to npm
         run: npm publish --tag latest
