@@ -1,7 +1,7 @@
 {
   "name": "neuroid-reactnative-sdk",
   "version": "3.0.0",
-  "description": "Neuro-ID React Native SDK",
+  "description": "Official NeuroID React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -28,8 +28,7 @@
     "prepare": "bob build",
     "release": "release-it",
     "postinstall": "patch-package",
-    "bootstrap": "yarn",
-    "updateLocalSDK": "sudo cp -R ~/Developer/neuroid-ios-sdk/NeuroID ./ios"
+    "bootstrap": "yarn"
   },
   "keywords": [
     "react-native",
@@ -37,7 +36,7 @@
     "android"
   ],
   "repository": "https://github.com/Neuro-ID/neuroid-reactnative-sdk",
-  "author": "Neuro-ID <clay.selby@neuro-id.com> (https://github.com/Neuro-ID/neuroid-reactnative-sdk)",
+  "author": "NeuroID <engineering@neuro-id.com> (https://github.com/Neuro-ID/neuroid-reactnative-sdk)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Neuro-ID/neuroid-reactnative-sdk/issues"
