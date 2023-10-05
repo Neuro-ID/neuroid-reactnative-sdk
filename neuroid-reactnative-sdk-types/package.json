@@ -1,6 +1,6 @@
 {
   "name": "@types/neuroid-reactnative-sdk",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Typescript Definitions for the Official NeuroID SDK",
   "main": "",
   "types": "index.d.ts",
