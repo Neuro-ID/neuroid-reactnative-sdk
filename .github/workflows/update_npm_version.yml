@@ -35,6 +35,9 @@ on:
       androidSdkVersion:
         description: 'Enter a NID Android SDK version w/o v prefix:'
         required: false
+      iosSdkVersion:
+        description: 'Enter a NID iOS SDK version w/o v prefix:'
+        required: false
 
 permissions:
     pull-requests: write
@@ -57,6 +60,15 @@ jobs:
             echo "ANDROID_SDK_VERSION=v3.0.+" >> $GITHUB_ENV
           else
             echo "ANDROID_SDK_VERSION=v${{ github.event.inputs.androidSdkVersion }}" >> $GITHUB_ENV
+          fi
+      
+      - name: Set iOS SDK version to default version if not provided
+        run: |
+          if [[ -z "${{ github.event.inputs.iosSdkVersion }}" ]]; then
+            echo "iOS version is not sent in workflow trigger event. Setting to default"
+            echo "IOS_SDK_VERSION=~>3.0.1" >> $GITHUB_ENV
+          else
+            echo "IOS_SDK_VERSION=${{ github.event.inputs.iosSdkVersion }}" >> $GITHUB_ENV
           fi
 
       - name: Main branch checkout
@@ -88,6 +100,10 @@ jobs:
           sed -i "s/:react-android-sdk:master-SNAPSHOT/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
           sed -i "s/:react-android-sdk-debug:master-SNAPSHOT/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
       
+      - name: Update iOS SDK version to latest release version
+        run: |
+          sed -i "s/s.dependency ['\"]NeuroID[, ~>.0-9'\"]*/s.dependency 'NeuroID', '${{env.IOS_SDK_VERSION}}'/g" neuroid-reactnative-sdk.podspec
+
       - name: Commit version update
         run: |
           package_version=${{ env.PACKAGE_VERSION }}

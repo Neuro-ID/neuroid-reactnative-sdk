@@ -5,7 +5,6 @@
 name: Auto publish to npm registry once release PR is merged
 
 on:
-  workflow_dispatch:
   pull_request_target:
     types:
       - closed
@@ -18,7 +17,7 @@ permissions:
 
 jobs:
   createRelease:
-    # if: github.event.pull_request.merged && startsWith(github.head_ref, 'releases/')
+    if: github.event.pull_request.merged && startsWith(github.head_ref, 'releases/')
     runs-on: ubuntu-latest
     steps:
       - name: Main branch checkout
