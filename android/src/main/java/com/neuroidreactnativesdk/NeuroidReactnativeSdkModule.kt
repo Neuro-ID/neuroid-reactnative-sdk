@@ -32,7 +32,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun configure(key: String) {
+    fun configure(key: String, options: Map<String, Any> = mapOf()) {
         if (NeuroID.getInstance() == null) {
             val neuroID = NeuroID.Builder(application, key).build()
             NeuroID.setNeuroIdInstance(neuroID)
