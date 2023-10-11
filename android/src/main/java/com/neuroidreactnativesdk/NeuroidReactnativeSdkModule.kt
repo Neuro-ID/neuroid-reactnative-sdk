@@ -2,6 +2,7 @@ package com.neuroidreactnativesdk
 
 import android.app.Application
 import com.facebook.react.bridge.*
+import com.facebook.react.bridge.ReadableMap
 import com.neuroid.tracker.NeuroID
 import com.neuroid.tracker.extensions.setVerifyIntegrationHealth
 
@@ -32,7 +33,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun configure(key: String, options: Map<String, Any> = mapOf()) {
+    fun configure(key: String, options: ReadableMap) {
         if (NeuroID.getInstance() == null) {
             val neuroID = NeuroID.Builder(application, key).build()
             NeuroID.setNeuroIdInstance(neuroID)
