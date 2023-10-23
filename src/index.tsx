@@ -94,7 +94,7 @@ export const NeuroID: NeuroIDClass = {
   isStopped: function isStopped(): Promise<boolean> {
     return Promise.resolve(NeuroidReactnativeSdk.isStopped());
   },
-  registerPageTargets: function isStopped(): Promise<void> {
+  registerPageTargets: function registerPageTargets(): Promise<void> {
     if (Platform.OS === 'ios') {
       if (!usingRNNavigation) {
         return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
