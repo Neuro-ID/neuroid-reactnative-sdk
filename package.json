@@ -28,7 +28,8 @@
     "prepare": "bob build",
     "release": "release-it",
     "postinstall": "patch-package",
-    "bootstrap": "yarn"
+    "bootstrap": "yarn",
+    "setupAdvancedDevice": "bash ./scripts/advancedDeviceSetup.sh"
   },
   "keywords": [
     "react-native",

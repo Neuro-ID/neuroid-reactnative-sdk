@@ -48,7 +48,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     
     @ReactMethod
     fun start() {
-         NeuroID.getInstance()?.setIsRN()
+        NeuroID.getInstance()?.setIsRN()
         NeuroID.getInstance()?.start()
     }
 
