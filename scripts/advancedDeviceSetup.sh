@@ -28,6 +28,7 @@ RCT_EXTERN_METHOD(start: \
 sed -i '' '/@objc(start:withRejecter:)/i \
     @objc(start:advancedDeviceSignals:withResolver:withRejecter:) \
     func configure(advancedDeviceSignals: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void { \
+        NeuroID.setIsRN() \
         NeuroID.start(advancedDeviceSignals: advancedDeviceSignals) \
         resolve(true) \
     } \
