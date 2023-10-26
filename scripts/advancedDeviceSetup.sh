@@ -27,7 +27,7 @@ RCT_EXTERN_METHOD(start: \
 # Add to ios function file
 sed -i '' '/@objc(start:withRejecter:)/i \
     @objc(start:advancedDeviceSignals:withResolver:withRejecter:) \
-    func configure(advancedDeviceSignals: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void { \
+    func start(advancedDeviceSignals: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void { \
         NeuroID.setIsRN() \
         NeuroID.start(advancedDeviceSignals: advancedDeviceSignals) \
         resolve(true) \
@@ -43,6 +43,7 @@ import com.neuroid.tracker.extensions.start\
 
 sed -i '' '/fun start() {/i \
     fun start(advancedDeviceSignals: Boolean) {\
+        NeuroID.getInstance()?.setIsRN() \
         NeuroID.getInstance()?.start(advancedDeviceSignals)\
     }\
 \
@@ -55,13 +56,7 @@ sed -i '' 's/start: ()/start: (advancedDeviceSignals?: Boolean)/' src/types.ts
 
 # update index
 sed -i '' 's/start(): /start(advancedDeviceSignals?: Boolean): /' src/index.tsx
-sed -i '' '/await Promise.resolve(NeuroidReactnativeSdk.start());/i \
-        if(advancedDeviceSignals){ \
-          await Promise.resolve(NeuroidReactnativeSdk.start(advancedDeviceSignals)); \
-        } else { \
- ' src/index.tsx
- sed -i '' 's/await Promise.resolve(NeuroidReactnativeSdk.start());/ await Promise.resolve(NeuroidReactnativeSdk.start());\n        }/' src/index.tsx
-
+sed -i '' 's/NeuroidReactnativeSdk.start()/NeuroidReactnativeSdk.start(!!advancedDeviceSignals)/' src/index.tsx
 
 # update package.json for new module name and description
 sed -i '' 's/"name": "neuroid-reactnative-sdk"/"name": "neuroid-reactnative-sdk-advanced-device"/' package.json
