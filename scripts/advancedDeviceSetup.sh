@@ -15,25 +15,12 @@ fi
 sed -i '' 's/neuroid-android-sdk:react-android-sdk/neuroid-android-sdk:react-android-advanced-device-sdk/' android/build.gradle
 
 # Implement code for iOS header and actual
-# # Add to ios header
-sed -i '' '/start:/i \
-RCT_EXTERN_METHOD(start: \
-                parameters:(BOOL *)advancedDeviceSignals \
-                withResolver: (RCTPromiseResolveBlock)resolve \
-                withRejecter:(RCTPromiseRejectBlock)reject) \
-\
-' ios/NeuroidReactnativeSdk.m
+sed -i '' 's/start:/start:(BOOL)advancedDeviceSignals\n                 withResolver:/' ios/NeuroidReactnativeSdk.m
 
 # Add to ios function file
-sed -i '' '/@objc(start:withRejecter:)/i \
-    @objc(start:advancedDeviceSignals:withResolver:withRejecter:) \
-    func start(advancedDeviceSignals: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void { \
-        NeuroID.setIsRN() \
-        NeuroID.start(advancedDeviceSignals: advancedDeviceSignals) \
-        resolve(true) \
-    } \
-\
-' ios/NeuroidReactnativeSdk.swift
+sed -i '' 's/@objc(start:withRejecter:)/@objc(start:withResolver:withRejecter:)/' ios/NeuroidReactnativeSdk.swift
+sed -i '' 's/func start(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {/func start(advancedDeviceSignals: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) -> Void {/' ios/NeuroidReactnativeSdk.swift
+sed -i '' 's/NeuroID.start()/NeuroID.start(advancedDeviceSignals: advancedDeviceSignals)/' ios/NeuroidReactnativeSdk.swift
 
 
 # Implement code for Android actual 
