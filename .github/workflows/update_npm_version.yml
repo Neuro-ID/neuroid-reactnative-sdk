@@ -102,7 +102,7 @@ jobs:
       
       - name: Update iOS SDK version to latest release version
         run: |
-          sed -i "s/.*'NeuroID', '\([^']*\)'.*/ s.dependency 'NeuroID', '${{env.IOS_SDK_VERSION}}'/g" neuroid-reactnative-sdk.podspec
+          sed -i "s/.*'NeuroID', '\([^']*\)'.*/   s.dependency 'NeuroID', '${{env.IOS_SDK_VERSION}}'/g" neuroid-reactnative-sdk.podspec
 
       - name: Commit version update
         run: |
