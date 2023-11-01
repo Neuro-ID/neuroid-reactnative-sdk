@@ -97,12 +97,12 @@ jobs:
       
       - name: Update Android Sdk version to latest release version
         run: |
-          sed -i "s/:react-android-sdk:master-SNAPSHOT/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
-          sed -i "s/:react-android-sdk-debug:master-SNAPSHOT/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
+          sed -i "s/:react-android-sdk:[0-9a-zA-Z.-]*/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
+          sed -i "s/:react-android-sdk-debug:[0-9a-zA-Z.-]*/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
       
       - name: Update iOS SDK version to latest release version
         run: |
-          sed -i "s/s.dependency ['\"]NeuroID[, ~>.0-9'\"]*/s.dependency 'NeuroID', '${{env.IOS_SDK_VERSION}}'/g" neuroid-reactnative-sdk.podspec
+          sed -i "s/s.dependency ['\"]NeuroID['\"],[\s~>.0-9'\"]*/s.dependency 'NeuroID', '${{env.IOS_SDK_VERSION}}'/g" neuroid-reactnative-sdk.podspec
 
       - name: Commit version update
         run: |
