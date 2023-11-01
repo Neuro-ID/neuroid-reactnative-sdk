@@ -2,7 +2,7 @@
 # Requires manual trigger to release of React Native Advanced Device to NPM registry.
 # **********************************************************************************
 
-name: Advanecd Device NPM release workflow
+name: Advanced Device NPM release workflow
 
 on:
   workflow_dispatch:
