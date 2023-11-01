@@ -13,7 +13,7 @@ jobs:
   createTag:
     name: Create Development tag
     runs-on: ubuntu-latest
-
+    if: github.event.pull_request.merged && !startsWith(github.head_ref, 'releases/')
     steps:
       - name: checkout
         uses: actions/checkout@v3
