@@ -1,0 +1,55 @@
+# **********************************************************************************
+# Requires manual trigger to release of React Native Advanced Device to NPM registry.
+# **********************************************************************************
+
+name: Advanced Device NPM release workflow
+
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  createAdvRelease:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Main branch checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
+
+      - name: Retrieve package version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "PACKAGE_VERSION=v${PACKAGE_VERSION}" >> $GITHUB_ENV
+
+      - name: Create ADV Package & Publish to npm
+        run: |
+          npm run setupAdvancedDevice
+          npm publish --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+  notifications:
+    runs-on: ubuntu-latest
+    needs: createAdvRelease
+    steps:
+      - name: Send Slack Notification on Failure
+        if: ${{ needs.createAdvRelease.result == 'failure' }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: ${{ secrets.MOBILE_SLACK_NOTIFICATIONS_CHANNEL }}
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: 'Failed to release React Native Advanced Device NPM module'
+          SLACK_TITLE: Failed to release React Native Advanced Device NPM module
+          SLACK_USERNAME: rtBot
+          SLACK_WEBHOOK: ${{ secrets.MOBILE_SLACK_WEBHOOK }}

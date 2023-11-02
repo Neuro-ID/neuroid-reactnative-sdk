@@ -59,13 +59,7 @@ jobs:
           git tag latest
           git push origin latest
           set -e
-
-      - name: Create ADV Package & Publish to npm
-        run: |
-          npm run setupAdvancedDevice
-          npm publish --tag latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+          
   triggerRNSandboxProd:
     name: Trigger React Native Prod Sandbox release
     runs-on: ubuntu-latest
