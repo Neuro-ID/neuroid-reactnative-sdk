@@ -5,19 +5,13 @@
 name: Advanced Device NPM release workflow
 
 on:
-  pull_request_target:
-    types:
-      - closed
-    branches:
-      - main
-
+  workflow_dispatch:
 permissions:
   contents: write
   issues: write
 
 jobs:
   createAdvRelease:
-    if: github.event.pull_request.merged && startsWith(github.head_ref, 'releases/')
     runs-on: ubuntu-latest
     steps:
       - name: Main branch checkout
