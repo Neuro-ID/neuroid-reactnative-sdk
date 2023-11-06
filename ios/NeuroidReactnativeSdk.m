@@ -7,10 +7,6 @@ RCT_EXTERN_METHOD(configure:(NSString)apiKey
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(setEnvironmentProduction:(BOOL)value
-                 withResolver:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
-
 RCT_EXTERN_METHOD(setVerifyIntegrationHealth:(BOOL)value
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)                 

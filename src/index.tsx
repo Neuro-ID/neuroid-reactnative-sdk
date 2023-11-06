@@ -28,6 +28,13 @@ export const NeuroID: NeuroIDClass = {
     configOptions?: NeuroIDConfigOptions
   ): Promise<void> {
     usingRNNavigation = !!configOptions?.usingReactNavigation;
+
+    const pattern = /key_(live|test)_[A-Za-z0-9]+/;
+    if (!pattern.test(apiKey)) {
+      NeuroIDLog.e('Invalid API Key');
+      return Promise.resolve();
+    }
+
     return Promise.resolve(
       NeuroidReactnativeSdk.configure(apiKey, configOptions)
     );
@@ -71,9 +78,8 @@ export const NeuroID: NeuroIDClass = {
     );
   },
   setEnvironmentProduction: function setEnvironmentProduction(value: Boolean) {
-    return Promise.resolve(
-      NeuroidReactnativeSdk.setEnvironmentProduction(value)
-    );
+    NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
+    return Promise.resolve();
   },
   setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
     value: Boolean
@@ -90,6 +96,7 @@ export const NeuroID: NeuroIDClass = {
   setSiteId: function setSiteId(siteId: string): Promise<void> {
     // Pre-release
     NeuroIDLog.i('SiteID set ', siteId);
+    NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
     return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
   },
   setScreenName: function setScreenName(screenName: string): Promise<void> {
