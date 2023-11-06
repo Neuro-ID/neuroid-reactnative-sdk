@@ -88,4 +88,10 @@ class NeuroidReactnativeSdk: NSObject {
         var screen = NeuroID.getScreenName()
         resolve(screen)
     }
+
+    @objc(enableLogging:withResolver:withRejecter:)
+    func enableLogging(value: Bool, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.enableLogging(value)
+        resolve(true)
+    }
 }

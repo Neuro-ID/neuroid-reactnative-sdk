@@ -1,6 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
 import type { NeuroIDClass, NeuroIDConfigOptions } from './types';
 import { version } from '../package.json';
+import NeuroIDLog from './logger';
 
 const LINKING_ERROR =
   `The package 'neuroid-reactnative-sdk' doesn't seem to be linked. Make sure: \n\n` +
@@ -37,10 +38,11 @@ export const NeuroID: NeuroIDClass = {
         await Promise.resolve(NeuroidReactnativeSdk.start());
         let _cid = await NeuroidReactnativeSdk.getSessionID();
 
-        console.log('Client ID:' + _cid);
+        NeuroIDLog.d('NeuroID Started');
+        NeuroIDLog.i('Client ID:', _cid);
         resolve(true);
-      } catch (e) {
-        console.warn('Failed to start NID', e);
+      } catch (e: any) {
+        NeuroIDLog.e('Failed to start NID', e);
         resolve(false);
       }
     });
@@ -50,14 +52,15 @@ export const NeuroID: NeuroIDClass = {
       try {
         await Promise.resolve(NeuroidReactnativeSdk.stop());
         resolve(true);
-      } catch (e) {
-        console.warn('Failed to stop NID', e);
+        NeuroIDLog.d('NeuroID Stopped');
+      } catch (e: any) {
+        NeuroIDLog.e('Failed to stop NID', e);
         resolve(false);
       }
     });
   },
   setUserID: function setUserID(userID: string): Promise<void> {
-    console.log('Setting User ID: ' + userID);
+    NeuroIDLog.i('Setting User ID: ', userID);
     return Promise.resolve(NeuroidReactnativeSdk.setUserID(userID));
   },
   excludeViewByTestID: function excludeViewByTestID(
@@ -68,8 +71,6 @@ export const NeuroID: NeuroIDClass = {
     );
   },
   setEnvironmentProduction: function setEnvironmentProduction(value: Boolean) {
-    // Pre-release
-    console.log('NeuroID environment set: ', value);
     return Promise.resolve(
       NeuroidReactnativeSdk.setEnvironmentProduction(value)
     );
@@ -77,15 +78,18 @@ export const NeuroID: NeuroIDClass = {
   setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
     value: Boolean
   ) {
-    // Pre-release
-    console.log('NeuroID setVerifyIntegrationHealth: ', value);
+    if (value)
+      NeuroIDLog.i(
+        'Please view the Xcode or Android Studio console to see instructions on how to access The Integration Health Report'
+      );
+
     return Promise.resolve(
       NeuroidReactnativeSdk.setVerifyIntegrationHealth(value)
     );
   },
   setSiteId: function setSiteId(siteId: string): Promise<void> {
     // Pre-release
-    console.log('SiteID set ', siteId);
+    NeuroIDLog.i('SiteID set ', siteId);
     return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
   },
   setScreenName: function setScreenName(screenName: string): Promise<void> {
@@ -124,6 +128,15 @@ export const NeuroID: NeuroIDClass = {
   },
   getScreenName: function getScreenName(): Promise<string> {
     return Promise.resolve(NeuroidReactnativeSdk.getScreenName());
+  },
+  enableLogging: function enableLogging(enable?: boolean): Promise<void> {
+    NeuroIDLog.enableLogging(enable);
+
+    if (enable) {
+      NeuroIDLog.i('Logging Enabled');
+    }
+
+    return Promise.resolve(NeuroidReactnativeSdk.enableLogging(enable));
   },
 };
 
