@@ -79,17 +79,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun setEnvironmentProduction(isProd: Boolean) {
-        val environment = if (isProd) {
-            "LIVE"
-        } else {
-            "TEST"
-        }
-
-        NeuroID.getInstance()?.setEnvironment(environment)
-    }
-
-    @ReactMethod
     fun setVerifyIntegrationHealth(enable: Boolean) {
         NeuroID.getInstance()?.setVerifyIntegrationHealth(enable)       
     }
