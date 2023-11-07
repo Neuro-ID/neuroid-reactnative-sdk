@@ -138,4 +138,9 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         // not exposed in Android
         promise.resolve("")
     }
+
+    @ReactMethod
+    fun enableLogging(enable: Boolean) {
+        NeuroID.getInstance()?.enableLogging(enable)
+    }
 }

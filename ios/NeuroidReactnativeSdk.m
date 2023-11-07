@@ -52,4 +52,8 @@ RCT_EXTERN_METHOD(getUserID: (RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(getScreenName: (RCTPromiseResolveBlock)resolve
 withRejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(enableLogging:(BOOL)value
+                 withResolver:(RCTPromiseResolveBlock)resolve
+                 withRejecter:(RCTPromiseRejectBlock)reject)
+
 @end
