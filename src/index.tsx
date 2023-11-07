@@ -79,6 +79,7 @@ export const NeuroID: NeuroIDClass = {
   },
   setEnvironmentProduction: function setEnvironmentProduction(value: Boolean) {
     NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
+    NeuroIDLog.d(`Environment Being Set - ${value ? 'Production' : 'Test'}`);
     return Promise.resolve();
   },
   setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
