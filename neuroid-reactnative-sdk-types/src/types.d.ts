@@ -16,7 +16,15 @@ export interface NeuroIDClass {
     getUserID: () => Promise<string>;
     getSDKVersion: () => Promise<string>;
     getScreenName: () => Promise<string>;
+    enableLogging: (enable?: boolean) => Promise<void>;
 }
 export interface NeuroIDConfigOptions {
     usingReactNavigation: boolean;
+}
+export interface NeuroIDLogClass {
+    enableLogging: (enable?: boolean) => void;
+    log: (...message: String[]) => void;
+    d: (...message: String[]) => void;
+    i: (...message: String[]) => void;
+    e: (...message: String[]) => void;
 }
