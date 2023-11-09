@@ -39,6 +39,88 @@ export const NeuroID: NeuroIDClass = {
       NeuroidReactnativeSdk.configure(apiKey, configOptions)
     );
   },
+
+  enableLogging: function enableLogging(enable?: boolean): Promise<void> {
+    NeuroIDLog.enableLogging(enable);
+
+    if (enable) {
+      NeuroIDLog.i('Logging Enabled');
+    }
+
+    return Promise.resolve(NeuroidReactnativeSdk.enableLogging(enable));
+  },
+
+  excludeViewByTestID: function excludeViewByTestID(
+    excludedView: string
+  ): Promise<void> {
+    return Promise.resolve(
+      NeuroidReactnativeSdk.excludeViewByTestID(excludedView)
+    );
+  },
+
+  getClientID: function getClientID(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getClientID());
+  },
+
+  getEnvironment: function getEnvironment(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getEnvironment());
+  },
+
+  getSDKVersion: function getSDKVersion(): Promise<string> {
+    return new Promise((res) => res(`React-Native:${version}`));
+  },
+
+  getScreenName: function getScreenName(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getScreenName());
+  },
+
+  getSessionID: function getSessionID(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
+  },
+
+  getUserID: function getUserID(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getUserID());
+  },
+
+  isStopped: function isStopped(): Promise<boolean> {
+    return Promise.resolve(NeuroidReactnativeSdk.isStopped());
+  },
+
+  setEnvironmentProduction: function setEnvironmentProduction(value: Boolean) {
+    NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
+    NeuroIDLog.d(`Environment Being Set - ${value ? 'Production' : 'Test'}`);
+    return Promise.resolve();
+  },
+
+  setScreenName: function setScreenName(screenName: string): Promise<void> {
+    return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
+  },
+
+  setSiteId: function setSiteId(siteId: string): Promise<void> {
+    // Pre-release
+    NeuroIDLog.i('SiteID set ', siteId);
+    NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
+    return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
+  },
+
+  setUserID: function setUserID(userID: string): Promise<void> {
+    NeuroIDLog.i('Setting User ID: ', userID);
+    return Promise.resolve(NeuroidReactnativeSdk.setUserID(userID));
+  },
+
+  setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
+    value: Boolean
+  ) {
+    if (value)
+      NeuroIDLog.i(
+        'Please view the Xcode or Android Studio console to see instructions on how to access The Integration Health Report'
+      );
+
+    return Promise.resolve(
+      NeuroidReactnativeSdk.setVerifyIntegrationHealth(value)
+    );
+  },
+
   start: function start(): Promise<Boolean> {
     return new Promise(async function (resolve) {
       try {
@@ -54,6 +136,7 @@ export const NeuroID: NeuroIDClass = {
       }
     });
   },
+
   stop: function stop(): Promise<Boolean> {
     return new Promise(async function (resolve) {
       try {
@@ -66,46 +149,7 @@ export const NeuroID: NeuroIDClass = {
       }
     });
   },
-  setUserID: function setUserID(userID: string): Promise<void> {
-    NeuroIDLog.i('Setting User ID: ', userID);
-    return Promise.resolve(NeuroidReactnativeSdk.setUserID(userID));
-  },
-  excludeViewByTestID: function excludeViewByTestID(
-    excludedView: string
-  ): Promise<void> {
-    return Promise.resolve(
-      NeuroidReactnativeSdk.excludeViewByTestID(excludedView)
-    );
-  },
-  setEnvironmentProduction: function setEnvironmentProduction(value: Boolean) {
-    NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
-    NeuroIDLog.d(`Environment Being Set - ${value ? 'Production' : 'Test'}`);
-    return Promise.resolve();
-  },
-  setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
-    value: Boolean
-  ) {
-    if (value)
-      NeuroIDLog.i(
-        'Please view the Xcode or Android Studio console to see instructions on how to access The Integration Health Report'
-      );
 
-    return Promise.resolve(
-      NeuroidReactnativeSdk.setVerifyIntegrationHealth(value)
-    );
-  },
-  setSiteId: function setSiteId(siteId: string): Promise<void> {
-    // Pre-release
-    NeuroIDLog.i('SiteID set ', siteId);
-    NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
-    return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
-  },
-  setScreenName: function setScreenName(screenName: string): Promise<void> {
-    return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
-  },
-  isStopped: function isStopped(): Promise<boolean> {
-    return Promise.resolve(NeuroidReactnativeSdk.isStopped());
-  },
   registerPageTargets: function registerPageTargets(): Promise<void> {
     if (Platform.OS === 'ios') {
       if (!usingRNNavigation) {
@@ -116,35 +160,11 @@ export const NeuroID: NeuroIDClass = {
     }
     return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
   },
+
   setupPage: async function setupPage(screenName: string): Promise<void> {
     await Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
 
     return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
-  },
-
-  getClientID: function getClientID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getClientID());
-  },
-  getSessionID: function getSessionID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
-  },
-  getUserID: function getUserID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getUserID());
-  },
-  getSDKVersion: function getSDKVersion(): Promise<string> {
-    return new Promise((res) => res(`React-Native:${version}`));
-  },
-  getScreenName: function getScreenName(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getScreenName());
-  },
-  enableLogging: function enableLogging(enable?: boolean): Promise<void> {
-    NeuroIDLog.enableLogging(enable);
-
-    if (enable) {
-      NeuroIDLog.i('Logging Enabled');
-    }
-
-    return Promise.resolve(NeuroidReactnativeSdk.enableLogging(enable));
   },
 };
 
