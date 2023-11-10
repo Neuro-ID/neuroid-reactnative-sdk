@@ -97,7 +97,7 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(registerPageTargets:withRejecter:)
     func registerPageTargets(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        NeuroID.forceStart()
+        NeuroID.registerPageTargets()
         resolve(true)
     }
     

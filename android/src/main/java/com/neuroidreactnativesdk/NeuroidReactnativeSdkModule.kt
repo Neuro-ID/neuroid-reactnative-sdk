@@ -119,10 +119,10 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     fun registerPageTargets(promise: Promise){
         val reactCurrentActivity = currentActivity
         if (reactCurrentActivity != null) {
-            NeuroID.getInstance()?.setForceStart(reactCurrentActivity)
+            NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
 
-          promise.resolve(true)
+        promise.resolve(true)
     }
 
     // setup page mising?
