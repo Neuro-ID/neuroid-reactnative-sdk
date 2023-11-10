@@ -12,16 +12,10 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     companion object {
         @JvmStatic
         fun configure(application: Application, key: String) {
-            configure(application, key, null)
-        }
-
-        @JvmStatic
-        fun configure(application: Application, key: String, endpoint: String?) {
             if (NeuroID.getInstance() == null) {
                 val neuroID = NeuroID.Builder(application, key).build()
                 NeuroID.setNeuroIdInstance(neuroID)
             }
-            NeuroID.getInstance()?.configureWithOptions(key, endpoint)
         }
     }
 
@@ -38,7 +32,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
             val neuroID = NeuroID.Builder(application, key).build()
             NeuroID.setNeuroIdInstance(neuroID)
         }
-        NeuroID.getInstance()?.configureWithOptions(key, null)
 
         val reactCurrentActivity = currentActivity
         if (reactCurrentActivity != null) {
@@ -69,7 +62,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun getScreenName(promise: Promise) {
         // not exposed in Android
-        promise.resolve("")
+        promise.resolve(NeuroID.getInstance()?.getScreenName())
     }
 
     @ReactMethod
