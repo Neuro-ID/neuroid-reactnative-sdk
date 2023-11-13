@@ -35,7 +35,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
         val reactCurrentActivity = currentActivity
         if (reactCurrentActivity != null) {
-            NeuroID.getInstance()?.setForceStart(reactCurrentActivity)
+            NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
     }
 
