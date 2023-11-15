@@ -46,7 +46,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun excludeViewByTestID(id: String) {
-        NeuroID.getInstance()?.excludeViewByResourceID(id)
+        NeuroID.getInstance()?.excludeViewByTestID(id)
     }
 
     @ReactMethod
