@@ -12,16 +12,10 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     companion object {
         @JvmStatic
         fun configure(application: Application, key: String) {
-            configure(application, key, null)
-        }
-
-        @JvmStatic
-        fun configure(application: Application, key: String, endpoint: String?) {
             if (NeuroID.getInstance() == null) {
                 val neuroID = NeuroID.Builder(application, key).build()
                 NeuroID.setNeuroIdInstance(neuroID)
             }
-            NeuroID.getInstance()?.configureWithOptions(key, endpoint)
         }
     }
 
@@ -38,78 +32,37 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
             val neuroID = NeuroID.Builder(application, key).build()
             NeuroID.setNeuroIdInstance(neuroID)
         }
-        NeuroID.getInstance()?.configureWithOptions(key, null)
 
         val reactCurrentActivity = currentActivity
         if (reactCurrentActivity != null) {
-            NeuroID.getInstance()?.setForceStart(reactCurrentActivity)
+            NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
     }
-    
-    @ReactMethod
-    fun start() {
-        NeuroID.getInstance()?.setIsRN()
-        NeuroID.getInstance()?.start()
-    }
 
     @ReactMethod
-    fun stop() {
-        NeuroID.getInstance()?.stop()
-    }
-
-
-    @ReactMethod
-    fun captureEvent(event: String, tags: String) {
-        NeuroID.getInstance()?.captureEvent(event, tags)
-    }
-
-    @ReactMethod
-    fun setUserID(id: String) {
-        NeuroID.getInstance()?.setUserID(id)
-    }
-
-    @ReactMethod
-    fun setScreenName(screen: String) {
-        NeuroID.getInstance()?.setScreenName(screen)
+    fun enableLogging(enable: Boolean) {
+        NeuroID.getInstance()?.enableLogging(enable)
     }
 
     @ReactMethod
     fun excludeViewByTestID(id: String) {
-        NeuroID.getInstance()?.excludeViewByResourceID(id)
-    }
-
-    @ReactMethod
-    fun setVerifyIntegrationHealth(enable: Boolean) {
-        NeuroID.getInstance()?.setVerifyIntegrationHealth(enable)       
-    }
-
-    @ReactMethod
-    fun setSiteId(siteId: String) {
-        NeuroID.getInstance()?.setSiteId(siteId)
-    }
-
-    @ReactMethod
-    fun isStopped(promise: Promise) {
-        val instance = NeuroID.getInstance()
-        if (instance == null)
-            promise.resolve(true)
-        else
-            promise.resolve(instance.isStopped())
-    }
-
-    @ReactMethod
-    fun registerPageTargets(promise: Promise){
-        val reactCurrentActivity = currentActivity
-        if (reactCurrentActivity != null) {
-            NeuroID.getInstance()?.setForceStart(reactCurrentActivity)
-        }
-
-          promise.resolve(true)
+        NeuroID.getInstance()?.excludeViewByTestID(id)
     }
 
     @ReactMethod
     fun getClientID(promise: Promise){
         promise.resolve(NeuroID.getInstance()?.getClientId())
+    }
+
+    @ReactMethod
+    fun getEnvironment(promise: Promise){
+        promise.resolve(NeuroID.getInstance()?.getEnvironment())
+    }
+
+    @ReactMethod
+    fun getScreenName(promise: Promise) {
+        // not exposed in Android
+        promise.resolve(NeuroID.getInstance()?.getScreenName())
     }
 
     @ReactMethod
@@ -123,13 +76,54 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun getScreenName(promise: Promise) {
-        // not exposed in Android
-        promise.resolve("")
+    fun isStopped(promise: Promise) {
+        val instance = NeuroID.getInstance()
+        if (instance == null)
+            promise.resolve(true)
+        else
+            promise.resolve(instance.isStopped())
     }
 
     @ReactMethod
-    fun enableLogging(enable: Boolean) {
-        NeuroID.getInstance()?.enableLogging(enable)
+    fun setScreenName(screen: String) {
+        NeuroID.getInstance()?.setScreenName(screen)
     }
+
+    @ReactMethod
+    fun setSiteId(siteId: String) {
+        NeuroID.getInstance()?.setSiteId(siteId)
+    }
+
+    @ReactMethod
+    fun setUserID(id: String) {
+        NeuroID.getInstance()?.setUserID(id)
+    }
+
+    @ReactMethod
+    fun setVerifyIntegrationHealth(enable: Boolean) {
+        NeuroID.getInstance()?.setVerifyIntegrationHealth(enable)       
+    }
+
+    @ReactMethod
+    fun start() {
+        NeuroID.getInstance()?.setIsRN()
+        NeuroID.getInstance()?.start()
+    }
+
+    @ReactMethod
+    fun stop() {
+        NeuroID.getInstance()?.stop()
+    }
+
+    @ReactMethod
+    fun registerPageTargets(promise: Promise){
+        val reactCurrentActivity = currentActivity
+        if (reactCurrentActivity != null) {
+            NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
+        }
+
+        promise.resolve(true)
+    }
+
+    // setup page mising?
 }
