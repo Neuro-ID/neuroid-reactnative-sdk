@@ -108,6 +108,13 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.setUserID(userID));
   },
 
+  setRegisteredUserID: function setRegisteredUserID(
+    userID: string
+  ): Promise<void> {
+    NeuroIDLog.i('Setting Registered User ID: ', userID);
+    return Promise.resolve(NeuroidReactnativeSdk.setRegisteredUserID(userID));
+  },
+
   setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
     value: Boolean
   ) {

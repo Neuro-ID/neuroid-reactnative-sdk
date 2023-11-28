@@ -100,6 +100,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
+    fun setRegisteredUserID(id: String) {
+        NeuroID.getInstance()?.setRegisteredUserID(id)
+    }
+
+    @ReactMethod
     fun setVerifyIntegrationHealth(enable: Boolean) {
         NeuroID.getInstance()?.setVerifyIntegrationHealth(enable)       
     }

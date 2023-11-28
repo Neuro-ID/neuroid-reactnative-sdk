@@ -15,6 +15,7 @@ export interface NeuroIDClass {
   setScreenName: (screenName: string) => Promise<void>;
   setSiteId: (siteId: string) => Promise<void>; // deprecated
   setUserID: (userID: string) => Promise<void>;
+  setRegisteredUserID: (userID: string) => Promise<void>;
   setVerifyIntegrationHealth: (value: Boolean) => Promise<void>;
 
   start: () => Promise<Boolean>;
