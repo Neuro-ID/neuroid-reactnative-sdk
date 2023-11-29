@@ -103,16 +103,38 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
   },
 
-  setUserID: function setUserID(userID: string): Promise<void> {
+  setUserID: function setUserID(userID: string): Promise<boolean> {
     NeuroIDLog.i('Setting User ID: ', userID);
-    return Promise.resolve(NeuroidReactnativeSdk.setUserID(userID));
+
+    return new Promise((resolve, reject) => {
+      const result = NeuroidReactnativeSdk.setUserID(userID);
+
+      if (result) {
+        resolve(true);
+      } else {
+        const errorMessage = 'Failed to set user ID';
+        NeuroIDLog.e(errorMessage);
+        reject(new Error(errorMessage));
+      }
+    });
   },
 
   setRegisteredUserID: function setRegisteredUserID(
     userID: string
-  ): Promise<void> {
+  ): Promise<boolean> {
     NeuroIDLog.i('Setting Registered User ID: ', userID);
-    return Promise.resolve(NeuroidReactnativeSdk.setRegisteredUserID(userID));
+
+    return new Promise((resolve, reject) => {
+      const result = NeuroidReactnativeSdk.setRegisteredUserID(userID);
+
+      if (result) {
+        resolve(true);
+      } else {
+        const errorMessage = 'Failed to set registered user ID';
+        NeuroIDLog.e(errorMessage);
+        reject(false);
+      }
+    });
   },
 
   setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
