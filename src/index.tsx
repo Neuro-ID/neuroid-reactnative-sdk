@@ -114,7 +114,7 @@ export const NeuroID: NeuroIDClass = {
       } else {
         const errorMessage = 'Failed to set user ID';
         NeuroIDLog.e(errorMessage);
-        reject(new Error(errorMessage));
+        reject(false);
       }
     });
   },
