@@ -1,10 +1,14 @@
 package com.neuroidreactnativesdk
 
 import android.app.Application
+import androidx.annotation.RequiresPermission.Read
 import com.facebook.react.bridge.*
 import com.facebook.react.bridge.ReadableMap
 import com.neuroid.tracker.NeuroID
 import com.neuroid.tracker.extensions.setVerifyIntegrationHealth
+import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.Arguments
+import com.neuroid.tracker.models.SessionStartResult
 
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
@@ -123,6 +127,38 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         }
 
         promise.resolve(true)
+    }
+
+    @ReactMethod
+    fun clearSessionVariables() {
+        NeuroID.getInstance()?.clearSessionVariables()
+    }
+
+    @ReactMethod
+    fun startSession(sessionID: String, promise: Promise) {
+        val result = NeuroID.getInstance()?.startSession(sessionID)
+        val resultData = Arguments.createMap()
+        result?.let {
+            resultData.putString("sessionID", it.sessionID)
+            resultData.putBoolean("started", it.started)
+        }
+        promise.resolve(resultData)
+    }
+
+    @ReactMethod
+    fun pauseCollection() {
+        NeuroID.getInstance()?.pauseCollection()
+    }
+
+    @ReactMethod
+    fun resumeCollection() {
+        NeuroID.getInstance()?.resumeCollection()
+    }
+
+     @ReactMethod
+    fun stopSession(promise: Promise) {
+        val result = NeuroID.getInstance()?.stopSession()
+        promise.resolve(result)
     }
 
     // setup page mising?

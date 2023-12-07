@@ -22,6 +22,10 @@ export interface NeuroIDClass {
 
   registerPageTargets: () => Promise<void>;
   setupPage: (screenName: string) => Promise<void>;
+  startSession: (sessionId: string) => Promise<SessionStartResult>;
+  stopSession: () => Promise<boolean>;
+  resumeCollection: () => Promise<void>;
+  pauseCollection: () => Promise<void>;
 }
 
 export interface NeuroIDConfigOptions {
@@ -34,4 +38,9 @@ export interface NeuroIDLogClass {
   d: (...message: String[]) => void;
   i: (...message: String[]) => void;
   e: (...message: String[]) => void;
+}
+
+export interface SessionStartResult {
+  started: boolean;
+  sessionID: String;
 }
