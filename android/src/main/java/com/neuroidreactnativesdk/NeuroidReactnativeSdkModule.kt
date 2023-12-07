@@ -130,11 +130,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun clearSessionVariables() {
-        NeuroID.getInstance()?.clearSessionVariables()
-    }
-
-    @ReactMethod
     fun startSession(sessionID: String, promise: Promise) {
         val result = NeuroID.getInstance()?.startSession(sessionID)
         val resultData = Arguments.createMap()
@@ -145,6 +140,12 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         promise.resolve(resultData)
     }
 
+     @ReactMethod
+    fun stopSession(promise: Promise) {
+        val result = NeuroID.getInstance()?.stopSession()
+        promise.resolve(result)
+    }
+
     @ReactMethod
     fun pauseCollection() {
         NeuroID.getInstance()?.pauseCollection()
@@ -153,12 +154,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun resumeCollection() {
         NeuroID.getInstance()?.resumeCollection()
-    }
-
-     @ReactMethod
-    fun stopSession(promise: Promise) {
-        val result = NeuroID.getInstance()?.stopSession()
-        promise.resolve(result)
     }
 
     // setup page mising?
