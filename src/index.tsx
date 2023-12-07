@@ -171,7 +171,7 @@ export const NeuroID: NeuroIDClass = {
     sessionID: string
   ): Promise<SessionStartResult> {
     let result = await NeuroidReactnativeSdk.startSession(sessionID);
-    console.log('startSession(): ' + result['sessionID'] + ' ' + result['started']);
+    NeuroIDLog.d('startSession(): ' + result['sessionID'] + ' ' + result['started']);
     return {
       sessionID: result['sessionID'] as string,
       started: result['started'] as boolean,
@@ -180,19 +180,19 @@ export const NeuroID: NeuroIDClass = {
 
   stopSession: async function name(): Promise<boolean> {
     let result = await NeuroidReactnativeSdk.stopSession();
-    console.log('stopSession(): ' + result);
+    NeuroIDLog.d('stopSession(): ' + result);
     return result;
   },
 
   pauseCollection: async function name(): Promise<void> {
     NeuroidReactnativeSdk.pauseCollection();
-    console.log('pauseCollection()');
+    NeuroIDLog.d('pauseCollection()');
     return Promise.resolve();
   },
 
   resumeCollection: async function name(): Promise<void> {
     NeuroidReactnativeSdk.resumeCollection();
-    console.log('resumeCollection()');
+    NeuroIDLog.d('resumeCollection()');
     return Promise.resolve();
   },
 };
