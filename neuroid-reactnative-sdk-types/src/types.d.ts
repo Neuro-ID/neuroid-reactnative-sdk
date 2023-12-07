@@ -12,7 +12,8 @@ export interface NeuroIDClass {
     setEnvironmentProduction: (value: Boolean) => Promise<void>;
     setScreenName: (screenName: string) => Promise<void>;
     setSiteId: (siteId: string) => Promise<void>;
-    setUserID: (userID: string) => Promise<void>;
+    setUserID: (userID: string) => Promise<boolean>;
+    setRegisteredUserID: (userID: string) => Promise<boolean>;
     setVerifyIntegrationHealth: (value: Boolean) => Promise<void>;
     start: () => Promise<Boolean>;
     stop: () => Promise<Boolean>;

@@ -95,8 +95,15 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun setUserID(id: String) {
-        NeuroID.getInstance()?.setUserID(id)
+    fun setUserID(id: String): Boolean  {
+        var result = NeuroID.getInstance()?.setUserID(id)
+        return result
+    }
+
+    @ReactMethod
+    fun setRegisteredUserID(id: String): Boolean  {
+        var result = NeuroID.getInstance()?.setRegisteredUserID(id)
+        return result
     }
 
     @ReactMethod
