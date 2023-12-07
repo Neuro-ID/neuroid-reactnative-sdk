@@ -58,9 +58,6 @@ RCT_EXTERN_METHOD(stop: (RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(registerPageTargets: (RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(clearSessionVariables: (RCTPromiseResolveBlock) resolve
-                 withRejecter:(RCTPromiseRejectBlock) reject)
-
 RCT_EXTERN_METHOD(startSession: (NSString)sessionID 
                  withResolver:(RCTPromiseResolveBlock) resolve
                  withRejecter:(RCTPromiseRejectBlock) reject)
