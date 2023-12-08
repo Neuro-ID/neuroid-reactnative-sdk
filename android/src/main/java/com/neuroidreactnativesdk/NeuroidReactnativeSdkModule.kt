@@ -1,14 +1,11 @@
 package com.neuroidreactnativesdk
 
 import android.app.Application
-import androidx.annotation.RequiresPermission.Read
 import com.facebook.react.bridge.*
 import com.facebook.react.bridge.ReadableMap
 import com.neuroid.tracker.NeuroID
 import com.neuroid.tracker.extensions.setVerifyIntegrationHealth
-import com.facebook.react.bridge.WritableMap
 import com.facebook.react.bridge.Arguments
-import com.neuroid.tracker.models.SessionStartResult
 
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
