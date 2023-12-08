@@ -24,44 +24,44 @@ class NeuroidReactnativeSdk: NSObject {
 
     @objc(getClientID:withRejecter:)
     func getClientID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        var cid = NeuroID.getClientID()
+        let cid = NeuroID.getClientID()
         resolve(cid)
     }
 
     @objc(getEnvironment:withRejecter:)
     func getEnvironment(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        var env = NeuroID.getEnvironment()
+        let env = NeuroID.getEnvironment()
         resolve(env)
     }
 
     @objc(getScreenName:withRejecter:)
     func getScreenName(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        var screen = NeuroID.getScreenName()
+        let screen = NeuroID.getScreenName()
         resolve(screen)
     }
 
     @objc(getSessionID:withRejecter:)
     func getSessionID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        var sid = NeuroID.getSessionID()
+        let sid = NeuroID.getSessionID()
         resolve(sid)
     }
 
     @objc(getUserID:withRejecter:)
     func getUserID(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        var uid = NeuroID.getUserID()
+        let uid = NeuroID.getUserID()
         resolve(uid)
     }
 
     @objc(isStopped:withRejecter:)
     func isStopped(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        var stopped = NeuroID.isStopped()
+        let stopped = NeuroID.isStopped()
         resolve(stopped)
     }
 
     @objc(setScreenName:withResolver:withRejecter:)
     func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        try? NeuroID.setScreenName(screen: screenName)
-        resolve(true)
+        let setResult = NeuroID.setScreenName(screenName)
+        resolve(setResult)
     }
 
     @objc(setSiteId:withResolver:withRejecter:)
@@ -72,13 +72,13 @@ class NeuroidReactnativeSdk: NSObject {
 
     @objc(setUserID:withResolver:withRejecter:)
     func setUserID(userID: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        var setResult = NeuroID.setUserID(userID)
+        let setResult = NeuroID.setUserID(userID)
         resolve(setResult)
     }
 
     @objc(setRegisteredUserID:withResolver:withRejecter:)
     func setRegisteredUserID(userID: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-       var setResult = NeuroID.setRegisteredUserID(userID)
+        let setResult = NeuroID.setRegisteredUserID(userID)
         resolve(setResult)
     }
 
@@ -91,7 +91,7 @@ class NeuroidReactnativeSdk: NSObject {
     @objc(start:withRejecter:)
     func start(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.setIsRN()
-        NeuroID.start()
+        _ = NeuroID.start()
         resolve(true)
     }
     
