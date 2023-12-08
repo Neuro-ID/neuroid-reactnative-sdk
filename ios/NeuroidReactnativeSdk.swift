@@ -60,8 +60,8 @@ class NeuroidReactnativeSdk: NSObject {
 
     @objc(setScreenName:withResolver:withRejecter:)
     func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        try? NeuroID.setScreenName(screenName)
-        resolve(true)
+        val result NeuroID.setScreenName(screenName)
+        resolve(result)
     }
 
     @objc(setSiteId:withResolver:withRejecter:)
@@ -126,7 +126,7 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(startSession:withResolver:withRejecter:)
-    func startSessreaion(sessionID:String, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
+    func startSession(sessionID:String, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
         let result = NeuroID.startSession(sessionID)
         let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
         resolve(resultData)
