@@ -43,12 +43,9 @@ jobs:
           npm publish --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-  notifications:
-    runs-on: ubuntu-latest
-    needs: createAdvRelease
-    steps:
+
       - name: Send Slack Notification on Failure
-        if: ${{ needs.createAdvRelease.result == 'failure' }}
+        if: failure()
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: ${{ secrets.MOBILE_SLACK_NOTIFICATIONS_CHANNEL }}

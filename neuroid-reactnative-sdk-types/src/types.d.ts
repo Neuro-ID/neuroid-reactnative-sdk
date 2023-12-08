@@ -12,13 +12,13 @@ export interface NeuroIDClass {
     setEnvironmentProduction: (value: Boolean) => Promise<void>;
     setScreenName: (screenName: string) => Promise<void>;
     setSiteId: (siteId: string) => Promise<void>;
-    setUserID: (userID: string) => Promise<void>;
+    setUserID: (userID: string) => Promise<boolean>;
+    setRegisteredUserID: (userID: string) => Promise<boolean>;
     setVerifyIntegrationHealth: (value: Boolean) => Promise<void>;
     start: () => Promise<Boolean>;
     stop: () => Promise<Boolean>;
     registerPageTargets: () => Promise<void>;
     setupPage: (screenName: string) => Promise<void>;
-    
     startSession: (sessionId: string) => Promise<SessionStartResult>;
     stopSession: () => Promise<boolean>;
     resumeCollection: () => Promise<void>;
@@ -34,8 +34,7 @@ export interface NeuroIDLogClass {
     i: (...message: String[]) => void;
     e: (...message: String[]) => void;
 }
-
 export interface SessionStartResult {
     started: boolean;
     sessionID: String;
-  }
+}
