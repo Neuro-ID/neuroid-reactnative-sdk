@@ -12,7 +12,7 @@ export interface NeuroIDClass {
 
   isStopped: () => Promise<boolean>;
   setEnvironmentProduction: (value: Boolean) => Promise<void>; // deprecated
-  setScreenName: (screenName: string) => Promise<void>;
+  setScreenName: (screenName: string) => Promise<boolean>;
   setSiteId: (siteId: string) => Promise<void>; // deprecated
   setUserID: (userID: string) => Promise<boolean>;
   setRegisteredUserID: (userID: string) => Promise<boolean>;

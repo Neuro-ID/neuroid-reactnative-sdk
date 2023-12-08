@@ -92,7 +92,7 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve();
   },
 
-  setScreenName: function setScreenName(screenName: string): Promise<void> {
+  setScreenName: function setScreenName(screenName: string): Promise<boolean> {
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
   },
 
