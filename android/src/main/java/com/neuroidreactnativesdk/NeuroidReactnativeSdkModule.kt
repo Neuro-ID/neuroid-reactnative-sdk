@@ -87,8 +87,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun setScreenName(screen: String): Boolean {
-        val result NeuroID.getInstance()?.setScreenName(screen)
-        return result
+        val result = NeuroID.getInstance()?.setScreenName(screen)
+        result?.let {
+            return it
+        }
+        return false
     }
 
     @ReactMethod
@@ -97,15 +100,15 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun setUserID(id: String): Boolean  {
+    fun setUserID(id: String, promise: Promise) {
         var result = NeuroID.getInstance()?.setUserID(id)
-        return result
+        promise.resolve(result)
     }
 
     @ReactMethod
-    fun setRegisteredUserID(id: String): Boolean  {
+    fun setRegisteredUserID(id: String, promise: Promise)  {
         var result = NeuroID.getInstance()?.setRegisteredUserID(id)
-        return result
+        promise.resolve(result)
     }
 
     @ReactMethod
