@@ -60,7 +60,7 @@ class NeuroidReactnativeSdk: NSObject {
 
     @objc(setScreenName:withResolver:withRejecter:)
     func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        val result NeuroID.setScreenName(screenName)
+        var result = NeuroID.setScreenName(screenName)
         resolve(result)
     }
 
