@@ -86,12 +86,9 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun setScreenName(screen: String): Boolean {
+    fun setScreenName(screen: String, promise: Promise) {
         val result = NeuroID.getInstance()?.setScreenName(screen)
-        result?.let {
-            return it
-        }
-        return false
+        promise.resolve(result)
     }
 
     @ReactMethod
