@@ -10,31 +10,12 @@ on:
       - main
 
 jobs:
-  createTag:
-    name: Create Development tag
+  triggerDevSandbox:
+    name: Trigger ReactNative Sandbox Dev Deployment
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged && !startsWith(github.head_ref, 'releases/')
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
-      - name: Update new commit to have "Development" Tag
-        run: |
-          git config --global user.email developer@neuro-id.com
-          git config --global user.name neuroid-developer
-          set +e
-          git push origin :development
-          git tag -d development
-          git tag development
-          git push origin development
-          set -e
-
-  triggerRNSandboxAndroidDev:
-    name: Trigger React Native Dev Sandbox release
-    runs-on: ubuntu-latest
-    needs: createTag
-    steps:
-      - name: Trigger ReactNative Sandbox Dev Deployment
+      - name: Trigger ReactNative Sandbox Dev 
         run: |
          curl \
              -X POST \

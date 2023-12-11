@@ -30,12 +30,7 @@ jobs:
            git tag development
            git push origin development
            set -e
-  
-  triggerRNSandboxiOSDev:
-    name: Trigger React Native Dev iOS Sandbox release
-    runs-on: ubuntu-latest
-    needs: createTag
-    steps:
+
       - name: Run ReactNative Sandbox iOS Dev Deployment
         run: |
             curl \
