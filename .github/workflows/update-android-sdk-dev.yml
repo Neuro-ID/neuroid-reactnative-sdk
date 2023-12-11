@@ -10,12 +10,12 @@ on:
       - main
 
 jobs:
-  createTag:
-    name: Create Development tag
+  triggerDevSandbox:
+    name: Trigger ReactNative Sandbox Dev Deployment
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged && !startsWith(github.head_ref, 'releases/')
     steps:
-      - name: Trigger ReactNative Sandbox Dev Deployment
+      - name: Trigger ReactNative Sandbox Dev 
         run: |
          curl \
              -X POST \
