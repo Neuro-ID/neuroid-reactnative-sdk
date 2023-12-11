@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import type { NeuroIDClass, NeuroIDConfigOptions } from './types';
+import type { NeuroIDClass, NeuroIDConfigOptions, SessionStartResult } from './types';
 import { version } from '../package.json';
 import NeuroIDLog from './logger';
 
@@ -92,7 +92,8 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve();
   },
 
-  setScreenName: function setScreenName(screenName: string): Promise<void> {
+  setScreenName: function setScreenName(screenName: string): Promise<boolean> {
+    NeuroIDLog.d('setScreenName()', screenName);
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
   },
 
@@ -194,6 +195,35 @@ export const NeuroID: NeuroIDClass = {
     await Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
 
     return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+  },
+
+  startSession: async function name(
+    sessionID: string
+  ): Promise<SessionStartResult> {
+    let result = await NeuroidReactnativeSdk.startSession(sessionID);
+    NeuroIDLog.d('startSession(): ' + result['sessionID'] + ' ' + result['started']);
+    return {
+      sessionID: result['sessionID'] as string,
+      started: result['started'] as boolean,
+    } as SessionStartResult;
+  },
+
+  stopSession: async function name(): Promise<boolean> {
+    let result = await NeuroidReactnativeSdk.stopSession();
+    NeuroIDLog.d('stopSession(): ' + result);
+    return result;
+  },
+
+  pauseCollection: async function name(): Promise<void> {
+    NeuroidReactnativeSdk.pauseCollection();
+    NeuroIDLog.d('pauseCollection()');
+    return Promise.resolve();
+  },
+
+  resumeCollection: async function name(): Promise<void> {
+    NeuroidReactnativeSdk.resumeCollection();
+    NeuroIDLog.d('resumeCollection()');
+    return Promise.resolve();
   },
 };
 

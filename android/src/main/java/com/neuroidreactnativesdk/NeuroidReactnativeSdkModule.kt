@@ -5,6 +5,7 @@ import com.facebook.react.bridge.*
 import com.facebook.react.bridge.ReadableMap
 import com.neuroid.tracker.NeuroID
 import com.neuroid.tracker.extensions.setVerifyIntegrationHealth
+import com.facebook.react.bridge.Arguments
 
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
@@ -85,8 +86,9 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun setScreenName(screen: String) {
-        NeuroID.getInstance()?.setScreenName(screen)
+    fun setScreenName(screen: String, promise: Promise) {
+        val result = NeuroID.getInstance()?.setScreenName(screen)
+        promise.resolve(result)
     }
 
     @ReactMethod
@@ -95,15 +97,15 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun setUserID(id: String): Boolean  {
+    fun setUserID(id: String, promise: Promise) {
         var result = NeuroID.getInstance()?.setUserID(id)
-        return result
+        promise.resolve(result)
     }
 
     @ReactMethod
-    fun setRegisteredUserID(id: String): Boolean  {
+    fun setRegisteredUserID(id: String, promise: Promise)  {
         var result = NeuroID.getInstance()?.setRegisteredUserID(id)
-        return result
+        promise.resolve(result)
     }
 
     @ReactMethod
@@ -130,6 +132,33 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         }
 
         promise.resolve(true)
+    }
+
+    @ReactMethod
+    fun startSession(sessionID: String, promise: Promise) {
+        val result = NeuroID.getInstance()?.startSession(sessionID)
+        val resultData = Arguments.createMap()
+        result?.let {
+            resultData.putString("sessionID", it.sessionID)
+            resultData.putBoolean("started", it.started)
+        }
+        promise.resolve(resultData)
+    }
+
+     @ReactMethod
+    fun stopSession(promise: Promise) {
+        val result = NeuroID.getInstance()?.stopSession()
+        promise.resolve(result)
+    }
+
+    @ReactMethod
+    fun pauseCollection() {
+        NeuroID.getInstance()?.pauseCollection()
+    }
+
+    @ReactMethod
+    fun resumeCollection() {
+        NeuroID.getInstance()?.resumeCollection()
     }
 
     // setup page mising?
