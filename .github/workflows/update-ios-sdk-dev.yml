@@ -18,7 +18,7 @@ jobs:
       - name: Main branch Checkout
         uses: actions/checkout@v3
         with:
-         ref: ${{ github.head_ref }}
+         ref: main
          
       - name: Update new commit to have "Development" Tag
         run: |
