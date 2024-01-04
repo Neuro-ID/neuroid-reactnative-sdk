@@ -60,8 +60,8 @@ class NeuroidReactnativeSdk: NSObject {
 
     @objc(setScreenName:withResolver:withRejecter:)
     func setScreenName(screenName: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        let setResult = NeuroID.setScreenName(screenName)
-        resolve(setResult)
+        var result = NeuroID.setScreenName(screenName)
+        resolve(result)
     }
 
     @objc(setSiteId:withResolver:withRejecter:)
@@ -105,6 +105,31 @@ class NeuroidReactnativeSdk: NSObject {
     func registerPageTargets(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         NeuroID.registerPageTargets()
         resolve(true)
+    }
+
+    @objc(pauseCollection:withRejecter:)
+    func pauseCollection(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.pauseCollection()
+        resolve(true)
+    }
+
+    @objc(resumeCollection:withRejecter:)
+    func resumeCollection(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        NeuroID.resumeCollection()
+        resolve(true)
+    }
+
+    @objc(stopSession:withRejecter:)
+    func stopSession(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        let result = NeuroID.stopSession()
+        resolve(result)
+    }
+
+    @objc(startSession:withResolver:withRejecter:)
+    func startSession(sessionID:String, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
+        let result = NeuroID.startSession(sessionID)
+        let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
+        resolve(resultData)
     }
     
     // missing setupPage?

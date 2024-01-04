@@ -62,6 +62,21 @@ RCT_EXTERN_METHOD(stop: (RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(registerPageTargets: (RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(startSession: (NSString)sessionID 
+                 withResolver:(RCTPromiseResolveBlock) resolve
+                 withRejecter:(RCTPromiseRejectBlock) reject)
+
+RCT_EXTERN_METHOD(stopSession: (RCTPromiseResolveBlock) resolve
+                 withRejecter:(RCTPromiseRejectBlock) reject) 
+
+RCT_EXTERN_METHOD(pauseCollection: (RCTPromiseResolveBlock) resolve
+                 withRejecter:(RCTPromiseRejectBlock) reject)           
+
+RCT_EXTERN_METHOD(resumeCollection: (RCTPromiseResolveBlock) resolve
+                 withRejecter:(RCTPromiseRejectBlock) reject) 
+
+
+
 // missing setupPage?
 
 @end

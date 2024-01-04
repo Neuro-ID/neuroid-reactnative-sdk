@@ -10,7 +10,7 @@ export interface NeuroIDClass {
     getUserID: () => Promise<string>;
     isStopped: () => Promise<boolean>;
     setEnvironmentProduction: (value: Boolean) => Promise<void>;
-    setScreenName: (screenName: string) => Promise<void>;
+    setScreenName: (screenName: string) => Promise<boolean>;
     setSiteId: (siteId: string) => Promise<void>;
     setUserID: (userID: string) => Promise<boolean>;
     setRegisteredUserID: (userID: string) => Promise<boolean>;
@@ -19,6 +19,10 @@ export interface NeuroIDClass {
     stop: () => Promise<Boolean>;
     registerPageTargets: () => Promise<void>;
     setupPage: (screenName: string) => Promise<void>;
+    startSession: (sessionId: string) => Promise<SessionStartResult>;
+    stopSession: () => Promise<boolean>;
+    resumeCollection: () => Promise<void>;
+    pauseCollection: () => Promise<void>;
 }
 export interface NeuroIDConfigOptions {
     usingReactNavigation: boolean;
@@ -29,4 +33,8 @@ export interface NeuroIDLogClass {
     d: (...message: String[]) => void;
     i: (...message: String[]) => void;
     e: (...message: String[]) => void;
+}
+export interface SessionStartResult {
+    started: boolean;
+    sessionID: String;
 }
