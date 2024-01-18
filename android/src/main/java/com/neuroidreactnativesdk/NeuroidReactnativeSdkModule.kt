@@ -40,6 +40,8 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         if (reactCurrentActivity != null) {
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
+
+        return true;
     }
 
     @ReactMethod

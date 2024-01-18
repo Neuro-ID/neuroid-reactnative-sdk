@@ -30,13 +30,13 @@ export const NeuroID: NeuroIDClass = {
   configure: async function configure(
     apiKey: string,
     configOptions?: NeuroIDConfigOptions
-  ): Promise<void> {
+  ): Promise<boolean> {
     usingRNNavigation = !!configOptions?.usingReactNavigation;
 
     const pattern = /key_(live|test)_[A-Za-z0-9]+/;
     if (!pattern.test(apiKey)) {
       NeuroIDLog.e('Invalid API Key');
-      return Promise.resolve();
+      return Promise.resolve(false);
     }
 
     const configured = await NeuroidReactnativeSdk.configure(
