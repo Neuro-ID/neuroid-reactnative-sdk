@@ -41,7 +41,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
 
-        promse.resolve(true)
+        promise.resolve(true)
     }
 
     @ReactMethod
