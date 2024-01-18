@@ -1,5 +1,5 @@
 export interface NeuroIDClass {
-    configure: (apiKey: string, options: NeuroIDConfigOptions) => Promise<void>;
+    configure: (apiKey: string, options: NeuroIDConfigOptions) => Promise<boolean>;
     enableLogging: (enable?: boolean) => Promise<void>;
     excludeViewByTestID: (excludedView: string) => Promise<void>;
     getClientID: () => Promise<string>;
