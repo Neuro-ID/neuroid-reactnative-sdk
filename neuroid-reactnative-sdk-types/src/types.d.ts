@@ -8,6 +8,7 @@ export interface NeuroIDClass {
     getScreenName: () => Promise<string>;
     getSessionID: () => Promise<string>;
     getUserID: () => Promise<string>;
+    getRegisteredUserID: () => Promise<string>;
     isStopped: () => Promise<boolean>;
     setEnvironmentProduction: (value: Boolean) => Promise<void>;
     setScreenName: (screenName: string) => Promise<boolean>;
@@ -19,7 +20,7 @@ export interface NeuroIDClass {
     stop: () => Promise<Boolean>;
     registerPageTargets: () => Promise<void>;
     setupPage: (screenName: string) => Promise<void>;
-    startSession: (sessionId: string) => Promise<SessionStartResult>;
+    startSession: (sessionID: string) => Promise<SessionStartResult>;
     stopSession: () => Promise<boolean>;
     resumeCollection: () => Promise<void>;
     pauseCollection: () => Promise<void>;
