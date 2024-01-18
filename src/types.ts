@@ -1,5 +1,8 @@
 export interface NeuroIDClass {
-  configure: (apiKey: string, options: NeuroIDConfigOptions) => Promise<void>;
+  configure: (
+    apiKey: string,
+    options: NeuroIDConfigOptions
+  ) => Promise<boolean>;
   enableLogging: (enable?: boolean) => Promise<void>;
   excludeViewByTestID: (excludedView: string) => Promise<void>;
 
@@ -9,6 +12,7 @@ export interface NeuroIDClass {
   getScreenName: () => Promise<string>; // ios, NOT Android
   getSessionID: () => Promise<string>;
   getUserID: () => Promise<string>;
+  getRegisteredUserID: () => Promise<string>;
 
   isStopped: () => Promise<boolean>;
   setEnvironmentProduction: (value: Boolean) => Promise<void>; // deprecated
@@ -23,7 +27,7 @@ export interface NeuroIDClass {
 
   registerPageTargets: () => Promise<void>;
   setupPage: (screenName: string) => Promise<void>;
-  startSession: (sessionId: string) => Promise<SessionStartResult>;
+  startSession: (sessionID: string) => Promise<SessionStartResult>;
   stopSession: () => Promise<boolean>;
   resumeCollection: () => Promise<void>;
   pauseCollection: () => Promise<void>;

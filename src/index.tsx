@@ -1,5 +1,9 @@
 import { NativeModules, Platform } from 'react-native';
-import type { NeuroIDClass, NeuroIDConfigOptions, SessionStartResult } from './types';
+import type {
+  NeuroIDClass,
+  NeuroIDConfigOptions,
+  SessionStartResult,
+} from './types';
 import { version } from '../package.json';
 import NeuroIDLog from './logger';
 
@@ -23,21 +27,24 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
 var usingRNNavigation = false;
 
 export const NeuroID: NeuroIDClass = {
-  configure: function configure(
+  configure: async function configure(
     apiKey: string,
     configOptions?: NeuroIDConfigOptions
-  ): Promise<void> {
+  ): Promise<boolean> {
     usingRNNavigation = !!configOptions?.usingReactNavigation;
 
     const pattern = /key_(live|test)_[A-Za-z0-9]+/;
     if (!pattern.test(apiKey)) {
       NeuroIDLog.e('Invalid API Key');
-      return Promise.resolve();
+      return Promise.resolve(false);
     }
 
-    return Promise.resolve(
-      NeuroidReactnativeSdk.configure(apiKey, configOptions)
+    const configured = await NeuroidReactnativeSdk.configure(
+      apiKey,
+      configOptions
     );
+
+    return Promise.resolve(configured);
   },
 
   enableLogging: function enableLogging(enable?: boolean): Promise<void> {
@@ -80,6 +87,10 @@ export const NeuroID: NeuroIDClass = {
 
   getUserID: function getUserID(): Promise<string> {
     return Promise.resolve(NeuroidReactnativeSdk.getUserID());
+  },
+
+  getRegisteredUserID: function getUserID(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getRegisteredUserID());
   },
 
   isStopped: function isStopped(): Promise<boolean> {
@@ -154,12 +165,12 @@ export const NeuroID: NeuroIDClass = {
   start: function start(): Promise<Boolean> {
     return new Promise(async function (resolve) {
       try {
-        await Promise.resolve(NeuroidReactnativeSdk.start());
+        const result = await Promise.resolve(NeuroidReactnativeSdk.start());
         let _cid = await NeuroidReactnativeSdk.getSessionID();
 
-        NeuroIDLog.d('NeuroID Started');
+        NeuroIDLog.d('NeuroID Started: ', result);
         NeuroIDLog.i('Client ID:', _cid);
-        resolve(true);
+        resolve(result);
       } catch (e: any) {
         NeuroIDLog.e('Failed to start NID', e);
         resolve(false);
@@ -170,8 +181,8 @@ export const NeuroID: NeuroIDClass = {
   stop: function stop(): Promise<Boolean> {
     return new Promise(async function (resolve) {
       try {
-        await Promise.resolve(NeuroidReactnativeSdk.stop());
-        resolve(true);
+        const result = await Promise.resolve(NeuroidReactnativeSdk.stop());
+        resolve(result);
         NeuroIDLog.d('NeuroID Stopped');
       } catch (e: any) {
         NeuroIDLog.e('Failed to stop NID', e);
@@ -197,30 +208,32 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
   },
 
-  startSession: async function name(
+  startSession: async function startSession(
     sessionID: string
   ): Promise<SessionStartResult> {
-    let result = await NeuroidReactnativeSdk.startSession(sessionID);
-    NeuroIDLog.d('startSession(): ' + result['sessionID'] + ' ' + result['started']);
-    return {
+    const result = await NeuroidReactnativeSdk.startSession(sessionID);
+    NeuroIDLog.d(
+      'startSession(): ' + result['sessionID'] + ' ' + result['started']
+    );
+    return Promise.resolve({
       sessionID: result['sessionID'] as string,
       started: result['started'] as boolean,
-    } as SessionStartResult;
+    } as SessionStartResult);
   },
 
-  stopSession: async function name(): Promise<boolean> {
+  stopSession: async function stopSession(): Promise<boolean> {
     let result = await NeuroidReactnativeSdk.stopSession();
     NeuroIDLog.d('stopSession(): ' + result);
-    return result;
+    return Promise.resolve(result);
   },
 
-  pauseCollection: async function name(): Promise<void> {
+  pauseCollection: async function pauseCollection(): Promise<void> {
     NeuroidReactnativeSdk.pauseCollection();
     NeuroIDLog.d('pauseCollection()');
     return Promise.resolve();
   },
 
-  resumeCollection: async function name(): Promise<void> {
+  resumeCollection: async function resumeCollection(): Promise<void> {
     NeuroidReactnativeSdk.resumeCollection();
     NeuroIDLog.d('resumeCollection()');
     return Promise.resolve();

@@ -15,7 +15,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         fun configure(application: Application, key: String) {
             if (NeuroID.getInstance() == null) {
                 val neuroID = NeuroID.Builder(application, key).build()
-                NeuroID.setNeuroIdInstance(neuroID)
+                NeuroID.setNeuroIDInstance(neuroID)
             }
         }
     }
@@ -28,16 +28,20 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun configure(key: String, options: ReadableMap) {
+    fun configure(key: String, options: ReadableMap, promise: Promise) {
         if (NeuroID.getInstance() == null) {
             val neuroID = NeuroID.Builder(application, key).build()
-            NeuroID.setNeuroIdInstance(neuroID)
+            NeuroID.setNeuroIDInstance(neuroID)
+
+            NeuroID.getInstance()?.setIsRN()
         }
 
         val reactCurrentActivity = currentActivity
         if (reactCurrentActivity != null) {
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
+
+        promise.resolve(true)
     }
 
     @ReactMethod
@@ -52,7 +56,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun getClientID(promise: Promise){
-        promise.resolve(NeuroID.getInstance()?.getClientId())
+        promise.resolve(NeuroID.getInstance()?.getClientID())
     }
 
     @ReactMethod
@@ -62,18 +66,22 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun getScreenName(promise: Promise) {
-        // not exposed in Android
         promise.resolve(NeuroID.getInstance()?.getScreenName())
     }
 
     @ReactMethod
     fun getSessionID(promise: Promise) {
-        promise.resolve(NeuroID.getInstance()?.getSessionId())
+        promise.resolve(NeuroID.getInstance()?.getSessionID())
     }
 
     @ReactMethod
     fun getUserID(promise: Promise) {
-        promise.resolve(NeuroID.getInstance()?.getUserId())
+        promise.resolve(NeuroID.getInstance()?.getUserID())
+    }
+
+    @ReactMethod
+    fun getRegisteredUserID(promise: Promise) {
+        promise.resolve(NeuroID.getInstance()?.getRegisteredUserID())
     }
 
     @ReactMethod
@@ -88,11 +96,17 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun setScreenName(screen: String, promise: Promise) {
         val result = NeuroID.getInstance()?.setScreenName(screen)
-        promise.resolve(result)
+
+        if (result != null){
+            promise.resolve(result)
+        } else {
+            promise.resolve(false)
+        }
     }
 
     @ReactMethod
     fun setSiteId(siteId: String) {
+        // deprecated so no need to replace with ID
         NeuroID.getInstance()?.setSiteId(siteId)
     }
 
@@ -120,14 +134,25 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun start() {
-        NeuroID.getInstance()?.setIsRN()
-        NeuroID.getInstance()?.start()
+    fun start(promise: Promise) {
+        val started = NeuroID.getInstance()?.start();
+
+        if (started != null){
+            promise.resolve(started)
+        } else {
+            promise.resolve(false)
+        }
     }
 
     @ReactMethod
-    fun stop() {
-        NeuroID.getInstance()?.stop()
+    fun stop(promise: Promise) {
+        val stopped = NeuroID.getInstance()?.stop()
+
+        if (stopped != null){
+            promise.resolve(stopped)
+        } else {
+            promise.resolve(false)
+        }
     }
 
     @ReactMethod
