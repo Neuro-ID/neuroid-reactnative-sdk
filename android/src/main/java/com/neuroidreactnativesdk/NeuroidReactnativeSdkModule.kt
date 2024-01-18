@@ -28,7 +28,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun configure(key: String, options: ReadableMap) {
+    fun configure(key: String, options: ReadableMap, promise: Promise) {
         if (NeuroID.getInstance() == null) {
             val neuroID = NeuroID.Builder(application, key).build()
             NeuroID.setNeuroIDInstance(neuroID)
@@ -41,7 +41,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
 
-        return true;
+        promse.resolve(true)
     }
 
     @ReactMethod
