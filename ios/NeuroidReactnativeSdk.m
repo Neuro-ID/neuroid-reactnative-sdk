@@ -22,12 +22,15 @@ RCT_EXTERN_METHOD(getEnvironment: (RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(getScreenName: (RCTPromiseResolveBlock)resolve
-withRejecter:(RCTPromiseRejectBlock)reject)
+                 withRejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(getSessionID: (RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(getUserID: (RCTPromiseResolveBlock)resolve
+                 withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(getRegisteredUserID: (RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(isStopped: (RCTPromiseResolveBlock)resolve
