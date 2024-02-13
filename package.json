@@ -152,9 +152,5 @@
   "resolutions": {
     "nth-check": "2.0.1",
     "postcss": "8.4.31"
-  },
-  "overrides": {
-    "nth-check": "2.0.1",
-    "postcss": "8.4.31"
   }
 }
