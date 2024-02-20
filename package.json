@@ -152,6 +152,6 @@
   "resolutions": {
     "nth-check": "2.0.1",
     "postcss": "8.4.31",
-    "ip": "2.0.1"
+    "ip": "1.1.9"
   }
 }
