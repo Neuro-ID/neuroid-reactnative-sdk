@@ -49,8 +49,8 @@ sed -i='' '/fun start(promise: Promise) {/i \
     @ReactMethod\
 ' android/src/main/java/com/neuroidreactnativesdk/NeuroidReactnativeSdkModule.kt
 
-sed -i='' '/fun startSession(sessionID: String, promise: Promise) {/i \
-    fun startSession(sessionID: String, advancedDeviceSignals: Boolean, promise: Promise) {\
+sed -i='' '/fun startSession(sessionID: String? = null, promise: Promise) {/i \
+    fun startSession(sessionID: String? = null, advancedDeviceSignals: Boolean, promise: Promise) {\
         val result = NeuroID.getInstance()?.startSession(sessionID, advancedDeviceSignals) \
         val resultData = Arguments.createMap() \
         result?.let { \
@@ -66,12 +66,12 @@ sed -i='' '/fun startSession(sessionID: String, promise: Promise) {/i \
 
 # update types
 sed -i='' 's/start: ()/start: (advancedDeviceSignals?: Boolean)/' src/types.ts
-sed -i='' 's/startSession: (sessionID: string)/startSession: (\n    sessionID: string,\n    advancedDeviceSignals?: Boolean\n  )/' src/types.ts
+sed -i='' 's/startSession: (sessionID?: string)/startSession: (\n    sessionID?: string,\n    advancedDeviceSignals?: Boolean\n  )/' src/types.ts
 
 # update index
 sed -i='' 's/start(): /start(advancedDeviceSignals?: Boolean): /' src/index.tsx
 sed -i='' 's/NeuroidReactnativeSdk.start()/\n          NeuroidReactnativeSdk.start(!!advancedDeviceSignals)\n        /' src/index.tsx
-sed -i='' 's/sessionID: string/sessionID: string,\n    advancedDeviceSignals?: Boolean/' src/index.tsx
+sed -i='' 's/sessionID?: string/sessionID?: string,\n    advancedDeviceSignals?: Boolean/' src/index.tsx
 sed -i='' 's/NeuroidReactnativeSdk.startSession(sessionID)/NeuroidReactnativeSdk.startSession(\n      sessionID,\n      !!advancedDeviceSignals\n    )/' src/index.tsx
 
 

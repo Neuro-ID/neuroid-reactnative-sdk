@@ -2,13 +2,11 @@ package com.neuroidreactnativesdk
 
 import android.app.Application
 import com.facebook.react.bridge.*
-import com.facebook.react.bridge.ReadableMap
 import com.neuroid.tracker.NeuroID
 import com.neuroid.tracker.extensions.setVerifyIntegrationHealth
-import com.facebook.react.bridge.Arguments
 
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
-    ReactContextBaseJavaModule(reactContext) {
+        ReactContextBaseJavaModule(reactContext) {
 
     companion object {
         @JvmStatic
@@ -55,12 +53,12 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun getClientID(promise: Promise){
+    fun getClientID(promise: Promise) {
         promise.resolve(NeuroID.getInstance()?.getClientID())
     }
 
     @ReactMethod
-    fun getEnvironment(promise: Promise){
+    fun getEnvironment(promise: Promise) {
         promise.resolve(NeuroID.getInstance()?.getEnvironment())
     }
 
@@ -87,17 +85,14 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun isStopped(promise: Promise) {
         val instance = NeuroID.getInstance()
-        if (instance == null)
-            promise.resolve(true)
-        else
-            promise.resolve(instance.isStopped())
+        if (instance == null) promise.resolve(true) else promise.resolve(instance.isStopped())
     }
 
     @ReactMethod
     fun setScreenName(screen: String, promise: Promise) {
         val result = NeuroID.getInstance()?.setScreenName(screen)
 
-        if (result != null){
+        if (result != null) {
             promise.resolve(result)
         } else {
             promise.resolve(false)
@@ -113,31 +108,27 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun setUserID(id: String, promise: Promise) {
         var result = NeuroID.getInstance()?.setUserID(id)
-        result?.let {
-            promise.resolve(it)
-        }
+        result?.let { promise.resolve(it) }
         promise.resolve(false)
     }
 
     @ReactMethod
-    fun setRegisteredUserID(id: String, promise: Promise)  {
+    fun setRegisteredUserID(id: String, promise: Promise) {
         var result = NeuroID.getInstance()?.setRegisteredUserID(id)
-        result?.let {
-            promise.resolve(it)
-        }
+        result?.let { promise.resolve(it) }
         promise.resolve(false)
     }
 
     @ReactMethod
     fun setVerifyIntegrationHealth(enable: Boolean) {
-        NeuroID.getInstance()?.setVerifyIntegrationHealth(enable)       
+        NeuroID.getInstance()?.setVerifyIntegrationHealth(enable)
     }
 
     @ReactMethod
     fun start(promise: Promise) {
-        val started = NeuroID.getInstance()?.start();
+        val started = NeuroID.getInstance()?.start()
 
-        if (started != null){
+        if (started != null) {
             promise.resolve(started)
         } else {
             promise.resolve(false)
@@ -146,17 +137,22 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun stop(promise: Promise) {
-        val stopped = NeuroID.getInstance()?.stop()
+        try {
+            val stopped = NeuroID.getInstance()?.stop()
 
-        if (stopped != null){
-            promise.resolve(stopped)
-        } else {
-            promise.resolve(false)
+            if (stopped != null) {
+                promise.resolve(stopped)
+            } else {
+                promise.resolve(false)
+            }
+        } catch (e: Exception) {
+            println("NEUROID EXCEPTION $e")
+            promise.resolve(NeuroID.getInstance()?.isStopped())
         }
     }
 
     @ReactMethod
-    fun registerPageTargets(promise: Promise){
+    fun registerPageTargets(promise: Promise) {
         val reactCurrentActivity = currentActivity
         if (reactCurrentActivity != null) {
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
@@ -166,7 +162,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun startSession(sessionID: String, promise: Promise) {
+    fun startSession(sessionID: String? = null, promise: Promise) {
         val result = NeuroID.getInstance()?.startSession(sessionID)
         val resultData = Arguments.createMap()
         result?.let {
@@ -176,7 +172,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         promise.resolve(resultData)
     }
 
-     @ReactMethod
+    @ReactMethod
     fun stopSession(promise: Promise) {
         val result = NeuroID.getInstance()?.stopSession()
         promise.resolve(result)
