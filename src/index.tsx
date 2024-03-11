@@ -183,7 +183,7 @@ export const NeuroID: NeuroIDClass = {
       try {
         const result = await Promise.resolve(NeuroidReactnativeSdk.stop());
         resolve(result);
-        NeuroIDLog.d('NeuroID Stopped');
+        NeuroIDLog.d('NeuroID Stopped: ', result);
       } catch (e: any) {
         NeuroIDLog.e('Failed to stop NID', e);
         resolve(false);

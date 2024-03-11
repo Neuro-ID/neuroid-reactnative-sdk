@@ -139,12 +139,17 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun stop(promise: Promise) {
-        val stopped = NeuroID.getInstance()?.stop()
+        try {
+            val stopped = NeuroID.getInstance()?.stop()
 
-        if (stopped != null) {
-            promise.resolve(stopped)
-        } else {
-            promise.resolve(false)
+            if (stopped != null) {
+                promise.resolve(stopped)
+            } else {
+                promise.resolve(false)
+            }
+        } catch (e: Exception) {
+            println("NEUROID EXCEPTION $e")
+            promise.resolve(NeuroID.getInstance()?.isStopped())
         }
     }
 
