@@ -209,7 +209,7 @@ export const NeuroID: NeuroIDClass = {
   },
 
   startSession: async function startSession(
-    sessionID: string
+    sessionID?: string
   ): Promise<SessionStartResult> {
     const result = await NeuroidReactnativeSdk.startSession(sessionID);
     NeuroIDLog.d(

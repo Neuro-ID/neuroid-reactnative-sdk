@@ -27,7 +27,7 @@ export interface NeuroIDClass {
 
   registerPageTargets: () => Promise<void>;
   setupPage: (screenName: string) => Promise<void>;
-  startSession: (sessionID: string) => Promise<SessionStartResult>;
+  startSession: (sessionID?: string) => Promise<SessionStartResult>;
   stopSession: () => Promise<boolean>;
   resumeCollection: () => Promise<void>;
   pauseCollection: () => Promise<void>;
