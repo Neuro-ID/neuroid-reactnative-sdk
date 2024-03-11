@@ -2,8 +2,6 @@ package com.neuroidreactnativesdk
 
 import android.app.Application
 import com.facebook.react.bridge.*
-import com.facebook.react.bridge.Arguments
-import com.facebook.react.bridge.ReadableMap
 import com.neuroid.tracker.NeuroID
 import com.neuroid.tracker.extensions.setVerifyIntegrationHealth
 
