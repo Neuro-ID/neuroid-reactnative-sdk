@@ -25,7 +25,7 @@ sed -i='' 's/func start(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejec
 sed -i='' 's/NeuroID.start()/NeuroID.start(advancedDeviceSignals)/' ios/NeuroidReactnativeSdk.swift
 
 sed -i='' 's/@objc(startSession:withResolver:withRejecter:)/@objc(startSession:advancedDeviceSignals:withResolver:withRejecter:)/' ios/NeuroidReactnativeSdk.swift
-sed -i='' 's/func startSession(sessionID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/func startSession(sessionID: String, advancedDeviceSignals: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/' ios/NeuroidReactnativeSdk.swift
+sed -i='' 's/func startSession(sessionID: String?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/func startSession(sessionID: String?, advancedDeviceSignals: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/' ios/NeuroidReactnativeSdk.swift
 sed -i='' 's/let result = NeuroID.startSession(sessionID)/let result = NeuroID.startSession(sessionID, advancedDeviceSignals)/' ios/NeuroidReactnativeSdk.swift
 
 
