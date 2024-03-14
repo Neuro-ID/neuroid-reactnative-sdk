@@ -55,6 +55,7 @@ repositories {
   mavenCentral()
   jcenter()
   google()
+  maven { url 'https://maven.fpregistry.io/releases' }
 
   def found = false
   def defaultDir = null
@@ -128,7 +129,7 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
 
-  implementation 'androidx.core:core-ktx:1.6.0'
+  implementation 'androidx.core:core-ktx:1.8.0'
   releaseImplementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:v3.1.0'
   debugImplementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk-debug:v3.1.0'
   implementation 'com.google.code.gson:gson:2.10.1'
