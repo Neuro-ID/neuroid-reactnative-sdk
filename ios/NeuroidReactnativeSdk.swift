@@ -131,7 +131,7 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(startSession:withResolver:withRejecter:)
-    func startSession(sessionID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    func startSession(sessionID: String?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let result = NeuroID.startSession(sessionID)
         let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
         resolve(resultData)
