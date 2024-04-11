@@ -13,7 +13,7 @@ jobs:
   triggerDevSandbox:
     name: Trigger ReactNative Sandbox Dev Deployment
     runs-on: ubuntu-latest
-    if: !github.head_ref.startswith('releases/'):
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch' || github.event.pull_request.merged && !startsWith(github.head_ref, 'releases/')
     steps:
       - name: Trigger ReactNative Sandbox Dev
         run: |
