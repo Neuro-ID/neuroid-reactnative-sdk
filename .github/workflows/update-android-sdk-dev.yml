@@ -13,16 +13,16 @@ jobs:
   triggerDevSandbox:
     name: Trigger ReactNative Sandbox Dev Deployment
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged && !startsWith(github.head_ref, 'releases/')
+    if: !github.head_ref.startswith('releases/'):
     steps:
-      - name: Trigger ReactNative Sandbox Dev 
+      - name: Trigger ReactNative Sandbox Dev
         run: |
-         curl \
-             -X POST \
-             -H "Accept: application/vnd.github.v3+json" \
-             -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
-             https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
-             -d '{"event_type":"publish-dev-android","client_payload":{"version":"master-SNAPSHOT", "message": "Android sdk master-SNAPSHOT"}}'
+          curl \
+              -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
+              https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
+              -d '{"event_type":"publish-dev-android","client_payload":{"version":"master-SNAPSHOT", "message": "Android sdk master-SNAPSHOT"}}'
 
       - name: Send Slack Notification on Failure
         if: failure()
@@ -31,7 +31,7 @@ jobs:
           SLACK_CHANNEL: ${{ secrets.MOBILE_SLACK_NOTIFICATIONS_CHANNEL }}
           SLACK_COLOR: ${{ job.status }}
           SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: "Failed to trigger React Native Android Sandbox release (Dev)"
+          SLACK_MESSAGE: 'Failed to trigger React Native Android Sandbox release (Dev)'
           SLACK_TITLE: Failed to trigger React Native Android Sandbox release (Dev)
           SLACK_USERNAME: rtBot
           SLACK_WEBHOOK: ${{ secrets.MOBILE_SLACK_WEBHOOK }}
