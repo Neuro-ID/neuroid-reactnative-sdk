@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Main branch Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Update new commit to have "Development" Tag
         run: |
