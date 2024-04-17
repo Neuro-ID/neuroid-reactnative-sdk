@@ -55,6 +55,7 @@ repositories {
   mavenCentral()
   jcenter()
   google()
+  maven { url 'https://jitpack.io' }
   maven { url 'https://maven.fpregistry.io/releases' }
 
   def found = false
