@@ -55,7 +55,7 @@ jobs:
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew build --debug
+          ./gradlew build
 
   updateSdk:
     name: npm build
