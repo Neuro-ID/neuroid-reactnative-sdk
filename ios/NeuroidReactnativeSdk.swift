@@ -87,6 +87,12 @@ class NeuroidReactnativeSdk: NSObject {
         let setResult = NeuroID.setRegisteredUserID(userID)
         resolve(setResult)
     }
+    
+    @objc(attemptedLogin:withResolver:withRejecter:)
+    func attemptedLogin(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        let setResult = NeuroID.attemptedLogin(userID)
+        resolve(setResult)
+    }
 
     @objc(setVerifyIntegrationHealth:withResolver:withRejecter:)
     func setVerifyIntegrationHealth(value: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
