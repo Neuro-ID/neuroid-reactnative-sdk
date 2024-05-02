@@ -12,8 +12,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         @JvmStatic
         fun configure(application: Application, key: String) {
             if (NeuroID.getInstance() == null) {
-                val neuroID = NeuroID.Builder(application, key).build()
-                NeuroID.setNeuroIDInstance(neuroID)
+                NeuroID.Builder(application, key).build()
             }
         }
     }
@@ -28,9 +27,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun configure(key: String, options: ReadableMap, promise: Promise) {
         if (NeuroID.getInstance() == null) {
-            val neuroID = NeuroID.Builder(application, key).build()
-            NeuroID.setNeuroIDInstance(neuroID)
-
+            NeuroID.Builder(application, key).build()
             NeuroID.getInstance()?.setIsRN()
         }
 
@@ -115,6 +112,13 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun setRegisteredUserID(id: String, promise: Promise) {
         var result = NeuroID.getInstance()?.setRegisteredUserID(id)
+        result?.let { promise.resolve(it) }
+        promise.resolve(false)
+    }
+
+    @ReactMethod
+    fun attemptedLogin(id: String, promise: Promise) {
+        var result = NeuroID.getInstance()?.attemptedLogin(id)
         result?.let { promise.resolve(it) }
         promise.resolve(false)
     }
