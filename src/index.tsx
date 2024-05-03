@@ -124,8 +124,7 @@ export const NeuroID: NeuroIDClass = {
       if (result) {
         resolve(true);
       } else {
-        const errorMessage = 'Failed to set user ID';
-        NeuroIDLog.e(errorMessage);
+        NeuroIDLog.e('Failed to set user ID');
         reject(false);
       }
     });
@@ -142,8 +141,22 @@ export const NeuroID: NeuroIDClass = {
       if (result) {
         resolve(true);
       } else {
-        const errorMessage = 'Failed to set registered user ID';
-        NeuroIDLog.e(errorMessage);
+        NeuroIDLog.e('Failed to set registered user ID');
+        reject(false);
+      }
+    });
+  },
+
+  attemptedLogin: function attemptedLogin(userID: string): Promise<boolean> {
+    NeuroIDLog.i('Attempted Login User ID: ', userID);
+
+    return new Promise((resolve, reject) => {
+      const result = NeuroidReactnativeSdk.attemptedLogin(userID ?? '');
+
+      if (result) {
+        resolve(true);
+      } else {
+        NeuroIDLog.e('Failed to set attmpted login user ID');
         reject(false);
       }
     });
@@ -212,12 +225,10 @@ export const NeuroID: NeuroIDClass = {
     sessionID?: string
   ): Promise<SessionStartResult> {
     const result = await NeuroidReactnativeSdk.startSession(sessionID);
-    NeuroIDLog.d(
-      'startSession(): ' + result['sessionID'] + ' ' + result['started']
-    );
+    NeuroIDLog.d('startSession(): ' + result.sessionID + ' ' + result.started);
     return Promise.resolve({
-      sessionID: result['sessionID'] as string,
-      started: result['started'] as boolean,
+      sessionID: result.sessionID as string,
+      started: result.started as boolean,
     } as SessionStartResult);
   },
 
