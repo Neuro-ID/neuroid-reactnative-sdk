@@ -130,7 +130,7 @@ jobs:
             const title = 'Update To Version: ${{ env.PACKAGE_VERSION }}';
             const body = 'Once merged, this PR will trigger an action to release version: ${{ env.PACKAGE_VERSION }}';
             const headBranch = '${{ env.BRANCH_NAME }}';
-            const baseBranch = 'main';
+            const baseBranch = 'release/3.2';
             
             const createPullRequest = async () => {
               const response = await github.rest.pulls.create({
