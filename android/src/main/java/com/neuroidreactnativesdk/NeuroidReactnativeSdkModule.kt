@@ -118,9 +118,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun attemptedLogin(id: String, promise: Promise) {
-        var result = NeuroID.getInstance()?.attemptedLogin(id)
-        result?.let { promise.resolve(it) }
-        promise.resolve(false)
+        // TODO
+        // Attempted Login is temporarily disabled until we have a new release for react native
+        // var result = NeuroID.getInstance()?.attemptedLogin(id)
+        // result?.let { promise.resolve(it) }
+        // promise.resolve(false)
     }
 
     @ReactMethod
