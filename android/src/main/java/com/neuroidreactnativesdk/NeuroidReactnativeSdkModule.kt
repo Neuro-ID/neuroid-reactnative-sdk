@@ -118,11 +118,9 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun attemptedLogin(id: String, promise: Promise) {
-        // TODO
-        // Attempted Login is temporarily disabled until we have a new release for react native
-        // var result = NeuroID.getInstance()?.attemptedLogin(id)
-        // result?.let { promise.resolve(it) }
-        // promise.resolve(false)
+        var result = NeuroID.getInstance()?.attemptedLogin(id)
+        result?.let { promise.resolve(it) }
+        promise.resolve(false)
     }
 
     @ReactMethod
@@ -163,19 +161,17 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         if (reactCurrentActivity != null) {
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
-
         promise.resolve(true)
     }
 
     @ReactMethod
     fun startSession(sessionID: String? = null, promise: Promise) {
-        val result = NeuroID.getInstance()?.startSession(sessionID)
-        val resultData = Arguments.createMap()
-        result?.let {
+        NeuroID.getInstance()?.startSession(sessionID) {
+            val resultData = Arguments.createMap()
             resultData.putString("sessionID", it.sessionID)
             resultData.putBoolean("started", it.started)
+            promise.resolve(resultData)
         }
-        promise.resolve(resultData)
     }
 
     @ReactMethod
@@ -194,5 +190,13 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         NeuroID.getInstance()?.resumeCollection()
     }
 
-    // setup page mising?
+    @ReactMethod
+    fun startAppFlow(siteId: String, userId: String?,  promise: Promise) {
+        NeuroID.getInstance()?.startAppFlow(siteId, userId) {
+            val resultData = Arguments.createMap()
+            resultData.putString("sessionID", it.sessionID)
+            resultData.putBoolean("started", it.started)
+            promise.resolve(resultData)
+        }
+    }
 }
