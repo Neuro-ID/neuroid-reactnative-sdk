@@ -251,10 +251,10 @@ export const NeuroID: NeuroIDClass = {
   },
 
   startAppFlow: async function startAppFlow(
-    siteID: string, userID: string
+    siteID: string, userID?: string
   ): Promise<SessionStartResult> {
     const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
-    NeuroIDLog.d('startSession(): ' + result.sessionID + ' ' + result.started);
+    NeuroIDLog.d('startAppFlow(): ' + result.sessionID + ' ' + result.started);
     return Promise.resolve({
       sessionID: result.sessionID as string,
       started: result.started as boolean,
