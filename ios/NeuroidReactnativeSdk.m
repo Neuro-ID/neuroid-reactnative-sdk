@@ -82,7 +82,10 @@ RCT_EXTERN_METHOD(pauseCollection: (RCTPromiseResolveBlock) resolve
 RCT_EXTERN_METHOD(resumeCollection: (RCTPromiseResolveBlock) resolve
                  withRejecter:(RCTPromiseRejectBlock) reject) 
 
-
+RCT_EXTERN_METHOD(startAppFlow:(NSString *)siteID
+                  userID:(NSString *)userID
+                  withResolver:(RCTPromiseResolveBlock)resolve
+                  withRejecter:(RCTPromiseRejectBlock)reject)
 
 // missing setupPage?
 

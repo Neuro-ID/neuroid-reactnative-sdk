@@ -131,8 +131,8 @@ dependencies {
   api 'com.facebook.react:react-native:+'
 
   implementation 'androidx.core:core-ktx:1.8.0'
-  releaseImplementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:v3.2.2'
-  debugImplementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk-debug:v3.2.2'
+  releaseImplementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:v3.3.0'
+  debugImplementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk-debug:v3.3.0'
 
   implementation 'com.google.code.gson:gson:2.10.1'
   implementation("androidx.lifecycle:lifecycle-process:2.3.0")

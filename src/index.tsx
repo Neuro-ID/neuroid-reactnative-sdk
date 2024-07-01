@@ -249,6 +249,17 @@ export const NeuroID: NeuroIDClass = {
     NeuroIDLog.d('resumeCollection()');
     return Promise.resolve();
   },
+
+  startAppFlow: async function startAppFlow(
+    siteID: string, userID?: string
+  ): Promise<SessionStartResult> {
+    const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
+    NeuroIDLog.d('startAppFlow(): ' + result.sessionID + ' ' + result.started);
+    return Promise.resolve({
+      sessionID: result.sessionID as string,
+      started: result.started as boolean,
+    } as SessionStartResult);
+  }
 };
 
 export default NeuroID;
