@@ -89,7 +89,7 @@ class NeuroidReactnativeSdk: NSObject {
     }
     
     @objc(attemptedLogin:withResolver:withRejecter:)
-    func attemptedLogin(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    func attemptedLogin(userID: String?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let setResult = NeuroID.attemptedLogin(userID)
         resolve(setResult)
     }
