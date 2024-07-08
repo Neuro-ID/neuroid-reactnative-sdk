@@ -101,9 +101,10 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(start:withRejecter:)
-    func start(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let result = NeuroID.start()
-        resolve(result)
+    func start(resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        NeuroID.start() { result in 
+            resolve(result)
+        }
     }
 
     @objc(stop:withRejecter:)

@@ -130,12 +130,12 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun start(promise: Promise) {
-        val started = NeuroID.getInstance()?.start()
-
-        if (started != null) {
-            promise.resolve(started)
-        } else {
-            promise.resolve(false)
+        NeuroID.getInstance()?.start() {
+            if (it != null) {
+                promise.resolve(it)
+            } else {
+                promise.resolve(false)
+            }
         }
     }
 
