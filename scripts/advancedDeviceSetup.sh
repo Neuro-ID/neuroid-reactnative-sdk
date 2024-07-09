@@ -21,12 +21,12 @@ sed -i='' 's/startSession: (NSString)sessionID /startSession: (NSString)sessionI
 
 # Add to ios function file
 sed -i='' 's/@objc(start:withRejecter:)/@objc(start:withResolver:withRejecter:)/' ios/NeuroidReactnativeSdk.swift
-sed -i='' 's/func start(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/func start(advancedDeviceSignals: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/' ios/NeuroidReactnativeSdk.swift
-sed -i='' 's/NeuroID.start()/NeuroID.start(advancedDeviceSignals)/' ios/NeuroidReactnativeSdk.swift
+sed -i='' 's/func start(resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/func start(advancedDeviceSignals: Bool, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/' ios/NeuroidReactnativeSdk.swift
+sed -i='' 's/NeuroID.start() { result in/NeuroID.start(advancedDeviceSignals) { result in/' ios/NeuroidReactnativeSdk.swift
 
 sed -i='' 's/@objc(startSession:withResolver:withRejecter:)/@objc(startSession:advancedDeviceSignals:withResolver:withRejecter:)/' ios/NeuroidReactnativeSdk.swift
-sed -i='' 's/func startSession(sessionID: String?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/func startSession(sessionID: String?, advancedDeviceSignals: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/' ios/NeuroidReactnativeSdk.swift
-sed -i='' 's/let result = NeuroID.startSession(sessionID)/let result = NeuroID.startSession(sessionID, advancedDeviceSignals)/' ios/NeuroidReactnativeSdk.swift
+sed -i='' 's/func startSession(sessionID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/func startSession(sessionID: String?, advancedDeviceSignals: Bool, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {/' ios/NeuroidReactnativeSdk.swift
+sed -i='' 's/NeuroID.startSession(sessionID)  { result in/NeuroID.startSession(sessionID, advancedDeviceSignals)  { result in/' ios/NeuroidReactnativeSdk.swift
 
 
 # Implement code for Android actual 
@@ -36,14 +36,14 @@ import com.neuroid.tracker.extensions.startSession\
 ' android/src/main/java/com/neuroidreactnativesdk/NeuroidReactnativeSdkModule.kt
 
 sed -i='' '/fun start(promise: Promise) {/i \
-    fun start(advancedDeviceSignals: Boolean, promise: Promise) {\
-        val started = NeuroID.getInstance()?.start(advancedDeviceSignals); \
-\
-        if (started != null){ \
-            promise.resolve(started) \
-        } else { \
-            promise.resolve(false) \
-        } \
+    fun start(advancedDeviceSignals: Boolean, promise: Promise) { \
+        NeuroID.getInstance()?.start(advancedDeviceSignals) { \
+            if (it != null){ \
+                promise.resolve(it) \
+            } else { \
+                promise.resolve(false) \
+            } \
+        }\
     }\
 \
     @ReactMethod\
@@ -51,13 +51,12 @@ sed -i='' '/fun start(promise: Promise) {/i \
 
 sed -i='' '/fun startSession(sessionID: String? = null, promise: Promise) {/i \
     fun startSession(sessionID: String? = null, advancedDeviceSignals: Boolean, promise: Promise) {\
-        val result = NeuroID.getInstance()?.startSession(sessionID, advancedDeviceSignals) \
-        val resultData = Arguments.createMap() \
-        result?.let { \
-            resultData.putString("sessionID", it.sessionID) \
-            resultData.putBoolean("started", it.started) \
-        } \
-        promise.resolve(resultData) \
+        NeuroID.getInstance()?.startSession(sessionID, advancedDeviceSignals) {\
+            val resultData = Arguments.createMap()\
+            resultData.putString("sessionID", it.sessionID)\
+            resultData.putBoolean("started", it.started)\
+            promise.resolve(resultData)\
+        }\
     }\
 \
     @ReactMethod\

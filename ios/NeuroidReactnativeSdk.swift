@@ -89,7 +89,7 @@ class NeuroidReactnativeSdk: NSObject {
     }
     
     @objc(attemptedLogin:withResolver:withRejecter:)
-    func attemptedLogin(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    func attemptedLogin(userID: String?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let setResult = NeuroID.attemptedLogin(userID)
         resolve(setResult)
     }
@@ -101,9 +101,10 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(start:withRejecter:)
-    func start(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let result = NeuroID.start()
-        resolve(result)
+    func start(resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        NeuroID.start() { result in 
+            resolve(result)
+        }
     }
 
     @objc(stop:withRejecter:)
@@ -137,10 +138,19 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(startSession:withResolver:withRejecter:)
-    func startSession(sessionID: String?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let result = NeuroID.startSession(sessionID)
-        let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
-        resolve(resultData)
+    func startSession(sessionID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        NeuroID.startSession(sessionID)  { result in
+            let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
+            resolve(resultData)
+        }
+    }
+    
+    @objc(startAppFlow:userID:withResolver:withRejecter:)
+    func startAppFlow(siteID: String, userID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        NeuroID.startAppFlow(siteID: siteID, userID: userID) { result in
+            let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
+            resolve(resultData)
+        }
     }
 
     // missing setupPage?
