@@ -100,6 +100,12 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(true)
     }
 
+    @objc(setVariable:value:withResolver:withRejecter:)
+    func setVariable(key: String, value:String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        NeuroID.setVariable(key: key, value: value)
+        resolve(true)
+    }
+
     @objc(start:withRejecter:)
     func start(resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         NeuroID.start() { result in 
