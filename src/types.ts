@@ -32,7 +32,10 @@ export interface NeuroIDClass {
   stopSession: () => Promise<boolean>;
   resumeCollection: () => Promise<void>;
   pauseCollection: () => Promise<void>;
-  startAppFlow: (siteID: string, userID?: string) => Promise<SessionStartResult>;
+  startAppFlow: (
+    siteID: string,
+    userID?: string
+  ) => Promise<SessionStartResult>;
 }
 
 export interface NeuroIDConfigOptions {
