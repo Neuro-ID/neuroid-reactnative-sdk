@@ -17,6 +17,7 @@ export interface NeuroIDClass {
     setRegisteredUserID: (userID: string) => Promise<boolean>;
     attemptedLogin: (userID: string) => Promise<boolean>;
     setVerifyIntegrationHealth: (value: Boolean) => Promise<void>;
+    setVariable(key: string, value: string): Promise<void>;
     start: () => Promise<Boolean>;
     stop: () => Promise<Boolean>;
     registerPageTargets: () => Promise<void>;

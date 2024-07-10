@@ -175,6 +175,14 @@ export const NeuroID: NeuroIDClass = {
     );
   },
 
+  setVariable: function setVariable(key: string, value: string): Promise<void> {
+    return new Promise(async function (resolve) {
+      NeuroIDLog.d(`Setting Variable - ${key}: ${value}`);
+      await NeuroidReactnativeSdk.setVariable(key, value);
+      resolve();
+    });
+  },
+
   start: function start(): Promise<Boolean> {
     return new Promise(async function (resolve) {
       try {

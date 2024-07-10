@@ -58,7 +58,12 @@ RCT_EXTERN_METHOD(attemptedLogin:(NSString)userID
 
 RCT_EXTERN_METHOD(setVerifyIntegrationHealth:(BOOL)value
                  withResolver:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)                 
+                 withRejecter:(RCTPromiseRejectBlock)reject)       
+
+RCT_EXTERN_METHOD(setVariable:(NSString)key
+                 value:(NSString)value
+                 withResolver:(RCTPromiseResolveBlock)resolve
+                 withRejecter:(RCTPromiseRejectBlock)reject)                
 
 RCT_EXTERN_METHOD(start: (RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
