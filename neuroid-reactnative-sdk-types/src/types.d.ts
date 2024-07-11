@@ -33,7 +33,6 @@ export interface NeuroIDConfigOptions {
     isAdvancedDevice: boolean;
     environment: string;
 }
-
 export interface NeuroIDLogClass {
     enableLogging: (enable?: boolean) => void;
     log: (...message: String[]) => void;
