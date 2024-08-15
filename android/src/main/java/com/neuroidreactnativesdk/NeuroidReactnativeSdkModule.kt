@@ -3,19 +3,11 @@ package com.neuroidreactnativesdk
 import android.app.Application
 import com.facebook.react.bridge.*
 import com.neuroid.tracker.NeuroID
+import com.neuroid.tracker.extensions.NIDRNBuilder
 import com.neuroid.tracker.extensions.setVerifyIntegrationHealth
 
 class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         ReactContextBaseJavaModule(reactContext) {
-
-    companion object {
-        @JvmStatic
-        fun configure(application: Application, key: String) {
-            if (NeuroID.getInstance() == null) {
-                NeuroID.Builder(application, key).build()
-            }
-        }
-    }
 
     private var reactApplicationCtx: ReactApplicationContext = reactContext
     private var application: Application? = reactContext.applicationContext as Application
@@ -25,9 +17,9 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun configure(key: String, options: ReadableMap, promise: Promise) {
+    fun configure(key: String, options: ReadableMap? = null, promise: Promise) {
         if (NeuroID.getInstance() == null) {
-            NeuroID.Builder(application, key).build()
+            NIDRNBuilder(application, key, options).build()
             NeuroID.getInstance()?.setIsRN()
         }
 
@@ -35,7 +27,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         if (reactCurrentActivity != null) {
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
-
         promise.resolve(true)
     }
 
