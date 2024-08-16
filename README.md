@@ -6,6 +6,7 @@
 
 NeuroID's React Native Mobile SDK makes it simple to embed behavioral analytics inside your mobile application. With a few lines of code, you can connect your app with the NeuroID platform and make informed decisions about your users.
 
+
 ## Installation and Requirements
 
 For installation instructions and minimum project requirements, please read our [React Native Installation Guide](https://neuro-id.readme.io/docs/react-native-installation).
