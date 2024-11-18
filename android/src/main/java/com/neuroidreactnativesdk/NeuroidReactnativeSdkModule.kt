@@ -120,6 +120,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
+    fun setVariable(key: String, value: String) {
+        NeuroID.getInstance()?.setVariable(key, value)
+    }
+
+    @ReactMethod
     fun start(promise: Promise) {
         NeuroID.getInstance()?.start() {
             if (it != null) {
