@@ -259,7 +259,8 @@ export const NeuroID: NeuroIDClass = {
   },
 
   startAppFlow: async function startAppFlow(
-    siteID: string, userID?: string
+    siteID: string,
+    userID?: string
   ): Promise<SessionStartResult> {
     const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
     NeuroIDLog.d('startAppFlow(): ' + result.sessionID + ' ' + result.started);
@@ -267,7 +268,7 @@ export const NeuroID: NeuroIDClass = {
       sessionID: result.sessionID as string,
       started: result.started as boolean,
     } as SessionStartResult);
-  }
+  },
 };
 
 export default NeuroID;
