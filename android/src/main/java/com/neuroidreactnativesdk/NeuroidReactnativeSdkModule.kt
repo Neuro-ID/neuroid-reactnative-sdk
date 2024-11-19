@@ -120,7 +120,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun setVerifyIntegrationHealth(key: String, value: String) {
+    fun setVariable(key: String, value: String) {
         NeuroID.getInstance()?.setVariable(key, value)
     }
 
