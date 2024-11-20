@@ -158,6 +158,4 @@ class NeuroidReactnativeSdk: NSObject {
             resolve(resultData)
         }
     }
-
-    // missing setupPage?
 }
