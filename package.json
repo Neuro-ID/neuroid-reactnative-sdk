@@ -151,12 +151,14 @@
   },
   "resolutions": {
     "nth-check": "2.0.1",
-    "postcss": "8.4.31"
+    "postcss": "8.4.35"
   },
   "overrides": {
     "body-parser": "^1.20.3",
     "rollup": "^3.29.5",
     "path-to-regexp":"^0.1.10",
-    "nth-check": "^2.0.1"
+    "nth-check": "^2.0.1",
+    "cross-spawn": "^7.0.5",
+    "postcss": "8.4.35"
   }
 }
