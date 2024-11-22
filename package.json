@@ -1,6 +1,6 @@
 {
   "name": "neuroid-reactnative-sdk",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "Official NeuroID React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -156,7 +156,7 @@
   "overrides": {
     "body-parser": "^1.20.3",
     "rollup": "^3.29.5",
-    "path-to-regexp":"^0.1.10",
+    "path-to-regexp": "^0.1.10",
     "nth-check": "^2.0.1",
     "cross-spawn": "^7.0.5",
     "postcss": "8.4.35"
