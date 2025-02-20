@@ -153,7 +153,7 @@ class NeuroidReactnativeSdk: NSObject {
     
     @objc(startAppFlow:userID:withResolver:withRejecter:)
     func startAppFlow(siteID: String, userID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        NeuroID.startAppFlow(siteID: siteID, userID: userID) { result in
+        NeuroID.startAppFlow(siteID: siteID, sessionID: userID) { result in
             let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
             resolve(resultData)
         }
