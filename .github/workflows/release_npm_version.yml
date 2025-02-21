@@ -96,7 +96,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.MOBILE_SLACK_WEBHOOK }}
 
   resetAndroidVersion:
-    name: Default to master snapshot 
+    name: Default to main snapshot
     runs-on: ubuntu-latest
     needs: triggerRNSandboxProd
     steps:
@@ -105,17 +105,17 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Reset android version to master snapshot
+      - name: Reset android version to main snapshot
         run: |
-          sed -i "s/:react-android-sdk:[0-9a-zA-Z.-]*/:react-android-sdk:master-SNAPSHOT/g" android/build.gradle
-          sed -i "s/:react-android-sdk-debug:[0-9a-zA-Z.-]*/:react-android-sdk-debug:master-SNAPSHOT/g" android/build.gradle
+          sed -i "s/:react-android-sdk:[0-9a-zA-Z.-]*/:react-android-sdk:main-SNAPSHOT/g" android/build.gradle
+          sed -i "s/:react-android-sdk-debug:[0-9a-zA-Z.-]*/:react-android-sdk-debug:main-SNAPSHOT/g" android/build.gradle
           git config --global user.email developer@neuro-id.com
           git config --global user.name neuroid-developer   
           git checkout -b 'post-release-reset'
           git status
           set +e
           git add android/build.gradle
-          git commit -m "Reset android version to master-SNAPSHOT"
+          git commit -m "Reset android version to main-SNAPSHOT"
           git push --set-upstream origin 'post-release-reset'
           set -e
 
@@ -124,8 +124,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const title = "Post-release/Reset android version to master-SNAPSHOT";
-            const body = "Merge post release. Resets android version to master-SNAPSHOT";
+            const title = "Post-release/Reset android version to main-SNAPSHOT";
+            const body = "Merge post release. Resets android version to main-SNAPSHOT";
             const headBranch = 'post-release-reset';
             const baseBranch = 'main';
             

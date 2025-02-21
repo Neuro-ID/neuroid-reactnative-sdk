@@ -39,7 +39,7 @@ jobs:
               -H "Accept: application/vnd.github.v3+json" \
               -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
               https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
-              -d '{"event_type":"publish-dev-android","client_payload":{"version":"master-SNAPSHOT", "message": "Android sdk master-SNAPSHOT"}}'
+              -d '{"event_type":"publish-dev-android","client_payload":{"version":"main-SNAPSHOT", "message": "Android sdk main-SNAPSHOT"}}'
 
       - name: Send Slack Notification on Failure
         if: failure()
