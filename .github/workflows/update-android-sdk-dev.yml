@@ -41,14 +41,14 @@ jobs:
               https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
               -d '{"event_type":"publish-dev-android","client_payload":{"version":"main-SNAPSHOT", "message": "Android sdk main-SNAPSHOT"}}'
 
-      - name: Send Slack Notification on Failure
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: ${{ secrets.MOBILE_SLACK_NOTIFICATIONS_CHANNEL }}
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Failed to trigger React Native Android Sandbox release (Dev)'
-          SLACK_TITLE: Failed to trigger React Native Android Sandbox release (Dev)
-          SLACK_USERNAME: rtBot
-          SLACK_WEBHOOK: ${{ secrets.MOBILE_SLACK_WEBHOOK }}
+      # - name: Send Slack Notification on Failure
+      #   if: failure()
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_CHANNEL: ${{ secrets.MOBILE_SLACK_NOTIFICATIONS_CHANNEL }}
+      #     SLACK_COLOR: ${{ job.status }}
+      #     SLACK_ICON: https://github.com/rtCamp.png?size=48
+      #     SLACK_MESSAGE: 'Failed to trigger React Native Android Sandbox release (Dev)'
+      #     SLACK_TITLE: Failed to trigger React Native Android Sandbox release (Dev)
+      #     SLACK_USERNAME: rtBot
+      #     SLACK_WEBHOOK: ${{ secrets.MOBILE_SLACK_WEBHOOK }}
