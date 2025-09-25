@@ -15,6 +15,6 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
- s.dependency 'NeuroID', '3.4.4'
+ s.dependency 'NeuroID', '3.4.7'
   s.dependency "React-Core" 
 end
