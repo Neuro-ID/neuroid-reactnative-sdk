@@ -44,10 +44,7 @@ export interface NeuroIDConfigOptions {
   isAdvancedDevice: boolean;
   environment: string;
   advancedDeviceKey?: string;
-<<<<<<< HEAD
   useAdvancedDeviceProxy: boolean;
-=======
->>>>>>> 20b2da87c9c54a2bcf03ef2850e179b9f27e1a33
 }
 
 export interface NeuroIDLogClass {
