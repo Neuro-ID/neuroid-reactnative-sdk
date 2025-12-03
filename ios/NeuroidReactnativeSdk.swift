@@ -6,7 +6,6 @@ class NeuroidReactnativeSdk: NSObject {
     @objc(configure:parameters:withResolver:withRejecter:)
     func configure(apiKey: String, parameters: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let result = NeuroID.configure(clientKey: apiKey, rnOptions: parameters)
-        NeuroID.setIsRN()
         resolve(result)
     }
 
