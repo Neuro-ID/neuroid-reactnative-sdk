@@ -12,6 +12,7 @@ on:
       - main
 
 permissions:
+  id-token: write  # Required for OIDC
   contents: write
   issues: write
   pull-requests: write
@@ -21,23 +22,17 @@ jobs:
     if: github.event.pull_request.merged && startsWith(github.head_ref, 'releases/')
     runs-on: ubuntu-latest
     steps:
-      - name: Main branch checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v6
 
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: '25.x'
           registry-url: 'https://registry.npmjs.org'
 
       - run: npm ci
 
-      - name: Publish to npm
-        run: npm publish --tag latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      - run: npm publish
 
       - name: Retrieve package version
         run: |
@@ -60,6 +55,7 @@ jobs:
           git tag latest
           git push origin latest
           set -e
+
   triggerRNSandboxProd:
     name: Trigger React Native Prod Sandbox release
     runs-on: ubuntu-latest
