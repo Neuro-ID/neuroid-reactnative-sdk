@@ -7,7 +7,7 @@ name: Auto publish to npm registry once release PR is merged
 on:
   pull_request:
     branches:
-      - 123
+      - main
 
 permissions:
   id-token: write  # Required for OIDC
@@ -25,7 +25,6 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '25.x'
-          registry-url: 'https://registry.npmjs.org'
 
       - run: npm ci
 
