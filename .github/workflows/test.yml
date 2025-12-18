@@ -23,6 +23,7 @@ jobs:
         run: |
           set -euo pipefail
           npm -v
+          unset NODE_AUTH_TOKEN
           echo "== env presence =="
           for v in NODE_AUTH_TOKEN NPM_TOKEN npm_config__authToken npm_config__authtoken; do
           if [ -n "${!v-}" ]; then echo "$v=SET"; else echo "$v=NOT_SET"; fi
