@@ -13,6 +13,11 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '25.x'
+          registry-url: 'https://registry.npmjs.org'
     
       - name: Show why npm thinks it has a token (redacted)
         run: |
