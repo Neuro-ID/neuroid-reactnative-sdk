@@ -17,13 +17,11 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '25.x'
-          registry-url: 'https://registry.npmjs.org'
     
       - name: Show why npm thinks it has a token (redacted)
         run: |
           set -euo pipefail
           npm -v
-          unset NODE_AUTH_TOKEN
           echo "== env presence =="
           for v in NODE_AUTH_TOKEN NPM_TOKEN npm_config__authToken npm_config__authtoken; do
           if [ -n "${!v-}" ]; then echo "$v=SET"; else echo "$v=NOT_SET"; fi
