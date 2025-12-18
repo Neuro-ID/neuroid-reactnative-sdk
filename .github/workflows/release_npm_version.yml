@@ -5,9 +5,7 @@
 name: Auto publish to npm registry once release PR is merged
 
 on:
-  pull_request_target:
-    types:
-      - closed
+  pull_request:
     branches:
       - main
 
@@ -19,7 +17,6 @@ permissions:
 
 jobs:
   createRelease:
-    if: github.event.pull_request.merged && startsWith(github.head_ref, 'releases/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -32,7 +29,10 @@ jobs:
 
       - run: npm ci
 
-      - run: npm publish
+      - name: publish to npm
+        run: |
+          unset NODE_AUTH_TOKEN
+          npm publish
 
       - name: Retrieve package version
         run: |
