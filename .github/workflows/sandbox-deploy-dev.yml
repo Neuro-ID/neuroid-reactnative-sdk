@@ -1,0 +1,33 @@
+name: Update Dev React Native Android SDK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  sandbox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Update new commit to have "Development" Tag
+        run: |
+          git config --global user.email developer@neuro-id.com
+          git config --global user.name neuroid-developer
+          set +e
+          git push origin :development
+          git tag -d development
+          git tag development
+          git push origin development
+          set -e
+
+      - name: ReactNative Sandbox iOS/Android Dev Deployment
+        run: |
+          curl \
+              -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
+              https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
+              -d '{"event_type":"deploy-sandbox-dev","client_payload":{"version":"main-SNAPSHOT"}}'
