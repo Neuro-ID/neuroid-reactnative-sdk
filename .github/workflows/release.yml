@@ -13,9 +13,6 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: write
-  issues: write
-  pull-requests: write
 
 env: 
   ACTION_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
@@ -23,6 +20,8 @@ env:
 jobs:
   createRelease:
     if: github.event.pull_request.merged && startsWith(github.head_ref, 'releases/')
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -81,6 +80,9 @@ jobs:
 
   resetAndroidVersion:
     name: Default to main snapshot
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     needs: createRelease
     steps:
