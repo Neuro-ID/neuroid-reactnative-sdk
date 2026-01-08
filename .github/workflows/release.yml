@@ -17,6 +17,9 @@ permissions:
   issues: write
   pull-requests: write
 
+env: 
+  ACTION_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
 jobs:
   createRelease:
     if: github.event.pull_request.merged && startsWith(github.head_ref, 'releases/')
@@ -64,7 +67,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
             https://api.github.com/repos/Neuro-ID/neuroid-mobile-infra/dispatches \
-            -d '{"event_type":"release","client_payload":{"status":"success", "service": "reactnative", "version": "${{ env.PACKAGE_VERSION }}"}}'
+            -d '{"event_type":"release","client_payload":{"status":"success", "service": "reactnative", "version": "${{ env.PACKAGE_VERSION }}", "action_url": "${{ env.ACTION_URL }}"}}'
 
       - name: Send Release Failure Result to NID Mobile Infra Repo
         if: failure()
@@ -74,7 +77,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
             https://api.github.com/repos/Neuro-ID/neuroid-mobile-infra/dispatches \
-            -d '{"event_type":"release","client_payload":{"status":"failure", "service": "reactnative", "version": "${{ env.PACKAGE_VERSION }}"}}'
+            -d '{"event_type":"release","client_payload":{"status":"failure", "service": "reactnative", "version": "${{ env.PACKAGE_VERSION }}", "action_url": "${{ env.ACTION_URL }}"}}'
 
   resetAndroidVersion:
     name: Default to main snapshot
