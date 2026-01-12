@@ -35,7 +35,10 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/Neuro-ID/neuroid-reactnative-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Neuro-ID/neuroid-reactnative-sdk.git"
+  },
   "author": "NeuroID <engineering@neuro-id.com> (https://github.com/Neuro-ID/neuroid-reactnative-sdk)",
   "license": "MIT",
   "bugs": {
