@@ -8,16 +8,14 @@ on:
   pull_request:
     branches:
       - main
-
-permissions:
-  id-token: write  # Required for OIDC
-
+  
 env: 
   ACTION_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-
+    
 jobs:
   createRelease:
     permissions:
+      id-token: write  # Required for OIDC
       contents: write
     runs-on: ubuntu-latest
     steps:
