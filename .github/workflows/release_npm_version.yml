@@ -35,6 +35,13 @@ jobs:
 
       - run: npm publish
 
+      - name: Upload npm publish logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-publish-logs
+          path: /home/runner/.npm/_logs/
+
       - name: Retrieve package version
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
