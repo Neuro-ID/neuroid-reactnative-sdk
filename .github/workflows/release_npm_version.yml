@@ -31,7 +31,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm publish --provenance
+      - run: npm publish --provenance --access public
 
       - name: Upload npm publish logs
         if: always()
