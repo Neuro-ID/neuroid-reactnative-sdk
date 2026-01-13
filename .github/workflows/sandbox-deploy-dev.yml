@@ -30,4 +30,4 @@ jobs:
               -H "Accept: application/vnd.github.v3+json" \
               -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
               https://api.github.com/repos/Neuro-ID/neuroid-reactnative-sdk-sandbox/dispatches \
-              -d '{"event_type":"deploy-sandbox-dev"}'
+              -d '{"event_type":"sandbox-deploy-dev"}'
