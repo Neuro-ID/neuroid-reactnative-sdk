@@ -40,20 +40,12 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      # - name: Resolve latest RN patch version
-      #   id: rn
-      #   run: |
-      #     set -euo pipefail
-      #     RN_EXACT_VERSION="$(npm view react-native@${{ matrix.RN_VERSION }} version)"
-      #     echo "Resolved React Native version: ${{ matrix.RN_VERSION }} -> $RN_EXACT_VERSION"
-      #     echo "RN_EXACT_VERSION=$RN_EXACT_VERSION" >> $GITHUB_OUTPUT
-
       - name: Define App Paths
         id: paths
         run: |
-          set -euo pipefail
+          SAFE_MINOR="${{ matrix.RN_VERSION }}//./_" # 0.80 -> 0_80
+          APP_NAME="SmokeApp_$SAFE_MINOR"
 
-          APP_NAME="SmokeApp_${{ matrix.RN_VERSION }}"
           APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
 
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
@@ -67,7 +59,7 @@ jobs:
           cd "${{ env.APPS_PATH }}"
 
           npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
-          --version "${{ steps.rn.outputs.RN_EXACT_VERSION }}" \
+          --version "${{ matrix.RN_VERSION }}" \
           --skip-install
 
       - name: Install JS Dependencies
