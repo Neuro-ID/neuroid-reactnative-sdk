@@ -22,7 +22,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
             NeuroID.getInstance()?.setIsRN()
         }
 
-        val reactCurrentActivity = currentActivity
+        val reactCurrentActivity = reactApplicationCtx.currentActivity
         if (reactCurrentActivity != null) {
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
@@ -152,7 +152,7 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun registerPageTargets(promise: Promise) {
-        val reactCurrentActivity = currentActivity
+        val reactCurrentActivity = reactApplicationCtx.currentActivity
         if (reactCurrentActivity != null) {
             NeuroID.getInstance()?.registerPageTargets(reactCurrentActivity)
         }
