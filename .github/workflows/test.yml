@@ -73,3 +73,16 @@ jobs:
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
         run: pod install --repo-update
+
+      - name: Xcode build (Simulator)
+        working-directory: ${{ env.APP_DIR }}/ios
+        run: |
+          set -o pipefail
+          xcodebuild clean build \
+            CODE_SIGNING_ALLOWED=NO \
+            -workspace ${{ env.APP_NAME }}/NeuroID.xcworkspace \
+            -scheme ${{ env.APP_NAME }} \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=iPhone 15" | \
+          xcbeautify
