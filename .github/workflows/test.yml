@@ -80,7 +80,7 @@ jobs:
           set -o pipefail
           xcodebuild clean build \
             CODE_SIGNING_ALLOWED=NO \
-            -workspace ${{ env.APP_NAME }}/NeuroID.xcworkspace \
+            -workspace ${{ env.APP_NAME }}.xcworkspace \
             -scheme ${{ env.APP_NAME }} \
             -configuration Debug \
             -sdk iphonesimulator \
