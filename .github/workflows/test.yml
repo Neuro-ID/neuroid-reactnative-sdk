@@ -43,7 +43,8 @@ jobs:
       - name: Define App Paths
         id: paths
         run: |
-          SAFE_MINOR="${{ matrix.RN_VERSION }}//./_" # 0.80 -> 0_80
+          RN_VERSION="${{ matrix.RN_VERSION }}"
+          SAFE_MINOR="${RN_VERSION//./_}" # 0.80 -> 0_80
           APP_NAME="SmokeApp_$SAFE_MINOR"
 
           APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
@@ -53,7 +54,6 @@ jobs:
 
       - name: Create React Native App
         run: |
-          set -euo pipefail
           mkdir -p "${{ env.APPS_PATH }}"
           rm -rf "${{ env.APP_DIR }}"
           cd "${{ env.APPS_PATH }}"
