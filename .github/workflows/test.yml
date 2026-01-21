@@ -1,0 +1,80 @@
+name: RN Smoke Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  SDK_PATH: ${{ github.workspace }}
+
+jobs:
+  ios:
+    name: iOS (RN ${{ matrix.RN_VERSION }})
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        # RN_VERSION: ['0.73', '0.74', '0.75', '0.76', '0.77', '0.78', '0.79', '0.80', '0.81', '0.82', '0.83']
+        RN_VERSION: ['0.73', '0.74', '0.75']
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Resolve latest RN patch version
+        id: rn
+        run: |
+          set -euo pipefail
+          RN_EXACT_VERSION="$(npm view react-native@${{ matrix.RN_VERSION }} version)"
+          echo "Resolved React Native version: ${{ matrix.RN_VERSION }} -> $RN_EXACT_VERSION"
+          echo "RN_EXACT_VERSION=$RN_EXACT_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Define App Paths
+        id: paths
+        run: |
+          set -euo pipefail
+
+          APP_NAME="SmokeApp_${{ matrix.RN_VERSION }}"
+          APP_PARENT="${GITHUB_WORKSPACE}/.tmp"
+          APP_DIR="${APP_PARENT}/${APP_NAME}"
+
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+          echo "APP_PARENT=$APP_PARENT" >> $GITHUB_ENV
+          echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+
+      - name: Create React Native App
+        run: |
+          set -euo pipefail
+          mkdir -p "${{ env.APP_PARENT }}"
+          rm -rf "${{ env.APP_DIR }}"
+          cd "${{ env.APP_PARENT }}"
+
+          npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
+          --version "${{ steps.rn.outputs.RN_EXACT_VERSION }}" \
+          --skip-install
+
+      - name: Install JS Dependencies
+        run: |
+          set -euo pipefail
+          cd "${{ env.APP_DIR }}"
+          yarn install
+
+      - name: Install NeuroID SDK
+        run: |
+          set -euo pipefail
+          cd "${{ env.APP_DIR }}"
+          yarn add "file:${{ env.SDK_PATH }}"
