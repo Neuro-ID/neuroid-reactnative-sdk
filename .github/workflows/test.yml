@@ -74,15 +74,11 @@ jobs:
         working-directory: ${{ env.APP_DIR }}/ios
         run: pod install --repo-update
 
-      - name: Xcode build (Simulator)
-        working-directory: ${{ env.APP_DIR }}/ios
+      - name: Copy smoke templates into App
         run: |
-          set -o pipefail
-          xcodebuild clean build \
-            CODE_SIGNING_ALLOWED=NO \
-            -workspace ${{ env.APP_NAME }}.xcworkspace \
-            -scheme ${{ env.APP_NAME }} \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -destination "platform=iOS Simulator,name=iPhone 15" | \
-          xcbeautify
+          cp -R "${{ github.workspace }}/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
+          cp -R "${{ github.workspace }}/App.tsx" "${{ env.APP_DIR }}/App.tsx"
+
+      - name: Run iOS App (Simulator)
+        working-directory: ${{ env.APP_DIR }}
+        run: npx react-native run-ios --simulator="iPhone 17 Pro"
