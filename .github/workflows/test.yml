@@ -81,6 +81,10 @@ jobs:
           cp -R "${{ github.workspace }}/tests/consolePatch.ts" "${{ env.APP_DIR }}/consolePatch.ts"
           cp -R "${{ github.workspace }}/tests/fileLogger.ts" "${{ env.APP_DIR }}/fileLogger.ts"
 
+      - name: Install react-native-fs
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn add react-native-fs
+
       - name: Run Metro Server (in background)
         working-directory: ${{ env.APP_DIR }}
         run: | 
