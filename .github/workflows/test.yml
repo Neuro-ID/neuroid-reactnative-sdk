@@ -78,6 +78,8 @@ jobs:
         run: |
           cp -R "${{ github.workspace }}/tests/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
           cp -R "${{ github.workspace }}/tests/App.tsx" "${{ env.APP_DIR }}/App.tsx"
+          cp -R "${{ github.workspace }}/tests/consolePatch.ts" "${{ env.APP_DIR }}/consolePatch.ts"
+          cp -R "${{ github.workspace }}/tests/fileLogger.ts" "${{ env.APP_DIR }}/fileLogger.ts"
 
       - name: Run Metro Server (in background)
         working-directory: ${{ env.APP_DIR }}
@@ -97,6 +99,12 @@ jobs:
           cat metro.log
           exit 1
 
+      - name: Prepare Simulator
+        run: |
+          set -o pipefail
+          xcrun simctl boot "iPhone 17 Pro" || true
+          xcrun simctl list devices
+
       - name: Run iOS App (Simulator)
         working-directory: ${{ env.APP_DIR }}
         run: |
@@ -105,14 +113,20 @@ jobs:
 
       - name: Assert smoke PASS (from metro logs)
         working-directory: ${{ env.APP_DIR }}
-        run: |
+        run: |          
+          SCHEME=$(ls -d *.xcodeproj | sed 's/.xcodeproj//')
+          BUNDLE_ID=$(xcodebuild -showBuildSettings -project ${SCHEME}.xcodeproj -scheme ${SCHEME} 2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | grep -v "DERIVE" | awk '{print $3}')
+          CONTAINER_PATH=$(xcrun simctl get_app_container booted $BUNDLE_ID data)
+
+          cp "$CONTAINER_PATH/Documents/app.log" app.log
+
           for i in {1..30}; do
-            if grep -q "NID_RN_SDK_PASS" metro.log; then
+            if grep -q "NID_RN_SDK_PASS" app.log; then
               echo "Smoke tests passed!"
               exit 0
-            elif grep -q "NID_RN_SDK_FAIL" metro.log; then
-              echo "Smoke tests failed. Check metro logs for details."
-              cat metro.log
+            elif grep -q "NID_RN_SDK_FAIL" app.log; then
+              echo "Smoke tests failed. Check logs for details."
+              cat app.log
               exit 1
             fi
             sleep 2
