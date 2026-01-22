@@ -15,14 +15,16 @@ export async function runSmoke(): Promise<void> {
     { name: 'getEnvironment', run: () => NeuroID.getEnvironment() },
     { name: 'getUserID', run: () => NeuroID.getUserID() },
     { name: 'getRegisteredUserID', run: () => NeuroID.getRegisteredUserID() },
-    // { name: 'setScreenName', run: () => NeuroID.setScreenName("TestScreen") },
-    { name: 'getScreenName', run: () => NeuroID.getScreenName() },
     { name: 'startSession', run: () => NeuroID.startSession() },
+    { name: 'setScreenName', run: () => NeuroID.setScreenName("TestScreen") },
+    { name: 'getScreenName', run: () => NeuroID.getScreenName() },
     { name: 'getSessionID', run: () => NeuroID.getSessionID() },
-    // { name: 'isStopped', run: () => NeuroID.isStopped() },
+    { name: 'registerPageTargets', run: () => NeuroID.registerPageTargets() },
+    { name: 'isStopped', run: () => { !NeuroID.isStopped() } },
     { name: 'pauseCollection', run: () => NeuroID.pauseCollection() },
     { name: 'resumeCollection', run: () => NeuroID.resumeCollection() },
     { name: 'stopSession', run: () => NeuroID.stopSession() },
+    { name: 'isStopped2', run: () => NeuroID.isStopped() },
   ]
 
   // Basic API surface check
