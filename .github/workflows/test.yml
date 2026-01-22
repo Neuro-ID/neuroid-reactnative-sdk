@@ -115,15 +115,18 @@ jobs:
           set -o pipefail
           npx react-native run-ios --no-packager --port 8081 --simulator "iPhone 17 Pro"
 
-      - name: Assert smoke PASS (from metro logs)
-        working-directory: ${{ env.APP_DIR }}
-        run: |          
+      - name: Copy Logs from Device
+        working-directory: ${{ env.APP_DIR }}/ios
+        run: |
           SCHEME=$(ls -d *.xcodeproj | sed 's/.xcodeproj//')
           BUNDLE_ID=$(xcodebuild -showBuildSettings -project ${SCHEME}.xcodeproj -scheme ${SCHEME} 2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | grep -v "DERIVE" | awk '{print $3}')
           CONTAINER_PATH=$(xcrun simctl get_app_container booted $BUNDLE_ID data)
 
-          cp "$CONTAINER_PATH/Documents/app.log" app.log
+          cp "$CONTAINER_PATH/Documents/app.log" ../app.log
 
+      - name: Assert smoke PASS (from metro logs)
+        working-directory: ${{ env.APP_DIR }}
+        run: |          
           for i in {1..30}; do
             if grep -q "NID_RN_SDK_PASS" app.log; then
               echo "Smoke tests passed!"
