@@ -14,6 +14,7 @@ export async function runSmoke(): Promise<void> {
   // Basic API surface check
   for (const call of calls) {
     if (typeof call.run !== 'function') {
+        console.log('NID_RN_SDK_FAIL');
         throw new Error(`Smoke Test: Call ${call.name} is not a function`);
     }
   }
@@ -27,9 +28,11 @@ export async function runSmoke(): Promise<void> {
     } catch (error: any) {
         const msg = error?.message || error?.toString() || 'Unknown error';
         console.log(`Smoke Test: Call ${call.name} failed with error: ${msg}`);
+        console.log('NID_RN_SDK_FAIL');
         throw error
     }
   }
 
   console.log('NeuroID SDK Smoke Test Passed');
+  console.log('NID_RN_SDK_PASS');
 }

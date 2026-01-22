@@ -79,6 +79,43 @@ jobs:
           cp -R "${{ github.workspace }}/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
           cp -R "${{ github.workspace }}/App.tsx" "${{ env.APP_DIR }}/App.tsx"
 
+      - name: Run Metro Server (in background)
+        working-directory: ${{ env.APP_DIR }}
+        run: | 
+          nohup npx react-native start --port 8081 --no-interactive > metro.log 2>&1 &
+          echo "RN_PID=$1" >> $GITHUB_ENV
+
+          for i in {1..60}; do
+            if curl -fsS "http://localhost:8081/status" | grep -q "packager-status:running"; then
+              echo "Metro server is ready!"
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "Metro server failed to start within expected time."
+          cat metro.log
+          exit 1
+
       - name: Run iOS App (Simulator)
         working-directory: ${{ env.APP_DIR }}
-        run: npx react-native run-ios --simulator="iPhone 17 Pro"
+        run: npx react-native run-ios --no-packager --port 8081 --simulator "iPhone 17 Pro"
+
+      - name: Assert smoke PASS (from metro logs)
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          for i in {1..30}; do
+            if grep -q "NID_RN_SDK_PASS" "metro.log"; then
+              echo "Smoke tests passed!"
+              exit 0
+            elif grep -q "NID_RN_SDK_FAIL" "metro.log"; then
+              echo "Smoke tests failed. Check metro logs for details."
+              cat "metro.log"
+              exit 1
+            fi
+            sleep 2
+          done
+
+      - name: Stop Metro
+        if: always()
+        run: kill $RN_PID || true
