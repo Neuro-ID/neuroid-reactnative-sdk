@@ -114,7 +114,7 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: |
           set -o pipefail
-          npx react-native run-ios --no-packager --port 8081 --configuration Release --simulator "iPhone 17 Pro" 2>&1 | tee ios-build.log
+          npx react-native run-ios --no-packager --port 8081 --simulator "iPhone 17 Pro" 2>&1 | tee ios-build.log
           
           # Verify the build succeeded
           if [ ${PIPESTATUS[0]} -ne 0 ]; then
