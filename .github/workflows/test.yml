@@ -19,7 +19,7 @@ env:
 jobs:
   ios:
     name: iOS (RN ${{ matrix.RN_VERSION }})
-    runs-on: macos-15
+    runs-on: macos-15-xlarge
     strategy:
       fail-fast: false
       matrix:
@@ -90,7 +90,6 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: | 
           nohup npx react-native start --port 8081 --no-interactive > metro.log 2>&1 &
-          echo "RN_PID=$!" >> $GITHUB_ENV
 
           for i in {1..60}; do
             if curl -fsS "http://localhost:8081/status" | grep -q "packager-status:running"; then
@@ -114,13 +113,7 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: |
           set -o pipefail
-          npx react-native run-ios --no-packager --port 8081 --simulator "iPhone 17 Pro" 2>&1 | tee ios-build.log
-          
-          # Verify the build succeeded
-          if [ ${PIPESTATUS[0]} -ne 0 ]; then
-            echo "iOS build failed. Check logs above."
-            exit 1
-          fi
+          npx react-native run-ios --no-packager --port 8081 --simulator "iPhone 17 Pro"
           
           # Give the app time to install and launch
           echo "Waiting for app to install and launch..."
@@ -129,6 +122,8 @@ jobs:
       - name: Copy Logs from Device
         working-directory: ${{ env.APP_DIR }}/ios
         run: |
+          DEVICE="iPhone 17 Pro"
+          
           SCHEME=$(ls -d *.xcodeproj | sed 's/.xcodeproj//')
           echo "SCHEME: $SCHEME"
           
@@ -142,12 +137,12 @@ jobs:
           
           # List all installed apps for debugging
           echo "=== Installed apps on simulator ==="
-          xcrun simctl listapps booted | grep -E "(ApplicationType|CFBundleIdentifier|CFBundleName)" | head -50
+          xcrun simctl listapps "$DEVICE" | grep -E "(ApplicationType|CFBundleIdentifier|CFBundleName)" | head -50
           
           # Wait for app to be installed (up to 30 seconds)
           echo "Waiting for app to be installed..."
           for i in {1..30}; do
-            if xcrun simctl listapps booted | grep -q "$BUNDLE_ID"; then
+            if xcrun simctl listapps "$DEVICE" | grep -q "$BUNDLE_ID"; then
               echo "App is installed!"
               break
             fi
@@ -156,7 +151,7 @@ jobs:
           done
           
           # Verify app is installed
-          if ! xcrun simctl listapps booted | grep -q "$BUNDLE_ID"; then
+          if ! xcrun simctl listapps "$DEVICE" | grep -q "$BUNDLE_ID"; then
             echo "Error: App with bundle ID $BUNDLE_ID is not installed on simulator after waiting"
             echo "=== Checking build logs ==="
             tail -50 ../ios-build.log || echo "No build log found"
@@ -164,7 +159,7 @@ jobs:
           fi
           
           # Get container path
-          CONTAINER_PATH=$(xcrun simctl get_app_container booted "$BUNDLE_ID" data 2>&1)
+          CONTAINER_PATH=$(xcrun simctl get_app_container "$DEVICE" "$BUNDLE_ID" data 2>&1)
           if [ $? -ne 0 ]; then
             echo "Error getting container path: $CONTAINER_PATH"
             exit 1
