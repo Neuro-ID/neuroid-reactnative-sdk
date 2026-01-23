@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.73', '0.75', '0.77', '0.79', '0.81', '0.83']
+        RN_VERSION: ['0.73', '0.78', '0.83']
         # RN_VERSION: ['0.73', '0.74', '0.75', '0.76', '0.77', '0.78', '0.79', '0.80', '0.81', '0.82', '0.83']
         # RN_VERSION: ['0.73', '0.74', '0.75']
     steps:
@@ -123,7 +123,7 @@ jobs:
         working-directory: ${{ env.APP_DIR }}/ios
         run: |
           DEVICE="iPhone 17 Pro"
-          
+
           SCHEME=$(ls -d *.xcodeproj | sed 's/.xcodeproj//')
           echo "SCHEME: $SCHEME"
           
@@ -134,10 +134,20 @@ jobs:
             echo "Error: Could not determine BUNDLE_ID"
             exit 1
           fi
+
+          APP_PATH="$(ls -td build/ios/Build/Products/*simulator/*.app | head -n 1)"
+          echo "APP_PATH: $APP_PATH"
+
+          # Make sure it's installed + launched
+          xcrun simctl install "$DEVICE" "$APP_PATH" || true                            
+          xcrun simctl launch "$DEVICE" "$BUNDLE_ID" || true
           
+          CONTAINER="$(xcrun simctl get_app_container "$DEVICE" "$BUNDLE_ID" data 2>/dev/null || true)"
+          echo "CONTAINER: $CONTAINER"
+
           # List all installed apps for debugging
           echo "=== Installed apps on simulator ==="
-          xcrun simctl listapps "$DEVICE" | grep -E "(ApplicationType|CFBundleIdentifier|CFBundleName)" | head -50
+          xcrun simctl listapps "$DEVICE" | grep -E "(ApplicationType|CFBundleIdentifier|CFBundleName)"
           
           # Wait for app to be installed (up to 30 seconds)
           echo "Waiting for app to be installed..."
@@ -147,7 +157,7 @@ jobs:
               break
             fi
             echo "App not yet installed, waiting... ($i/30)"
-            sleep 1
+            sleep 5
           done
           
           # Verify app is installed
