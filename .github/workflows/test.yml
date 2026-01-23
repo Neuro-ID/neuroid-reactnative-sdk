@@ -145,6 +145,9 @@ jobs:
           set -euo pipefail
 
           RESULT_PATH="Documents/app.log"
+          
+          BUNDLE_ID=$(xcodebuild -showBuildSettings -project ios/${{ env.APP_DIR }}.xcodeproj -scheme ${{ env.APP_NAME }} 2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | grep -v "DERIVE" | awk '{print $3}')
+          echo "BUNDLE_ID: $BUNDLE_ID"
 
           xcrun simctl launch "$UDID" "$BUNDLE_ID"
 
