@@ -142,32 +142,48 @@ jobs:
       - name: Launch + Copy CI result file
         working-directory: ${{ env.APP_DIR }}
         run: |
-          set -euo pipefail
+          set -o pipefail
 
           RESULT_PATH="Documents/app.log"
           
-          BUNDLE_ID=$(xcodebuild -showBuildSettings -project ios/${{ env.APP_DIR }}.xcodeproj -scheme ${{ env.APP_NAME }} 2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | grep -v "DERIVE" | awk '{print $3}')
+          echo "Extracting bundle ID..."
+          BUNDLE_ID=$(xcodebuild -showBuildSettings -project ios/${{ env.APP_NAME }}.xcodeproj -scheme ${{ env.APP_NAME }} 2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | grep -v "DERIVE" | awk '{print $3}')
           echo "BUNDLE_ID: $BUNDLE_ID"
+          
+          if [ -z "$BUNDLE_ID" ]; then
+            echo "Error: Could not extract BUNDLE_ID"
+            exit 1
+          fi
 
+          echo "Launching app..."
           xcrun simctl launch "$UDID" "$BUNDLE_ID"
 
+          echo "Getting container path..."
           CONTAINER="$(xcrun simctl get_app_container "$UDID" "$BUNDLE_ID" data)"
           echo "CONTAINER: $CONTAINER"
 
           SRC="$CONTAINER/$RESULT_PATH"
+          echo "Looking for log at: $SRC"
 
-          # Wait for log file to be created (up to 60 seconds)
-          for i in {1..90}; do
+          # Wait for log file to be created (up to 150 seconds)
+          for i in {1..30}; do
             if [ -f "$SRC" ]; then
+              echo "Log file found at iteration $i!"
               cp "$SRC" ./app.log
-              echo "Log file found!"
               break
             fi
-            sleep 2
+            echo "Waiting for log file... ($i/30)"
+            sleep 5
           done
 
-          test -f "./app.log" || (echo "Log file not found after waiting" && exit 1)
+          if [ ! -f "./app.log" ]; then
+            echo "Error: Log file not found after waiting"
+            echo "Listing Documents directory:"
+            ls -la "$CONTAINER/Documents/" || echo "Documents directory does not exist"
+            exit 1
+          fi
 
+          echo "=== App Log Contents ==="
           cat app.log
 
       # - name: Copy Logs from Device
