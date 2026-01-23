@@ -114,7 +114,17 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: |
           set -o pipefail
-          npx react-native run-ios --no-packager --port 8081 --simulator "iPhone 17 Pro"
+          npx react-native run-ios --no-packager --port 8081 --configuration Release --simulator "iPhone 17 Pro" 2>&1 | tee ios-build.log
+          
+          # Verify the build succeeded
+          if [ ${PIPESTATUS[0]} -ne 0 ]; then
+            echo "iOS build failed. Check logs above."
+            exit 1
+          fi
+          
+          # Give the app time to install and launch
+          echo "Waiting for app to install and launch..."
+          sleep 10
 
       - name: Copy Logs from Device
         working-directory: ${{ env.APP_DIR }}/ios
@@ -130,12 +140,28 @@ jobs:
             exit 1
           fi
           
+          # List all installed apps for debugging
+          echo "=== Installed apps on simulator ==="
+          xcrun simctl listapps booted | grep -E "(ApplicationType|CFBundleIdentifier|CFBundleName)" | head -50
+          
+          # Wait for app to be installed (up to 30 seconds)
+          echo "Waiting for app to be installed..."
+          for i in {1..30}; do
+            if xcrun simctl listapps booted | grep -q "$BUNDLE_ID"; then
+              echo "App is installed!"
+              break
+            fi
+            echo "App not yet installed, waiting... ($i/30)"
+            sleep 1
+          done
+          
           # Verify app is installed
-          xcrun simctl listapps booted | grep -i "$BUNDLE_ID" || {
-            echo "Error: App with bundle ID $BUNDLE_ID is not installed on simulator"
-            xcrun simctl listapps booted
+          if ! xcrun simctl listapps booted | grep -q "$BUNDLE_ID"; then
+            echo "Error: App with bundle ID $BUNDLE_ID is not installed on simulator after waiting"
+            echo "=== Checking build logs ==="
+            tail -50 ../ios-build.log || echo "No build log found"
             exit 1
-          }
+          fi
           
           # Get container path
           CONTAINER_PATH=$(xcrun simctl get_app_container booted "$BUNDLE_ID" data 2>&1)
