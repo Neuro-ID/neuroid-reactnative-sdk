@@ -23,8 +23,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # RN_VERSION: ['0.73', '0.78', '0.83']
         RN_VERSION: ['0.73', '0.75', '0.77', '0.79', '0.81', '0.83']
+        # RN_VERSION: ['0.73', '0.78', '0.83']
         # RN_VERSION: ['0.73', '0.74', '0.75', '0.76', '0.77', '0.78', '0.79', '0.80', '0.81', '0.82', '0.83']
         # RN_VERSION: ['0.73', '0.74', '0.75']
     steps:
@@ -43,12 +43,10 @@ jobs:
           distribution: temurin
 
       - name: Define App Paths
-        id: paths
         run: |
           RN_VERSION="${{ matrix.RN_VERSION }}"
           SAFE_MINOR="${RN_VERSION//./_}" # 0.80 -> 0_80
           APP_NAME="SmokeApp_$SAFE_MINOR"
-
           APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
 
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
@@ -61,8 +59,8 @@ jobs:
           cd "${{ env.APPS_PATH }}"
 
           npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
-          --version "${{ matrix.RN_VERSION }}" \
-          --skip-install
+            --version "${{ matrix.RN_VERSION }}" \
+            --skip-install
 
       - name: Install JS Dependencies
         working-directory: ${{ env.APP_DIR }}
@@ -80,12 +78,10 @@ jobs:
         working-directory: ${{ env.APP_DIR }}/ios
         run: pod install --repo-update
 
-      - name: Copy smoke templates into App
+      - name: Copy Smoke Test Files
         run: |
-          cp -R "${{ github.workspace }}/tests/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
-          cp -R "${{ github.workspace }}/tests/App.tsx" "${{ env.APP_DIR }}/App.tsx"
-          cp -R "${{ github.workspace }}/tests/consolePatch.ts" "${{ env.APP_DIR }}/consolePatch.ts"
-          cp -R "${{ github.workspace }}/tests/fileLogger.ts" "${{ env.APP_DIR }}/fileLogger.ts"
+          cp "${{ github.workspace }}/tests/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
+          cp "${{ github.workspace }}/tests/App.tsx" "${{ env.APP_DIR }}/App.tsx"
 
       - name: Prepare Simulator
         run: |
@@ -98,9 +94,7 @@ jobs:
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
 
-          xcrun simctl list devices | sed -n '1,120p'
-
-      - name: Run iOS App (Simulator)
+      - name: Build and Install iOS App
         working-directory: ${{ env.APP_DIR }}
         run: |
           set -o pipefail
@@ -119,16 +113,22 @@ jobs:
 
           APP_PATH="$(find "$DERIVED_DATA/Build/Products" -maxdepth 3 -type d -name "${{ env.APP_NAME }}.app" | head -n 1)"
           echo "APP_PATH: $APP_PATH"
-          test -d "$APP_PATH" || (echo "No .app produced in DerivedData" && exit 1)
+          test -d "$APP_PATH" || (echo "Error: No .app produced in DerivedData" && exit 1)
 
           xcrun simctl install "$UDID" "$APP_PATH"
 
-      - name: Launch + Copy CI result file
+      - name: Launch App and Capture Logs
         working-directory: ${{ env.APP_DIR }}
         run: |
           set -o pipefail
 
-          BUNDLE_ID=$(xcodebuild -showBuildSettings -project ios/${{ env.APP_NAME }}.xcodeproj -scheme ${{ env.APP_NAME }} 2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | grep -v "DERIVE" | awk '{print $3}')
+          BUNDLE_ID=$(xcodebuild -showBuildSettings \
+            -project ios/${{ env.APP_NAME }}.xcodeproj \
+            -scheme ${{ env.APP_NAME }} 2>/dev/null \
+            | grep "PRODUCT_BUNDLE_IDENTIFIER" \
+            | grep -v "DERIVE" \
+            | awk '{print $3}')
+          
           echo "BUNDLE_ID: $BUNDLE_ID"
           
           if [ -z "$BUNDLE_ID" ]; then
@@ -136,30 +136,31 @@ jobs:
             exit 1
           fi
 
-          echo "Launching app..."
-          xcrun simctl spawn "$UDID" log stream --style compact --level debug --predicate 'subsystem == "com.facebook.react.log" AND category == "javascript"' > app.log 2>&1 &
-          xcrun simctl launch "$UDID" "$BUNDLE_ID" || true
+          echo "Starting log stream and launching app..."
+          xcrun simctl spawn "$UDID" log stream \
+            --style compact \
+            --level debug \
+            --predicate 'subsystem == "com.facebook.react.log" AND category == "javascript"' > app.log 2>&1 &
+          
+          xcrun simctl launch "$UDID" "$BUNDLE_ID"
 
-          sleep 30 # wait for app to run and create log
-
-      - name: Assert smoke PASS (from device logs)
+      - name: Verify Smoke Test Results
         working-directory: ${{ env.APP_DIR }}
-        run: |   
-          # Wait for log file to be created (up to 150 seconds)
+        run: |
           for i in {1..30}; do
             if grep -q "NID_RN_SDK_PASS" app.log; then
-            cat app.log
-            echo "=== Smoke tests passed! ==="
+              echo "=== Smoke tests PASSED ==="
+              cat app.log
               exit 0
             elif grep -q "NID_RN_SDK_FAIL" app.log; then
-              echo "Smoke tests failed. Check logs for details."
+              echo "=== Smoke tests FAILED ==="
               cat app.log
               exit 1
             fi
-            echo "Waiting for log file contents... ($i/30)"
+            echo "Waiting for test results... ($i/30)"
             sleep 5
           done
 
-          echo "=== App Log Contents ==="
-          cat app.log || echo "No local app.log found"
-
+          echo "=== Test timeout - dumping available logs ==="
+          cat app.log || echo "No logs available"
+          exit 1
