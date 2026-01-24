@@ -156,7 +156,7 @@ jobs:
           fi
 
           echo "Launching app..."
-          xcrun simctl launch "$UDID" "$BUNDLE_ID"
+          xcrun simctl launch --console "$UDID" "$BUNDLE_ID"
 
           sleep 30 # wait for app to run and create log
 
