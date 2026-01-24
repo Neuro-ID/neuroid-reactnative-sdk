@@ -156,9 +156,12 @@ jobs:
           fi
 
           echo "Launching app..."
+          xcrun simctl spawn "$UDID" log stream --style compact --level debug > sim.log 2>&1 &
           xcrun simctl launch --console "$UDID" "$BUNDLE_ID"
 
           sleep 30 # wait for app to run and create log
+
+          tail -300 sim.log
 
           echo "Getting container path..."
           CONTAINER="$(xcrun simctl get_app_container "$UDID" "$BUNDLE_ID" data)"
