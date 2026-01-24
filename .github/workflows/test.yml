@@ -90,7 +90,7 @@ jobs:
           xcodebuild \
             -workspace ios/${{ env.APP_NAME }}.xcworkspace \
             -scheme ${{ env.APP_NAME }} \
-            -configuration Release \
+            -configuration Debug \
             -sdk iphonesimulator \
             -destination "platform=iOS Simulator,name=${{ env.SIMULATOR_NAME }}" \
             -derivedDataPath $DERIVED_DATA \
