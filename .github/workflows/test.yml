@@ -158,12 +158,17 @@ jobs:
           echo "Launching app..."
           xcrun simctl launch "$UDID" "$BUNDLE_ID"
 
+          sleep 30 # wait for app to run and create log
+
           echo "Getting container path..."
           CONTAINER="$(xcrun simctl get_app_container "$UDID" "$BUNDLE_ID" data)"
           echo "CONTAINER: $CONTAINER"
 
           SRC="$CONTAINER/$RESULT_PATH"
           echo "Looking for log at: $SRC"
+
+          echo "=== Installed apps on simulator ==="
+          xcrun simctl listapps "$UDID"
 
           # Wait for log file to be created (up to 150 seconds)
           for i in {1..30}; do
