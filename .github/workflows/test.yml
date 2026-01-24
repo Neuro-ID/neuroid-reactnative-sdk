@@ -86,22 +86,22 @@ jobs:
           cp -R "${{ github.workspace }}/tests/consolePatch.ts" "${{ env.APP_DIR }}/consolePatch.ts"
           cp -R "${{ github.workspace }}/tests/fileLogger.ts" "${{ env.APP_DIR }}/fileLogger.ts"
 
-      - name: Run Metro Server (in background)
-        working-directory: ${{ env.APP_DIR }}
-        run: | 
-          nohup npx react-native start --port 8081 --no-interactive > metro.log 2>&1 &
+      # - name: Run Metro Server (in background)
+      #   working-directory: ${{ env.APP_DIR }}
+      #   run: | 
+      #     nohup npx react-native start --port 8081 --no-interactive > metro.log 2>&1 &
 
-          for i in {1..60}; do
-            if curl -fsS "http://localhost:8081/status" | grep -q "packager-status:running"; then
-              echo "Metro server is ready!"
-              exit 0
-            fi
-            sleep 1
-          done
+      #     for i in {1..60}; do
+      #       if curl -fsS "http://localhost:8081/status" | grep -q "packager-status:running"; then
+      #         echo "Metro server is ready!"
+      #         exit 0
+      #       fi
+      #       sleep 1
+      #     done
 
-          echo "Metro server failed to start within expected time."
-          cat metro.log
-          exit 1
+      #     echo "Metro server failed to start within expected time."
+      #     cat metro.log
+      #     exit 1
 
       - name: Prepare Simulator
         run: |
@@ -127,7 +127,7 @@ jobs:
           xcodebuild \
             -workspace ios/${{ env.APP_NAME }}.xcworkspace \
             -scheme ${{ env.APP_NAME }} \
-            -configuration Debug \
+            -configuration Release \
             -sdk iphonesimulator \
             -destination "id=$UDID" \
             -derivedDataPath $DERIVED_DATA \
