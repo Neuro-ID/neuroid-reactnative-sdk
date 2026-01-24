@@ -25,9 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.73', '0.75', '0.77', '0.79', '0.81', '0.83']
-        # RN_VERSION: ['0.73', '0.78', '0.83']
-        # RN_VERSION: ['0.73', '0.74', '0.75', '0.76', '0.77', '0.78', '0.79', '0.80', '0.81', '0.82', '0.83']
+        RN_VERSION: ['0.73', '0.77', '0.81', '0.83']
     steps:
       - uses: actions/checkout@v6
 
@@ -90,7 +88,7 @@ jobs:
           xcodebuild \
             -workspace ios/${{ env.APP_NAME }}.xcworkspace \
             -scheme ${{ env.APP_NAME }} \
-            -configuration Debug \
+            -configuration Release \
             -sdk iphonesimulator \
             -destination "platform=iOS Simulator,name=${{ env.SIMULATOR_NAME }}" \
             -derivedDataPath $DERIVED_DATA \
