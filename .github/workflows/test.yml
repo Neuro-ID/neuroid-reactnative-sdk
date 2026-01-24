@@ -156,12 +156,13 @@ jobs:
           fi
 
           echo "Launching app..."
-          xcrun simctl spawn "$UDID" log stream --style compact --level debug > sim.log 2>&1 &
+          # xcrun simctl spawn "$UDID" log stream --style compact --level debug > sim.log 2>&1 &
+          xcrun simctl spawn "$UDID" log stream --style compact --level debug --predicate 'subsystem == "com.facebook.react.log" AND category == "javascript"' > app.log 2>&1 &
           xcrun simctl launch "$UDID" "$BUNDLE_ID" || true
 
           sleep 30 # wait for app to run and create log
 
-          tail -300 sim.log
+          tail -300 app.log
 
           echo "Getting container path..."
           CONTAINER="$(xcrun simctl get_app_container "$UDID" "$BUNDLE_ID" data)"
@@ -177,12 +178,14 @@ jobs:
           for i in {1..30}; do
             if [ -f "$SRC" ]; then
               echo "Log file found at iteration $i!"
-              cp "$SRC" ./app.log
+              # cp "$SRC" ./app.log
               break
             fi
             echo "Waiting for log file... ($i/30)"
             sleep 5
           done
+
+          cat app.log || echo "No local app.log found"
 
           if [ ! -f "./app.log" ]; then
             echo "Error: Log file not found after waiting"
