@@ -1,4 +1,4 @@
-name: RN Smoke Tests
+name: RN Compatibility Matrix Tests
 
 on:
   pull_request:
@@ -8,8 +8,8 @@ on:
     branches:
       - main
 
-concurrency: 
-  group: rn-smoke-tests-${{ github.ref }}
+concurrency:
+  group: rn-compatibility-tests-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -19,9 +19,9 @@ env:
 jobs:
   ios:
     name: iOS (RN ${{ matrix.RN_VERSION }})
-    runs-on: macos-15
-    env: 
-      SIMULATOR_NAME: "iPhone 17 Pro"
+    runs-on: macos-15-xlarge
+    env:
+      SIMULATOR_NAME: 'iPhone 17 Pro'
     strategy:
       fail-fast: false
       matrix:
@@ -85,7 +85,7 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: |
           set -o pipefail
-          
+
           DERIVED_DATA="$PWD/DerivedData"
           rm -rf "$DERIVED_DATA"
 
@@ -115,9 +115,9 @@ jobs:
             | grep "PRODUCT_BUNDLE_IDENTIFIER" \
             | grep -v "DERIVE" \
             | awk '{print $3}')
-          
+
           echo "BUNDLE_ID: $BUNDLE_ID"
-          
+
           if [ -z "$BUNDLE_ID" ]; then
             echo "Error: Could not extract BUNDLE_ID"
             exit 1
@@ -128,7 +128,7 @@ jobs:
             --style compact \
             --level debug \
             --predicate 'subsystem == "com.facebook.react.log" AND category == "javascript"' > app.log 2>&1 &
-          
+
           xcrun simctl launch "${{ env.SIMULATOR_NAME }}" "$BUNDLE_ID"
 
       - name: Verify Smoke Test Results
