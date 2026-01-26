@@ -39,11 +39,11 @@ export async function runSmoke(): Promise<void> {
     try {
         console.log(`Smoke Test: Running call ${call.name}`);
         const result = call.run();
-        if (result && typeof (result as any).then === 'function') {
-            const awaitedResult = await result;
-            if (awaitedResult === false) {
-                throw new Error(`${call.name} returned false`);
-            }
+        if (typeof (result as any)?.then === 'function') {
+          const awaitedResult = await result;
+          if (awaitedResult === false) {
+            throw new Error(`${call.name} returned false`);
+          }
         }
     } catch (error: any) {
         const msg = error?.message || error?.toString() || 'Unknown error';

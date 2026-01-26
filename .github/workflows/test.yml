@@ -63,6 +63,10 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: yarn add "file:${{ env.SDK_PATH }}"
 
+      - name: Install react-native-safe-area-context
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn add react-native-safe-area-context
+
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
         run: pod install --repo-update
