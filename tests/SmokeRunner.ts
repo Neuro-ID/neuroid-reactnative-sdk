@@ -8,7 +8,7 @@ export async function runSmoke(): Promise<void> {
   console.log('NeuroID SDK Smoke Test Running');
 
   const calls: SmokeCall[] = [
-    { name: 'configure', run: () => NeuroID.configure("key_test_123456", { usingReactNavigation: true }) },
+    { name: 'configure', run: () => NeuroID.configure("key_test_123456", { usingReactNavigation: true, isAdvancedDevice: true, environment: 'live', advancedDeviceKey: "", useAdvancedDeviceProxy: true }) },
     { name: 'enableLogging', run: () => NeuroID.enableLogging(true) },
     { name: 'getClientID', run: () => NeuroID.getClientID() },
     { name: 'getSDKVersion', run: () => NeuroID.getSDKVersion() },
@@ -20,7 +20,7 @@ export async function runSmoke(): Promise<void> {
     { name: 'getScreenName', run: () => NeuroID.getScreenName() },
     { name: 'getSessionID', run: () => NeuroID.getSessionID() },
     { name: 'registerPageTargets', run: () => NeuroID.registerPageTargets() },
-    { name: 'isStopped', run: () => { !NeuroID.isStopped() } },
+    { name: 'isStopped', run: () => !NeuroID.isStopped() },
     { name: 'pauseCollection', run: () => NeuroID.pauseCollection() },
     { name: 'resumeCollection', run: () => NeuroID.resumeCollection() },
     { name: 'stopSession', run: () => NeuroID.stopSession() },
@@ -40,7 +40,6 @@ export async function runSmoke(): Promise<void> {
         console.log(`Smoke Test: Running call ${call.name}`);
         const result = call.run();
         if (result && typeof (result as any).then === 'function') {
-            // console.log(`Smoke Test: Awaiting promise from call ${call.name}`);
             const awaitedResult = await result;
             if (awaitedResult === false) {
                 throw new Error(`${call.name} returned false`);
