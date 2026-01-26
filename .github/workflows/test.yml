@@ -19,7 +19,7 @@ env:
 jobs:
   ios:
     name: iOS (RN ${{ matrix.RN_VERSION }})
-    runs-on: macos-15-xlarge
+    runs-on: macos-15
     env: 
       SIMULATOR_NAME: "iPhone 17 Pro"
     strategy:
