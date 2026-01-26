@@ -1,10 +1,6 @@
-import { NewAppScreen } from '@react-native/new-app-screen';
 import React, { useEffect, useState } from "react";
-import { StatusBar, StyleSheet, useColorScheme, View, Text } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { StatusBar, useColorScheme, View, Text } from 'react-native';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { runSmoke } from "./SmokeRunner";
 import NeuroID from 'neuroid-reactnative-sdk';
 
