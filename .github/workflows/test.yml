@@ -1,0 +1,153 @@
+name: RN Compatibility Matrix Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: rn-compatibility-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SDK_PATH: ${{ github.workspace }}
+  APPS_PATH: ${{ github.workspace }}/.tmp
+
+jobs:
+  ios:
+    name: iOS (RN ${{ matrix.RN_VERSION }})
+    runs-on: macos-15-xlarge
+    env:
+      SIMULATOR_NAME: 'iPhone 17 Pro'
+    strategy:
+      fail-fast: false
+      matrix:
+        RN_VERSION: ['0.73', '0.77', '0.81', '0.83']
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Define App Paths
+        run: |
+          RN_VERSION="${{ matrix.RN_VERSION }}"
+          SAFE_MINOR="${RN_VERSION//./_}" # 0.80 -> 0_80
+          APP_NAME="SmokeApp_$SAFE_MINOR"
+          APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
+
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+          echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+
+      - name: Create React Native App
+        run: |
+          mkdir -p "${{ env.APPS_PATH }}"
+          rm -rf "${{ env.APP_DIR }}"
+          cd "${{ env.APPS_PATH }}"
+
+          npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
+            --version "${{ matrix.RN_VERSION }}" \
+            --skip-install
+
+      - name: Install JS Dependencies
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn install
+
+      - name: Install NeuroID SDK
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn add "file:${{ env.SDK_PATH }}"
+
+      - name: Install react-native-safe-area-context
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn add react-native-safe-area-context
+
+      - name: Install iOS Dependencies
+        working-directory: ${{ env.APP_DIR }}/ios
+        run: pod install --repo-update
+
+      - name: Copy Smoke Test Files
+        run: |
+          cp "${{ github.workspace }}/tests/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
+          cp "${{ github.workspace }}/tests/App.tsx" "${{ env.APP_DIR }}/App.tsx"
+
+      - name: Prepare Simulator
+        run: |
+          xcrun simctl boot "${{ env.SIMULATOR_NAME }}"
+          xcrun simctl bootstatus "${{ env.SIMULATOR_NAME }}" -b
+
+      - name: Build and Install iOS App
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          set -o pipefail
+
+          DERIVED_DATA="$PWD/DerivedData"
+          rm -rf "$DERIVED_DATA"
+
+          xcodebuild \
+            -workspace ios/${{ env.APP_NAME }}.xcworkspace \
+            -scheme ${{ env.APP_NAME }} \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${{ env.SIMULATOR_NAME }}" \
+            -derivedDataPath $DERIVED_DATA \
+            clean build | xcbeautify
+
+          APP_PATH="$(find "$DERIVED_DATA/Build/Products" -maxdepth 3 -type d -name "${{ env.APP_NAME }}.app" | head -n 1)"
+          echo "APP_PATH: $APP_PATH"
+          test -d "$APP_PATH" || (echo "Error: No .app produced in DerivedData" && exit 1)
+
+          xcrun simctl install "${{ env.SIMULATOR_NAME }}" "$APP_PATH"
+
+      - name: Launch App and Capture Logs
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          set -o pipefail
+
+          BUNDLE_ID=$(xcodebuild -showBuildSettings \
+            -project ios/${{ env.APP_NAME }}.xcodeproj \
+            -scheme ${{ env.APP_NAME }} 2>/dev/null \
+            | grep "PRODUCT_BUNDLE_IDENTIFIER" \
+            | grep -v "DERIVE" \
+            | awk '{print $3}')
+
+          echo "BUNDLE_ID: $BUNDLE_ID"
+
+          if [ -z "$BUNDLE_ID" ]; then
+            echo "Error: Could not extract BUNDLE_ID"
+            exit 1
+          fi
+
+          echo "Starting log stream and launching app..."
+          xcrun simctl spawn "${{ env.SIMULATOR_NAME }}" log stream \
+            --style compact \
+            --level debug \
+            --predicate 'subsystem == "com.facebook.react.log" AND category == "javascript"' > app.log 2>&1 &
+
+          xcrun simctl launch "${{ env.SIMULATOR_NAME }}" "$BUNDLE_ID"
+
+      - name: Verify Smoke Test Results
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          for i in {1..30}; do
+            if grep -q "NID_RN_SDK_PASS" app.log; then
+              echo "=== Smoke tests PASSED ==="
+              cat app.log
+              exit 0
+            elif grep -q "NID_RN_SDK_FAIL" app.log; then
+              echo "=== Smoke tests FAILED ==="
+              cat app.log
+              exit 1
+            fi
+            echo "Waiting for test results... ($i/30)"
+            sleep 5
+          done
+
+          echo "=== Test timeout - dumping available logs ==="
+          cat app.log || echo "No logs available"
+          exit 1
