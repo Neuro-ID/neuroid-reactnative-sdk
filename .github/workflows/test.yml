@@ -81,14 +81,14 @@ jobs:
       - name: Integration Test Sample app
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          profile: Nexus 6P
-          cores: 4
-          ram-size: 4096M
-          heap-size: 2048M
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_6
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script:  |
+          script: |
             cd ${{ env.APP_DIR }}
             npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
             cd ${{ env.APP_DIR }}/android
