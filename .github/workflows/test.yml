@@ -81,7 +81,7 @@ jobs:
       - name: Integration Test Sample app
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
-          api-level: 34
+          api-level: 29
           profile: Nexus 6P
           cores: 4
           ram-size: 4096M
