@@ -17,7 +17,109 @@ env:
   APPS_PATH: ${{ github.workspace }}/.tmp
 
 jobs:
+  android:
+    name: Android (RN ${{ matrix.RN_VERSION }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        RN_VERSION: ['0.73']  
+    steps:
+      - uses: actions/checkout@v6
+    
+      - name: Define App Paths
+        run: |
+          RN_VERSION="${{ matrix.RN_VERSION }}"
+          SAFE_MINOR="${RN_VERSION//./_}" # 0.80 -> 0_80
+          APP_NAME="SmokeApp_$SAFE_MINOR"
+          APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
+
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+          echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+
+      - name: Create React Native App
+        run: |
+          mkdir -p "${{ env.APPS_PATH }}"
+          rm -rf "${{ env.APP_DIR }}"
+          cd "${{ env.APPS_PATH }}"
+
+          npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
+            --version "${{ matrix.RN_VERSION }}" \
+            --skip-install
+
+      - name: Install JS Dependencies
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn install
+
+      - name: Install NeuroID SDK
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn add "file:${{ env.SDK_PATH }}"
+
+      - name: Install react-native-safe-area-context
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn add react-native-safe-area-context
+      
+      - name: Copy Smoke Test Files
+        run: |
+          cp "${{ github.workspace }}/tests/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
+          cp "${{ github.workspace }}/tests/App.tsx" "${{ env.APP_DIR }}/App.tsx"
+
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin' 
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", MODE="0666", GROUP="kvm"' | sudo tee /etc/udev/rules.d/99-kvm.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger
+          sudo chown $USER /dev/kvm
+
+      # Execute sample app
+      - name: Integration Test Sample app
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          profile: Nexus 6P
+          cores: 4
+          ram-size: 4096M
+          heap-size: 2048M
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script:  |
+            cd ${{ env.APP_DIR }}
+            npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+            cd ${{ env.APP_DIR }}/android
+            ./gradlew assembleDebug
+            adb install -r app/build/outputs/apk/debug/app-debug.apk
+            adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > app.log 2>&1 &
+            adb shell am start -n com.neuroidapp/.MainActivity
+
+      - name: Verify Smoke Test Results
+        working-directory: ${{ env.APP_DIR }}/android
+        run: |
+          for i in {1..30}; do
+            if grep -q "NID_RN_SDK_PASS" app.log; then
+              echo "=== Smoke tests PASSED ==="
+              cat app.log
+              exit 0
+            elif grep -q "NID_RN_SDK_FAIL" app.log; then
+              echo "=== Smoke tests FAILED ==="
+              cat app.log
+              exit 1
+            fi
+            echo "Waiting for test results... ($i/30)"
+            sleep 5
+          done
+
+          echo "=== Test timeout - dumping available logs ==="
+          cat app.log || echo "No logs available"
+          exit 1      
+
   ios:
+    if: false
     name: iOS (RN ${{ matrix.RN_VERSION }})
     runs-on: macos-15-xlarge
     env:
