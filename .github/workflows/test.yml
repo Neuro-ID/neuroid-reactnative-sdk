@@ -89,13 +89,9 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
-            cd ${{ env.APP_DIR }}
-            npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
             cd ${{ env.APP_DIR }}/android
             ./gradlew assembleDebug
             adb install -r app/build/outputs/apk/debug/app-debug.apk
-            adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > app.log 2>&1 &
-            adb shell am start -n com.neuroidapp/.MainActivity
 
       - name: Verify Smoke Test Results
         working-directory: ${{ env.APP_DIR }}/android
