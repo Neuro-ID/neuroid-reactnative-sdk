@@ -42,7 +42,7 @@ jobs:
           mkdir -p "${{ env.APPS_PATH }}"
           rm -rf "${{ env.APP_DIR }}"
           cd "${{ env.APPS_PATH }}"
-
+          pwd
           npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
@@ -50,6 +50,15 @@ jobs:
       - name: Install JS Dependencies
         working-directory: ${{ env.APP_DIR }}
         run: yarn install
+      
+      - name: create directory for metro assets in the test app
+        working-directory: ${{ env.APP_DIR }}
+        mkdir -p android/app/src/main/assets
+
+      - name: add metro bundle in the test app asset folder 
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
@@ -90,13 +99,11 @@ jobs:
           disable-animations: true
           script: |
             cd ${{ env.APP_DIR }}
-            npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
-            cd ${{ env.APP_DIR }}/android
+            cd android
             ls -al
             ./gradlew assembleDebug
             adb install -r app/build/outputs/apk/debug/app-debug.apk
             adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > app.log 2>&1 &
-            adb shell am start -n com.neuroidapp/.MainActivity
 
       - name: Verify Smoke Test Results
         working-directory: ${{ env.APP_DIR }}/android
