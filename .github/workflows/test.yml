@@ -60,6 +60,21 @@ jobs:
         run: |
           npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 
+      - name: add repos to build.gradle
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+         sed -i '/signingConfigs {/,/^    }$/{
+          /^    }$/a\
+          \
+              repositories {\
+                google()\
+                mavenCentral()\
+                jcenter() // Warning: this repository is going to shut down soon\
+                maven { url '"'"'https://maven.fpregistry.io/releases'"'"' }\
+                maven { url '"'"'https://jitpack.io'"'"' }\
+              }
+          }' android/app/build.gradle
+
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
         run: yarn add "file:${{ env.SDK_PATH }}"
