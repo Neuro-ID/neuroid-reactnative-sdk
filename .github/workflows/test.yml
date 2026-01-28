@@ -60,7 +60,7 @@ jobs:
         run: |
           npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 
-      - name: add repos to build.gradle
+      - name: add repos to and fix min sdk version in build.gradle
         working-directory: ${{ env.APP_DIR }}
         run: |
          sed -i '/signingConfigs {/,/^    }$/{
@@ -74,6 +74,7 @@ jobs:
                 maven { url '"'"'https://jitpack.io'"'"' }\
               }
           }' android/app/build.gradle
+          sed -i 's/minSdkVersion = [0-9]*/minSdkVersion = 26/' android/build.gradle
 
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
