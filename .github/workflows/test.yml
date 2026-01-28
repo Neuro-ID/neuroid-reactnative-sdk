@@ -98,8 +98,7 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
-            cd ${{ env.APP_DIR }}
-            cd android
+            cd ${{ env.APP_DIR }}/android
             ls -al
             ./gradlew assembleDebug
             adb install -r app/build/outputs/apk/debug/app-debug.apk
