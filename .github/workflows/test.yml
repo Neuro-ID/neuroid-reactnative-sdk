@@ -86,8 +86,13 @@ jobs:
           sudo udevadm trigger
           sudo chown $USER /dev/kvm
 
+      - name: assemble artifacts
+        working-directory: ${{ env.APP_DIR }}/android
+        run: ./gradlew assembleDebug
+
       # Execute sample app
       - name: Integration Test Sample app
+        working-directory: ${{ env.APP_DIR }}/android
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 34
@@ -98,9 +103,8 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
-            ${{ env.APP_DIR }}/android/gradlew assembleDebug
             adb install -r ${{ env.APP_DIR }}/android/app/build/outputs/apk/debug/app-debug.apk
-            adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > ${{ env.APP_DIR }}/android/app.log 2>&1 &
+            adb shell pm list packages | grep neuroid
 
       - name: Verify Smoke Test Results
         working-directory: ${{ env.APP_DIR }}/android
