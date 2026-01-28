@@ -53,7 +53,7 @@ jobs:
       
       - name: create directory for metro assets in the test app
         working-directory: ${{ env.APP_DIR }}
-        mkdir -p android/app/src/main/assets
+        run: mkdir -p android/app/src/main/assets
 
       - name: add metro bundle in the test app asset folder 
         working-directory: ${{ env.APP_DIR }}
