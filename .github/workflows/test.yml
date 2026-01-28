@@ -92,7 +92,6 @@ jobs:
 
       # Execute sample app
       - name: Integration Test Sample app
-        working-directory: ${{ env.APP_DIR }}/android
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 34
