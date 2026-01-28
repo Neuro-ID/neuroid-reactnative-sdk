@@ -82,7 +82,7 @@ jobs:
 
       - name: Install react-native-safe-area-context
         working-directory: ${{ env.APP_DIR }}
-        run: yarn add react-native-safe-area-context
+        run: yarn add react-native-safe-area-context@4.7.4
       
       - name: Copy Smoke Test Files
         run: |
@@ -191,7 +191,7 @@ jobs:
 
       - name: Install react-native-safe-area-context
         working-directory: ${{ env.APP_DIR }}
-        run: yarn add react-native-safe-area-context
+        run: yarn add react-native-safe-area-context@4.7.4
 
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
