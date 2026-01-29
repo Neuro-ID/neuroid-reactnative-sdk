@@ -119,7 +119,10 @@ jobs:
           disable-animations: true
           script: |
             adb install -r ${{ env.APP_DIR }}/android/app/build/outputs/apk/debug/app-debug.apk
-            adb shell pm list packages | grep neuroid
+            adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > app.log 2>&1 &
+            adb shell am start -n  com.${{ env.APP_NAME }}/.MainActivity
+            sleep 30
+            adb emu kill
 
       - name: Verify Smoke Test Results
         working-directory: ${{ env.APP_DIR }}/android
