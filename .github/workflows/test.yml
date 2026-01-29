@@ -122,8 +122,8 @@ jobs:
             adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > ${{ env.APP_DIR }}/android/app.log 2>&1 & 
             adb shell am start -n  com.test1/.MainActivity
             sleep 60
-            adb emu kill
             cat ${{ env.APP_DIR }}/android/app.log
+            adb emu kill
 
       - name: Verify Smoke Test Results
         working-directory: ${{ env.APP_DIR }}/android
