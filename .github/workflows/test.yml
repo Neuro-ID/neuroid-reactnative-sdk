@@ -19,7 +19,7 @@ env:
 jobs:
   android:
     name: Android (RN ${{ matrix.RN_VERSION }})
-    runs-on: ubuntu-latest-8-core
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
