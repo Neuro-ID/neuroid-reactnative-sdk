@@ -1,0 +1,28 @@
+# ******************************************************************
+# Merge "releases/**" PR to kick off the release to NPM registry.
+# ******************************************************************
+
+name: Auto publish to npm registry once release PR is merged
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env: 
+  ACTION_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+jobs:
+  createRelease:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Send Release Failure Result to NID Mobile Infra Repo
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
+            https://api.github.com/repos/Neuro-ID/neuroid-mobile-infra/dispatches \
+            -d '{"event_type":"release","client_payload":{"status":"failure", "service": "reactnative", "version": "v3.6.2", "action_url": "${{ env.ACTION_URL }}"}}'
