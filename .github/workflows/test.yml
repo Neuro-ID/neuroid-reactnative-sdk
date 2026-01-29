@@ -119,10 +119,14 @@ jobs:
           disable-animations: true
           script: |
             adb install -r ${{ env.APP_DIR }}/android/app/build/outputs/apk/debug/app-debug.apk
-            adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > ${{ env.APP_DIR }}/android/app.log 2>&1 & 
-            adb shell am start -n  com.test1/.MainActivity
+            adb logcat -c
+            adb logcat -v time *:V > ${{ env.APP_DIR }}/android/app.log 2>&1 &
+            LOGCAT_PID=$!
+            sleep 2
+            adb shell am start -n com.test1/.MainActivity
             sleep 60
-            cat ${{ env.APP_DIR }}/android/app.log
+            kill $LOGCAT_PID || true
+            echo "=== Log file size: $(wc -l < ${{ env.APP_DIR }}/android/app.log) lines ==="
             adb emu kill
 
       - name: Verify Smoke Test Results
