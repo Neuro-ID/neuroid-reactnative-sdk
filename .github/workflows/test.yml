@@ -120,7 +120,7 @@ jobs:
           script: |
             adb install -r ${{ env.APP_DIR }}/android/app/build/outputs/apk/debug/app-debug.apk
             adb logcat -c
-            adb logcat ReactNativeJS:V *:S > ${{ env.APP_DIR }}/android/app.log 2>&1 &
+            adb logcat "ReactNativeJS:V *:S" > ${{ env.APP_DIR }}/android/app.log 2>&1 &
             LOGCAT_PID=$!
             sleep 2
             adb shell am start -n com.test1/.MainActivity
@@ -132,7 +132,7 @@ jobs:
       - name: Verify Smoke Test Results
         working-directory: ${{ env.APP_DIR }}/android
         run: |
-          for i in {1..30}; do
+          # for i in {1..30}; do
             if grep -q "NID_RN_SDK_PASS" app.log; then
               echo "=== Smoke tests PASSED ==="
               cat app.log
@@ -144,7 +144,7 @@ jobs:
             fi
             echo "Waiting for test results... ($i/30)"
             sleep 5
-          done
+          # done
 
           echo "=== Test timeout - dumping available logs ==="
           cat app.log || echo "No logs available"
