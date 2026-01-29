@@ -58,7 +58,7 @@ jobs:
       - name: add metro bundle in the test app asset folder 
         working-directory: ${{ env.APP_DIR }}
         run: |
-          npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+          npx react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 
       - name: add repos to and fix min sdk version in build.gradle
         working-directory: ${{ env.APP_DIR }}
