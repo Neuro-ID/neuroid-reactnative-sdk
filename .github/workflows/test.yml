@@ -120,7 +120,7 @@ jobs:
           script: |
             adb install -r ${{ env.APP_DIR }}/android/app/build/outputs/apk/debug/app-debug.apk
             adb logcat -c
-            adb logcat -v time *:V > ${{ env.APP_DIR }}/android/app.log 2>&1 &
+            adb logcat ReactNativeJS:V *:S > ${{ env.APP_DIR }}/android/app.log 2>&1 &
             LOGCAT_PID=$!
             sleep 2
             adb shell am start -n com.test1/.MainActivity
