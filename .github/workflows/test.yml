@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.73']  
+        RN_VERSION: ['0.81']  
     steps:
       - uses: actions/checkout@v6
     
