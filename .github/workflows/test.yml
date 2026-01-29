@@ -19,7 +19,7 @@ env:
 jobs:
   android:
     name: Android (RN ${{ matrix.RN_VERSION }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-8-core
     strategy:
       fail-fast: false
       matrix:
@@ -31,7 +31,7 @@ jobs:
         run: |
           RN_VERSION="${{ matrix.RN_VERSION }}"
           SAFE_MINOR="${RN_VERSION//./_}" # 0.80 -> 0_80
-          APP_NAME="SmokeApp_$SAFE_MINOR"
+          APP_NAME="test1"
           APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
 
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
@@ -43,7 +43,7 @@ jobs:
           rm -rf "${{ env.APP_DIR }}"
           cd "${{ env.APPS_PATH }}"
           pwd
-          npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
+          npx @react-native-community/cli@latest init "test1" \
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
 
@@ -119,8 +119,9 @@ jobs:
           disable-animations: true
           script: |
             adb install -r ${{ env.APP_DIR }}/android/app/build/outputs/apk/debug/app-debug.apk
-            adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > app.log 2>&1 &
-            adb shell am start -n  com.${{ env.APP_NAME }}/.MainActivity
+            adb logcat -v time | grep -E "(ReactNativeJS|ReactNative)" > ${{ env.APP_DIR }}/android/app.log 2>&1 &
+            adb shell pm list packages 
+            adb shell am start -n  com.test1/.MainActivity
             sleep 30
             adb emu kill
 
