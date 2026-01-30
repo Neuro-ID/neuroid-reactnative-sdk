@@ -78,6 +78,13 @@ jobs:
             https://api.github.com/repos/Neuro-ID/neuroid-mobile-infra/dispatches \
             -d '{"event_type":"release","client_payload":{"status":"failure", "service": "reactnative", "version": "${{ env.PACKAGE_VERSION }}", "action_url": "${{ env.ACTION_URL }}"}}'
 
+      - name: Upload npm publish logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+            name: npm-publish-logs
+            path: /home/runner/.npm/_logs/
+
   resetAndroidVersion:
     name: Default to main snapshot
     permissions:

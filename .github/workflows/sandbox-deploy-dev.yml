@@ -1,4 +1,4 @@
-name: Update Dev React Native Android SDK
+name: Deploy Dev Sandbox Apps
 
 on:
   push:
