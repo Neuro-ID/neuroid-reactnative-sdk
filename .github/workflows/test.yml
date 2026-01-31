@@ -55,11 +55,6 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: mkdir -p android/app/src/main/assets
 
-      - name: add metro bundle in the test app asset folder 
-        working-directory: ${{ env.APP_DIR }}
-        run: |
-          npx react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
-
       - name: add repos to and fix min sdk version in build.gradle
         working-directory: ${{ env.APP_DIR }}
         run: |
@@ -79,12 +74,21 @@ jobs:
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
         run: yarn add "file:${{ env.SDK_PATH }}"
-      
+
+      - name: Install react-native-safe-area-context
+        working-directory: ${{ env.APP_DIR }}
+        run: yarn add react-native-safe-area-context
+
       - name: Copy Smoke Test Files
         run: |
           cp "${{ github.workspace }}/tests/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
           cp "${{ github.workspace }}/tests/App.tsx" "${{ env.APP_DIR }}/App.tsx"
 
+      - name: add metro bundle in the test app asset folder 
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          npx react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+      
       - name: set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -195,7 +199,7 @@ jobs:
 
       - name: Install react-native-safe-area-context
         working-directory: ${{ env.APP_DIR }}
-        run: yarn add react-native-safe-area-context@4.15.2
+        run: yarn add react-native-safe-area-context
 
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
