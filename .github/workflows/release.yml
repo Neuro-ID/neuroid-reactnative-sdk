@@ -12,11 +12,12 @@ on:
 env: 
   ACTION_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
+permissions:
+  id-token: write   # Required for OIDC authentication
+  contents: write   # Required for creating GitHub Release
+
 jobs:
   release:
-    permissions:
-      id-token: write  # Required for OIDC
-      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -37,7 +38,7 @@ jobs:
 
       - run: npm ci
 
-      - run: NODE_AUTH_TOKEN="" npm publish --dry-run --access public --verbose --provenance
+      - run: npm publish --dry-run --access public --verbose --provenance
 
       - name: Upload npm publish logs
         uses: actions/upload-artifact@v4
