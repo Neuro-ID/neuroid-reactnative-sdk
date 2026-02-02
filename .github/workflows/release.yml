@@ -28,7 +28,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm publish --dry-run --access public --verbose
+      - run: NODE_AUTH_TOKEN="" npm publish --dry-run --access public --verbose
 
       - name: Upload npm publish logs
         uses: actions/upload-artifact@v4
