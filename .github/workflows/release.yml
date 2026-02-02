@@ -26,9 +26,14 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm ci
+      - run: | 
+          echo "CONFIG GET REGISTRY"  
+          npm config get registry
+      
+          echo "CONFIG LIST"
+          npm config list
 
-      - run: npm config get registry
+      - run: npm ci
 
       - run: NODE_AUTH_TOKEN="" npm publish --dry-run --access public --verbose --provenance
 
