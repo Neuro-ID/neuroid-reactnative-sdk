@@ -74,10 +74,6 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: yarn add "file:${{ env.SDK_PATH }}"
 
-      # - name: Install react-native-safe-area-context
-      #   working-directory: ${{ env.APP_DIR }}
-      #   run: yarn add react-native-safe-area-context
-
       - name: Copy Smoke Test Files
         run: |
           cp "${{ github.workspace }}/tests/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
@@ -150,7 +146,6 @@ jobs:
           exit 1      
 
   ios:
-    if: false
     name: iOS (RN ${{ matrix.RN_VERSION }})
     runs-on: macos-15-xlarge
     env:
@@ -195,10 +190,6 @@ jobs:
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
         run: yarn add "file:${{ env.SDK_PATH }}"
-
-      - name: Install react-native-safe-area-context
-        working-directory: ${{ env.APP_DIR }}
-        run: yarn add react-native-safe-area-context
 
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
