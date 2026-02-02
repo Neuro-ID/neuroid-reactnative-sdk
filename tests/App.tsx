@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar, useColorScheme, View, Text } from 'react-native';
-// import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { runSmoke } from "./SmokeRunner";
 import NeuroID from 'neuroid-reactnative-sdk';
 
@@ -8,10 +7,10 @@ function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    // <SafeAreaProvider>
-    //   <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-    //   <AppContent />
-    // </SafeAreaProvider>
+    <>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <AppContent />
+    </>
   );
 }
 
