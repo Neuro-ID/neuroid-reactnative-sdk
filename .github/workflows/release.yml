@@ -36,7 +36,7 @@ jobs:
 
       - run: npm install -g npm@latest
 
-      # - run: npm ci
+      - run: npm ci
 
       - run: npm publish --dry-run --access public --verbose --provenance
 
