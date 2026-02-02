@@ -15,7 +15,6 @@ function App() {
 }
 
 function AppContent() {
-  // const safeAreaInsets = useSafeAreaInsets();
 
   const [status, setStatus] = useState<"RUNNING" | "PASS" | "FAIL">("RUNNING");
   
