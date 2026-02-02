@@ -33,6 +33,8 @@ jobs:
           echo "CONFIG LIST"
           npm config list
 
+      - run: npm install -g npm@latest
+
       - run: npm ci
 
       - run: NODE_AUTH_TOKEN="" npm publish --dry-run --access public --verbose --provenance
