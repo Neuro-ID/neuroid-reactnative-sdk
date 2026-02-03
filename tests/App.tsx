@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar, useColorScheme, View, Text } from 'react-native';
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { runSmoke } from "./SmokeRunner";
 import NeuroID from 'neuroid-reactnative-sdk';
 
@@ -8,15 +7,14 @@ function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaProvider>
+    <>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <AppContent />
-    </SafeAreaProvider>
+    </>
   );
 }
 
 function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
 
   const [status, setStatus] = useState<"RUNNING" | "PASS" | "FAIL">("RUNNING");
   
@@ -44,10 +42,10 @@ function AppContent() {
   return (
     <View style={{ 
       flex: 1, 
-      paddingTop: safeAreaInsets.top,
-      paddingBottom: safeAreaInsets.bottom,
-      paddingLeft: safeAreaInsets.left,
-      paddingRight: safeAreaInsets.right,
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 10,
+      paddingRight: 10,
     }}>
       <Text>Smoke: {status}</Text>
       <Text>Version: {version}</Text>
