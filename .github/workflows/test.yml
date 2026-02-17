@@ -26,6 +26,12 @@ jobs:
         RN_VERSION: ['0.73', '0.77', '0.81', '0.84']  
     steps:
       - uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
     
       - name: Define App Paths
         run: |
