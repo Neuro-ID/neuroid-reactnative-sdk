@@ -27,6 +27,7 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
+  namespace 'com.neuroidreactnativesdk'
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   
   defaultConfig {
