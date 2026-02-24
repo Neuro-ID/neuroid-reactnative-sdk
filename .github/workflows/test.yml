@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.73', '0.77', '0.81', '0.84']  
+        RN_VERSION: ['0.76-stable', '0.79-stable', '0.81-stable', 'latest']
     steps:
       - uses: actions/checkout@v6
 
@@ -35,8 +35,7 @@ jobs:
     
       - name: Define App Paths
         run: |
-          RN_VERSION="${{ matrix.RN_VERSION }}"
-          SAFE_MINOR="${RN_VERSION//./_}" # 0.80 -> 0_80
+          SAFE_MINOR="$(echo "${{ matrix.RN_VERSION}}" | tr '.-' '_')"
           APP_NAME="test1"
           APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
 
@@ -159,7 +158,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.73', '0.77', '0.81', '0.84']
+        RN_VERSION: ['0.76-stable', '0.79-stable', '0.81-stable', 'latest']
     steps:
       - uses: actions/checkout@v6
 
@@ -171,8 +170,7 @@ jobs:
 
       - name: Define App Paths
         run: |
-          RN_VERSION="${{ matrix.RN_VERSION }}"
-          SAFE_MINOR="${RN_VERSION//./_}" # 0.80 -> 0_80
+          SAFE_MINOR="$(echo "${{ matrix.RN_VERSION}}" | tr '.-' '_')"
           APP_NAME="SmokeApp_$SAFE_MINOR"
           APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
 
