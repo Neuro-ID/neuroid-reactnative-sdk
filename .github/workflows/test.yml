@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.76', '0.79', '0.81', '0.84']
+        RN_VERSION: ['0.76-latest', '0.79-latest', '0.81-latest', 'latest']
     steps:
       - uses: actions/checkout@v6
 
@@ -159,7 +159,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.76', '0.79', '0.81', '0.84']
+        RN_VERSION: ['0.76-latest', '0.79-latest', '0.81-latest', 'latest']
     steps:
       - uses: actions/checkout@v6
 
