@@ -39,9 +39,18 @@ export const NeuroID: NeuroIDClass = {
       return Promise.resolve(false);
     }
 
+     // Get the runtime React Native version from Platform constants
+    const rnVersionObj = Platform.constants?.reactNativeVersion;
+    const detectedVersion = `${rnVersionObj.major}.${rnVersionObj.minor}.${rnVersionObj.patch}`;
+
+    const optionsWithRNVersion = {
+      ...configOptions,
+      hostReactNativeVersion: detectedVersion,
+    };
+
     const configured = await NeuroidReactnativeSdk.configure(
       apiKey,
-      configOptions
+      optionsWithRNVersion
     );
 
     return Promise.resolve(configured);
