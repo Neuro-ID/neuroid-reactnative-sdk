@@ -158,7 +158,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.76-latest', '0.79-latest', '0.81-latest', 'latest']
+        RN_VERSION: ['0.76-stable', '0.79-stable', '0.81-stable', 'latest']
     steps:
       - uses: actions/checkout@v6
 
