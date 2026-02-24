@@ -49,7 +49,7 @@ jobs:
           cd "${{ env.APPS_PATH }}"
           pwd
           npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
-            --version "${{ matrix.RN_VERSION }}-stable" \
+            --version "${{ matrix.RN_VERSION }}" \
             --skip-install
 
       - name: Install JS Dependencies
@@ -184,7 +184,7 @@ jobs:
           cd "${{ env.APPS_PATH }}"
 
           npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
-            --version "${{ matrix.RN_VERSION }}-stable" \
+            --version "${{ matrix.RN_VERSION }}" \
             --skip-install
 
       - name: Install JS Dependencies
