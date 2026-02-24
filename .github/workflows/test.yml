@@ -123,7 +123,7 @@ jobs:
             adb logcat "ReactNativeJS:V *:S" > ${{ env.APP_DIR }}/android/app.log 2>&1 &
             LOGCAT_PID=$!
             sleep 2
-            ID=$(echo ${{ env.APP_NAME }} | tr '[:upper:]' '[:lower:]')
+            ID="$(echo ${{ env.APP_NAME }} | tr '[:upper:]' '[:lower:]')"
             adb shell am start -n com.$ID/.MainActivity
             sleep 60
             kill $LOGCAT_PID || true
