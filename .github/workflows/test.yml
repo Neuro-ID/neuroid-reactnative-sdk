@@ -123,7 +123,8 @@ jobs:
             adb logcat "ReactNativeJS:V *:S" > ${{ env.APP_DIR }}/android/app.log 2>&1 &
             LOGCAT_PID=$!
             sleep 2
-            adb shell am start -n com.test1/.MainActivity
+            ID=$(echo ${{ env.APP_NAME }} | tr '[:upper:]' '[:lower:]')
+            adb shell am start -n com.$ID/.MainActivity
             sleep 60
             kill $LOGCAT_PID || true
             echo "=== Log file size: $(wc -l < ${{ env.APP_DIR }}/android/app.log) lines ==="
