@@ -36,13 +36,11 @@ jobs:
       - name: Define App Paths
         run: |
           SAFE_MINOR="$(echo "${{ matrix.RN_VERSION}}" | tr '.-' '_')"
-          APP_NAME="SmokeApp_$SAFE_MINOR"
+          APP_NAME="test1"
           APP_DIR="${{ env.APPS_PATH }}/${APP_NAME}"
-          APP_ID="$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]')"
 
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
           echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
-          echo "APP_ID=$APP_ID" >> $GITHUB_ENV
 
       - name: Create React Native App
         run: |
@@ -125,8 +123,7 @@ jobs:
             adb logcat "ReactNativeJS:V *:S" > ${{ env.APP_DIR }}/android/app.log 2>&1 &
             LOGCAT_PID=$!
             sleep 2
-            APP_ID="$(echo 'smokeapp_${{ matrix.RN_VERSION }}' | tr '[:upper:].-' '[:lower:]__')"
-            adb shell am start -n "com.${APP_ID}/.MainActivity"
+            adb shell am start -n com.test1/.MainActivity
             sleep 60
             kill $LOGCAT_PID || true
             echo "=== Log file size: $(wc -l < ${{ env.APP_DIR }}/android/app.log) lines ==="
