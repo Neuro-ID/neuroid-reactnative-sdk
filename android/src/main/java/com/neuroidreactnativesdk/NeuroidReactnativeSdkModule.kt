@@ -19,7 +19,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     fun configure(key: String, options: ReadableMap? = null, promise: Promise) {
         if (NeuroID.getInstance() == null) {
             NIDRNBuilder(application, key, options).build()
-            NeuroID.getInstance()?.setIsRN()
         }
 
         val reactCurrentActivity = reactApplicationCtx.currentActivity
