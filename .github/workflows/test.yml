@@ -196,6 +196,13 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: yarn add "file:${{ env.SDK_PATH }}"
 
+      - name: Update Podfile with NeuroID iOS SDK
+        working-directory: ${{ env.APP_DIR }}/ios
+        run: |
+          sed -i '' "/target '${{ env.APP_NAME }}' do/a\\
+            pod 'NeuroID', :git => 'https://github.com/Neuro-ID/neuroid-ios-sdk.git', :branch => 'main'
+          " Podfile
+
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
         run: pod install --repo-update
