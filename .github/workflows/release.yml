@@ -99,7 +99,6 @@ jobs:
       - name: Reset android version to main snapshot
         run: |
           sed -i "s/:react-android-sdk:[0-9a-zA-Z.-]*/:react-android-sdk:main/g" android/build.gradle
-          sed -i "s/:react-android-sdk-debug:[0-9a-zA-Z.-]*/:react-android-sdk-debug:main/g" android/build.gradle
           git config --global user.email developer@neuro-id.com
           git config --global user.name neuroid-developer   
           git checkout -b 'post-release-reset'
