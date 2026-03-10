@@ -27,7 +27,6 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
     "release": "release-it",
-    "postinstall": "patch-package",
     "bootstrap": "yarn"
   },
   "keywords": [
