@@ -28,7 +28,7 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
 
       - run: npm publish
         env:
