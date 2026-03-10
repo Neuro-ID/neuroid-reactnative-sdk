@@ -2,7 +2,7 @@
 # Merge "releases/**" PR to kick off the release to NPM registry.
 # ******************************************************************
 
-name: Auto publish to npm registry once release PR is merged
+name: Release React Native SDK
 
 on:
   pull_request_target:
@@ -11,8 +11,8 @@ on:
     branches:
       - main
 
-env: 
-  ACTION_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+env:
+  ACTION_URL: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
 
 jobs:
   createRelease:
@@ -36,14 +36,18 @@ jobs:
 
       - name: Retrieve package version
         run: |
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          echo "PACKAGE_VERSION=v${PACKAGE_VERSION}" >> $GITHUB_ENV
+          TAG=$(node -p "require('./package.json').version")
+          echo "TAG=${TAG}" >> $GITHUB_ENV
 
-      - name: Create release
-        run: |
-          gh release create ${{ env.PACKAGE_VERSION }} --generate-notes --latest --title "${{ env.PACKAGE_VERSION }}"
+      - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ env.TAG }}" \
+            --latest \
+            --title "${{ env.TAG }}" \
+            --notes 'The NeuroID React Native SDK (${{ env.TAG }}) is now available.' \
+            --generate-notes
 
       - name: Update new commit to have "Latest" Tag
         run: |
@@ -64,7 +68,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
             https://api.github.com/repos/Neuro-ID/neuroid-mobile-infra/dispatches \
-            -d '{"event_type":"release","client_payload":{"status":"success", "service": "reactnative", "version": "${{ env.PACKAGE_VERSION }}", "action_url": "${{ env.ACTION_URL }}"}}'
+            -d '{"event_type":"release","client_payload":{"status":"success", "service": "reactnative", "version": "${{ env.TAG }}", "action_url": "${{ env.ACTION_URL }}"}}'
 
       - name: Send Release Failure Result to NID Mobile Infra Repo
         if: failure()
@@ -74,14 +78,14 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GPR_API_KEY }}" \
             https://api.github.com/repos/Neuro-ID/neuroid-mobile-infra/dispatches \
-            -d '{"event_type":"release","client_payload":{"status":"failure", "service": "reactnative", "version": "${{ env.PACKAGE_VERSION }}", "action_url": "${{ env.ACTION_URL }}"}}'
+            -d '{"event_type":"release","client_payload":{"status":"failure", "service": "reactnative", "version": "${{ env.TAG }}", "action_url": "${{ env.ACTION_URL }}"}}'
 
       - name: Upload npm publish logs
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-            name: npm-publish-logs
-            path: /home/runner/.npm/_logs/
+          name: npm-publish-logs
+          path: /home/runner/.npm/_logs/
 
   resetAndroidVersion:
     name: Default to main snapshot
@@ -118,7 +122,7 @@ jobs:
             const body = "Merge post release. Resets android version to main";
             const headBranch = 'post-release-reset';
             const baseBranch = 'main';
-            
+
             const createPullRequest = async () => {
               const response = await github.rest.pulls.create({
                 owner: context.repo.owner,
