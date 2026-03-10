@@ -40,15 +40,17 @@ on:
         required: false
 
 permissions:
-    pull-requests: write
-    contents: write
-    issues: write
-    
+  pull-requests: write
+  contents: write
+  issues: write
+
 jobs:
   update_version:
     name: Update package version
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v6
+
       - name: Determine update type
         run: |
           echo "RELEASE_TYPE=${{ inputs.versionUpdate}}" >> $GITHUB_ENV
@@ -59,9 +61,9 @@ jobs:
             echo "Android version is not sent in workflow trigger event. Setting to default"
             echo "ANDROID_SDK_VERSION=v3.0.+" >> $GITHUB_ENV
           else
-            echo "ANDROID_SDK_VERSION=v${{ github.event.inputs.androidSdkVersion }}" >> $GITHUB_ENV
+            echo "ANDROID_SDK_VERSION=${{ github.event.inputs.androidSdkVersion }}" >> $GITHUB_ENV
           fi
-      
+
       - name: Set iOS SDK version to default version if not provided
         run: |
           if [[ -z "${{ github.event.inputs.iosSdkVersion }}" ]]; then
@@ -70,11 +72,6 @@ jobs:
           else
             echo "IOS_SDK_VERSION=${{ github.event.inputs.iosSdkVersion }}" >> $GITHUB_ENV
           fi
-
-      - name: Main branch checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update version
         run: |
@@ -94,11 +91,11 @@ jobs:
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
           echo "BRANCH_NAME=releases/${PACKAGE_VERSION}_version_update" >> $GITHUB_ENV
-      
+
       - name: Update iOS / Android SDK version to latest release version
         run: |
           sed -i "s/:react-android-sdk:[0-9a-zA-Z.-]*/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
-          sed -i "s/.*'NeuroID', '\([^']*\)'.*/ s.dependency 'NeuroID', '${{env.IOS_SDK_VERSION}}'/g" neuroid-reactnative-sdk.podspec
+          sed -i "s/.*'NeuroID', '\([^']*\)'.*/ s.dependency 'NeuroID', '${{ env.IOS_SDK_VERSION }}'/g" neuroid-reactnative-sdk.podspec
 
       - name: Commit version update
         run: |
@@ -127,7 +124,7 @@ jobs:
             const body = 'Once merged, this PR will trigger an action to release version: ${{ env.PACKAGE_VERSION }}';
             const headBranch = '${{ env.BRANCH_NAME }}';
             const baseBranch = 'main';
-            
+
             const createPullRequest = async () => {
               const response = await github.rest.pulls.create({
                 owner: context.repo.owner,
@@ -139,5 +136,5 @@ jobs:
               });
               console.log(`Pull request ${response.data.number} created`);
             };
-            
+
             createPullRequest();
