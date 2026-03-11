@@ -13,29 +13,6 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build and test
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24.x'
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Typecheck
-        run: yarn typecheck
-
-      - name: Build package
-        run: yarn build
-
-      - name: Validate published contents
-        run: npm pack --dry-run
-
   buildSdk:
     name: android build
     runs-on: ubuntu-latest
@@ -73,3 +50,24 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
+
+  updateSdk:
+    name: npm build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      # Setup .npmrc file to run npm update
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Build npm package
+        run: |
+          yarn install
+          npm run prepare
