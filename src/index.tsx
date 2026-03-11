@@ -26,6 +26,10 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
 
 var usingRNNavigation = false;
 
+type NativeConfigOptions = Partial<NeuroIDConfigOptions> & {
+  hostReactNativeVersion: string;
+};
+
 export const NeuroID: NeuroIDClass = {
   configure: async function configure(
     apiKey: string,
@@ -43,7 +47,7 @@ export const NeuroID: NeuroIDClass = {
     const rnVersionObj = Platform.constants?.reactNativeVersion;
     const detectedVersion = `${rnVersionObj.major}.${rnVersionObj.minor}.${rnVersionObj.patch}`;
 
-    const optionsWithRNVersion = {
+    const optionsWithRNVersion: NativeConfigOptions = {
       ...configOptions,
       hostReactNativeVersion: detectedVersion,
     };
