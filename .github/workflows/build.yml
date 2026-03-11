@@ -27,7 +27,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -67,21 +67,7 @@ jobs:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: 'build types, copy to types directory and commit'
+      - name: Build npm package
         run: |
-          git branch
-          echo 'npm install and prepare'
-          npm install
+          yarn install
           npm run prepare
-          echo 'copy files'
-          cp -r lib/typescript/* neuroid-reactnative-sdk-types
-          echo 'setup git config'
-          git config --global user.email developer@neuro-id.com
-          git config --global user.name neuroid-developer
-          git add neuroid-reactnative-sdk-types
-          set +e
-          echo 'commit'
-          git commit -m "update type definitions"
-          echo 'push'
-          git push --set-upstream origin
-          set -e
