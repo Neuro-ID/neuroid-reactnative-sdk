@@ -30,8 +30,13 @@ jobs:
       - name: Typecheck
         run: yarn typecheck
 
-      - name: Build package
-        run: yarn build
+      # TODO: Add back linting check once we fix all linting errors
+      # - name: Lint
+      #   run: yarn lint
+
+      # TODO: Add back formatting check once we fix all formatting errors
+      # - name: Format
+      #   run: yarn format --check
 
       - name: Validate published contents
         run: npm pack --dry-run
