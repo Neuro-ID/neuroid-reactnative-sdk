@@ -45,7 +45,6 @@ export interface NeuroIDConfigOptions {
   environment: string;
   advancedDeviceKey?: string;
   useAdvancedDeviceProxy: boolean;
-  hostReactNativeVersion: string;
 }
 
 export interface NeuroIDLogClass {
