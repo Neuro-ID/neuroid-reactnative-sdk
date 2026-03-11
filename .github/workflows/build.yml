@@ -13,7 +13,35 @@ on:
       - main
 
 jobs:
-  buildSdk:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      # TODO: Add back linting check once we fix all linting errors
+      # - name: Lint
+      #   run: yarn lint
+
+      # TODO: Add back formatting check once we fix all formatting errors
+      # - name: Format
+      #   run: yarn format --check
+
+      - name: Validate published contents
+        run: npm pack --dry-run
+
+  android:
     name: android build
     runs-on: ubuntu-latest
 
@@ -50,24 +78,3 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
-
-  updateSdk:
-    name: npm build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-
-    steps:
-      - uses: actions/checkout@v6
-
-      # Setup .npmrc file to run npm update
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24.x'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Build npm package
-        run: |
-          yarn install
-          npm run prepare
