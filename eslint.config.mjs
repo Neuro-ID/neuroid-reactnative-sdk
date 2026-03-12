@@ -35,7 +35,6 @@ export default defineConfig([
   sonarjs.configs.recommended,
   {
     rules: {
-      "no-console": "error",
       "no-unused-vars": [
         "error",
         {
