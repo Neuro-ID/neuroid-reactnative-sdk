@@ -1,17 +1,17 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform } from "react-native";
 import type {
   NeuroIDClass,
   NeuroIDConfigOptions,
   SessionStartResult,
-} from './types';
-import { version } from '../package.json';
-import NeuroIDLog from './logger';
+} from "./types";
+import { version } from "../package.json";
+import NeuroIDLog from "./logger";
 
 const LINKING_ERROR =
   `The package 'neuroid-reactnative-sdk' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
+  Platform.select({ ios: "- You have run 'pod install'\n", default: "" }) +
+  "- You rebuilt the app after installing the package\n" +
+  "- You are not using Expo managed workflow\n";
 
 const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
   ? NativeModules.NeuroidReactnativeSdk
@@ -24,7 +24,7 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       }
     );
 
-var usingRNNavigation = false;
+let usingRNNavigation = false;
 
 type NativeConfigOptions = Partial<NeuroIDConfigOptions> & {
   hostReactNativeVersion: string;
@@ -39,11 +39,11 @@ export const NeuroID: NeuroIDClass = {
 
     const pattern = /key_(live|test)_[A-Za-z0-9]+/;
     if (!pattern.test(apiKey)) {
-      NeuroIDLog.e('Invalid API Key');
+      NeuroIDLog.e("Invalid API Key");
       return Promise.resolve(false);
     }
 
-     // Get the runtime React Native version from Platform constants
+    // Get the runtime React Native version from Platform constants
     const rnVersionObj = Platform.constants?.reactNativeVersion;
     const detectedVersion = `${rnVersionObj.major}.${rnVersionObj.minor}.${rnVersionObj.patch}`;
 
@@ -64,7 +64,7 @@ export const NeuroID: NeuroIDClass = {
     NeuroIDLog.enableLogging(enable);
 
     if (enable) {
-      NeuroIDLog.i('Logging Enabled');
+      NeuroIDLog.i("Logging Enabled");
     }
 
     return Promise.resolve(NeuroidReactnativeSdk.enableLogging(enable));
@@ -87,7 +87,7 @@ export const NeuroID: NeuroIDClass = {
   },
 
   getSDKVersion: function getSDKVersion(): Promise<string> {
-    return new Promise((res) => res(`React-Native:${version}`));
+    return Promise.resolve(`React-Native:${version}`);
   },
 
   getScreenName: function getScreenName(): Promise<string> {
@@ -110,26 +110,26 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.isStopped());
   },
 
-  setEnvironmentProduction: function setEnvironmentProduction(value: Boolean) {
-    NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
-    NeuroIDLog.d(`Environment Being Set - ${value ? 'Production' : 'Test'}`);
+  setEnvironmentProduction: function setEnvironmentProduction(value: boolean) {
+    NeuroIDLog.i("**** NOTE: THIS METHOD IS DEPRECATED");
+    NeuroIDLog.d(`Environment Being Set - ${value ? "Production" : "Test"}`);
     return Promise.resolve();
   },
 
   setScreenName: function setScreenName(screenName: string): Promise<boolean> {
-    NeuroIDLog.d('setScreenName()', screenName);
+    NeuroIDLog.d("setScreenName()", screenName);
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
   },
 
   setSiteId: function setSiteId(siteId: string): Promise<void> {
     // Pre-release
-    NeuroIDLog.i('SiteID set ', siteId);
-    NeuroIDLog.i('**** NOTE: THIS METHOD IS DEPRECATED');
+    NeuroIDLog.i("SiteID set ", siteId);
+    NeuroIDLog.i("**** NOTE: THIS METHOD IS DEPRECATED");
     return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
   },
 
   setUserID: function setUserID(userID: string): Promise<boolean> {
-    NeuroIDLog.i('Setting User ID: ', userID);
+    NeuroIDLog.i("Setting User ID: ", userID);
 
     return new Promise((resolve, reject) => {
       const result = NeuroidReactnativeSdk.setUserID(userID);
@@ -137,7 +137,7 @@ export const NeuroID: NeuroIDClass = {
       if (result) {
         resolve(true);
       } else {
-        NeuroIDLog.e('Failed to set user ID');
+        NeuroIDLog.e("Failed to set user ID");
         reject(false);
       }
     });
@@ -146,7 +146,7 @@ export const NeuroID: NeuroIDClass = {
   setRegisteredUserID: function setRegisteredUserID(
     userID: string
   ): Promise<boolean> {
-    NeuroIDLog.i('Setting Registered User ID: ', userID);
+    NeuroIDLog.i("Setting Registered User ID: ", userID);
 
     return new Promise((resolve, reject) => {
       const result = NeuroidReactnativeSdk.setRegisteredUserID(userID);
@@ -154,33 +154,33 @@ export const NeuroID: NeuroIDClass = {
       if (result) {
         resolve(true);
       } else {
-        NeuroIDLog.e('Failed to set registered user ID');
+        NeuroIDLog.e("Failed to set registered user ID");
         reject(false);
       }
     });
   },
 
   attemptedLogin: function attemptedLogin(userID: string): Promise<boolean> {
-    NeuroIDLog.i('Attempted Login User ID: ', userID);
+    NeuroIDLog.i("Attempted Login User ID: ", userID);
 
     return new Promise((resolve, reject) => {
-      const result = NeuroidReactnativeSdk.attemptedLogin(userID ?? '');
+      const result = NeuroidReactnativeSdk.attemptedLogin(userID ?? "");
 
       if (result) {
         resolve(true);
       } else {
-        NeuroIDLog.e('Failed to set attmpted login user ID');
+        NeuroIDLog.e("Failed to set attmpted login user ID");
         reject(false);
       }
     });
   },
 
   setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
-    value: Boolean
+    value: boolean
   ) {
     if (value)
       NeuroIDLog.i(
-        'Please view the Xcode or Android Studio console to see instructions on how to access The Integration Health Report'
+        "Please view the Xcode or Android Studio console to see instructions on how to access The Integration Health Report"
       );
 
     return Promise.resolve(
@@ -188,45 +188,41 @@ export const NeuroID: NeuroIDClass = {
     );
   },
 
-  setVariable: function setVariable(key: string, value: string): Promise<void> {
-    return new Promise(async function (resolve) {
-      NeuroIDLog.d(`Setting Variable - ${key}: ${value}`);
-      await NeuroidReactnativeSdk.setVariable(key, value);
-      resolve();
-    });
+  setVariable: async function setVariable(
+    key: string,
+    value: string
+  ): Promise<void> {
+    NeuroIDLog.d(`Setting Variable - ${key}: ${value}`);
+    await NeuroidReactnativeSdk.setVariable(key, value);
   },
 
-  start: function start(): Promise<Boolean> {
-    return new Promise(async function (resolve) {
-      try {
-        const result = await Promise.resolve(NeuroidReactnativeSdk.start());
-        let _cid = await NeuroidReactnativeSdk.getSessionID();
+  start: async function start(): Promise<boolean> {
+    try {
+      const result = await Promise.resolve(NeuroidReactnativeSdk.start());
+      const _cid = await NeuroidReactnativeSdk.getSessionID();
 
-        NeuroIDLog.d('NeuroID Started: ', result);
-        NeuroIDLog.i('Client ID:', _cid);
-        resolve(result);
-      } catch (e: any) {
-        NeuroIDLog.e('Failed to start NID', e);
-        resolve(false);
-      }
-    });
+      NeuroIDLog.d("NeuroID Started: ", result);
+      NeuroIDLog.i("Client ID:", _cid);
+      return result;
+    } catch (e: unknown) {
+      NeuroIDLog.e("Failed to start NID", String(e));
+      return false;
+    }
   },
 
-  stop: function stop(): Promise<Boolean> {
-    return new Promise(async function (resolve) {
-      try {
-        const result = await Promise.resolve(NeuroidReactnativeSdk.stop());
-        resolve(result);
-        NeuroIDLog.d('NeuroID Stopped: ', result);
-      } catch (e: any) {
-        NeuroIDLog.e('Failed to stop NID', e);
-        resolve(false);
-      }
-    });
+  stop: async function stop(): Promise<boolean> {
+    try {
+      const result = await Promise.resolve(NeuroidReactnativeSdk.stop());
+      NeuroIDLog.d("NeuroID Stopped: ", result);
+      return result;
+    } catch (e: unknown) {
+      NeuroIDLog.e("Failed to stop NID", String(e));
+      return false;
+    }
   },
 
   registerPageTargets: function registerPageTargets(): Promise<void> {
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === "ios") {
       if (!usingRNNavigation) {
         return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
       } else {
@@ -246,7 +242,7 @@ export const NeuroID: NeuroIDClass = {
     sessionID?: string
   ): Promise<SessionStartResult> {
     const result = await NeuroidReactnativeSdk.startSession(sessionID);
-    NeuroIDLog.d('startSession(): ' + result.sessionID + ' ' + result.started);
+    NeuroIDLog.d("startSession(): " + result.sessionID + " " + result.started);
     return Promise.resolve({
       sessionID: result.sessionID as string,
       started: result.started as boolean,
@@ -254,20 +250,20 @@ export const NeuroID: NeuroIDClass = {
   },
 
   stopSession: async function stopSession(): Promise<boolean> {
-    let result = await NeuroidReactnativeSdk.stopSession();
-    NeuroIDLog.d('stopSession(): ' + result);
+    const result = await NeuroidReactnativeSdk.stopSession();
+    NeuroIDLog.d("stopSession(): " + result);
     return Promise.resolve(result);
   },
 
   pauseCollection: async function pauseCollection(): Promise<void> {
     NeuroidReactnativeSdk.pauseCollection();
-    NeuroIDLog.d('pauseCollection()');
+    NeuroIDLog.d("pauseCollection()");
     return Promise.resolve();
   },
 
   resumeCollection: async function resumeCollection(): Promise<void> {
     NeuroidReactnativeSdk.resumeCollection();
-    NeuroIDLog.d('resumeCollection()');
+    NeuroIDLog.d("resumeCollection()");
     return Promise.resolve();
   },
 
@@ -276,7 +272,7 @@ export const NeuroID: NeuroIDClass = {
     userID?: string
   ): Promise<SessionStartResult> {
     const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
-    NeuroIDLog.d('startAppFlow(): ' + result.sessionID + ' ' + result.started);
+    NeuroIDLog.d("startAppFlow(): " + result.sessionID + " " + result.started);
     return Promise.resolve({
       sessionID: result.sessionID as string,
       started: result.started as boolean,
