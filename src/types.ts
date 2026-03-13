@@ -15,17 +15,17 @@ export interface NeuroIDClass {
   getRegisteredUserID: () => Promise<string>;
 
   isStopped: () => Promise<boolean>;
-  setEnvironmentProduction: (value: Boolean) => Promise<void>; // deprecated
+  setEnvironmentProduction: (value: boolean) => Promise<void>; // deprecated
   setScreenName: (screenName: string) => Promise<boolean>;
   setSiteId: (siteId: string) => Promise<void>; // deprecated
   setUserID: (userID: string) => Promise<boolean>;
   setRegisteredUserID: (userID: string) => Promise<boolean>;
   attemptedLogin: (userID: string) => Promise<boolean>;
-  setVerifyIntegrationHealth: (value: Boolean) => Promise<void>;
+  setVerifyIntegrationHealth: (value: boolean) => Promise<void>;
   setVariable(key: string, value: string): Promise<void>;
 
-  start: () => Promise<Boolean>;
-  stop: () => Promise<Boolean>;
+  start: () => Promise<boolean>;
+  stop: () => Promise<boolean>;
 
   registerPageTargets: () => Promise<void>;
   setupPage: (screenName: string) => Promise<void>;
@@ -49,13 +49,13 @@ export interface NeuroIDConfigOptions {
 
 export interface NeuroIDLogClass {
   enableLogging: (enable?: boolean) => void;
-  log: (...message: String[]) => void;
-  d: (...message: String[]) => void;
-  i: (...message: String[]) => void;
-  e: (...message: String[]) => void;
+  log: (...message: string[]) => void;
+  d: (...message: string[]) => void;
+  i: (...message: string[]) => void;
+  e: (...message: string[]) => void;
 }
 
 export interface SessionStartResult {
   started: boolean;
-  sessionID: String;
+  sessionID: string;
 }
