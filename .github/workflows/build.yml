@@ -36,6 +36,9 @@ jobs:
       - name: Check Linting
         run: yarn lint:check
 
+      - name: Run tests
+        run: yarn test
+
       - name: Validate published contents
         run: npm pack --dry-run
 
