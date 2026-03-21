@@ -98,10 +98,6 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
   },
 
-  getUserID: function getUserID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getUserID());
-  },
-
   getRegisteredUserID: function getUserID(): Promise<string> {
     return Promise.resolve(NeuroidReactnativeSdk.getRegisteredUserID());
   },
@@ -110,37 +106,9 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.isStopped());
   },
 
-  setEnvironmentProduction: function setEnvironmentProduction(value: boolean) {
-    NeuroIDLog.i("**** NOTE: THIS METHOD IS DEPRECATED");
-    NeuroIDLog.d(`Environment Being Set - ${value ? "Production" : "Test"}`);
-    return Promise.resolve();
-  },
-
   setScreenName: function setScreenName(screenName: string): Promise<boolean> {
     NeuroIDLog.d("setScreenName()", screenName);
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
-  },
-
-  setSiteId: function setSiteId(siteId: string): Promise<void> {
-    // Pre-release
-    NeuroIDLog.i("SiteID set ", siteId);
-    NeuroIDLog.i("**** NOTE: THIS METHOD IS DEPRECATED");
-    return Promise.resolve(NeuroidReactnativeSdk.setSiteId(siteId));
-  },
-
-  setUserID: function setUserID(userID: string): Promise<boolean> {
-    NeuroIDLog.i("Setting User ID: ", userID);
-
-    return new Promise((resolve, reject) => {
-      const result = NeuroidReactnativeSdk.setUserID(userID);
-
-      if (result) {
-        resolve(true);
-      } else {
-        NeuroIDLog.e("Failed to set user ID");
-        reject(false);
-      }
-    });
   },
 
   setRegisteredUserID: function setRegisteredUserID(
@@ -173,19 +141,6 @@ export const NeuroID: NeuroIDClass = {
         reject(false);
       }
     });
-  },
-
-  setVerifyIntegrationHealth: function setVerifyIntegrationHealth(
-    value: boolean
-  ) {
-    if (value)
-      NeuroIDLog.i(
-        "Please view the Xcode or Android Studio console to see instructions on how to access The Integration Health Report"
-      );
-
-    return Promise.resolve(
-      NeuroidReactnativeSdk.setVerifyIntegrationHealth(value)
-    );
   },
 
   setVariable: async function setVariable(
