@@ -59,6 +59,11 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
+    fun getUserID(promise: Promise) {
+        promise.resolve(NeuroID.getInstance()?.getUserID())
+    }
+
+    @ReactMethod
     fun getRegisteredUserID(promise: Promise) {
         promise.resolve(NeuroID.getInstance()?.getRegisteredUserID())
     }
@@ -78,6 +83,13 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         } else {
             promise.resolve(false)
         }
+    }
+
+    @ReactMethod
+    fun setUserID(id: String, promise: Promise) {
+        var result = NeuroID.getInstance()?.setUserID(id)
+        result?.let { promise.resolve(it) }
+        promise.resolve(false)
     }
 
     @ReactMethod
