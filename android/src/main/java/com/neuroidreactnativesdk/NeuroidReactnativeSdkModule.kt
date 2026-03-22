@@ -86,12 +86,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun setSiteId(siteId: String) {
-        // deprecated so no need to replace with ID
-        NeuroID.getInstance()?.setSiteId(siteId)
-    }
-
-    @ReactMethod
     fun setUserID(id: String, promise: Promise) {
         var result = NeuroID.getInstance()?.setUserID(id)
         result?.let { promise.resolve(it) }
@@ -110,11 +104,6 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
         var result = NeuroID.getInstance()?.attemptedLogin(id)
         result?.let { promise.resolve(it) }
         promise.resolve(false)
-    }
-
-    @ReactMethod
-    fun setVerifyIntegrationHealth(enable: Boolean) {
-        NeuroID.getInstance()?.setVerifyIntegrationHealth(enable)
     }
 
     @ReactMethod
