@@ -11,10 +11,12 @@ export interface NeuroIDClass {
   getSDKVersion: () => Promise<string>; // JS side not native
   getScreenName: () => Promise<string>; // ios, NOT Android
   getSessionID: () => Promise<string>;
+  getUserID: () => Promise<string>;
   getRegisteredUserID: () => Promise<string>;
 
   isStopped: () => Promise<boolean>;
   setScreenName: (screenName: string) => Promise<boolean>;
+  setUserID: (userID: string) => Promise<boolean>;
   setRegisteredUserID: (userID: string) => Promise<boolean>;
   attemptedLogin: (userID: string) => Promise<boolean>;
   setVariable(key: string, value: string): Promise<void>;

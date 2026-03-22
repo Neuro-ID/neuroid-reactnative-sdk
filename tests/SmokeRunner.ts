@@ -23,6 +23,7 @@ export async function runSmoke(): Promise<void> {
     { name: "getClientID", run: () => NeuroID.getClientID() },
     { name: "getSDKVersion", run: () => NeuroID.getSDKVersion() },
     { name: "getEnvironment", run: () => NeuroID.getEnvironment() },
+    { name: "getUserID", run: () => NeuroID.getUserID() },
     { name: "getRegisteredUserID", run: () => NeuroID.getRegisteredUserID() },
     { name: "startSession", run: () => NeuroID.startSession() },
     { name: "setScreenName", run: () => NeuroID.setScreenName("TestScreen") },

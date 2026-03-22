@@ -98,6 +98,10 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
   },
 
+  getUserID: function getUserID(): Promise<string> {
+    return Promise.resolve(NeuroidReactnativeSdk.getUserID());
+  },
+
   getRegisteredUserID: function getUserID(): Promise<string> {
     return Promise.resolve(NeuroidReactnativeSdk.getRegisteredUserID());
   },
@@ -109,6 +113,21 @@ export const NeuroID: NeuroIDClass = {
   setScreenName: function setScreenName(screenName: string): Promise<boolean> {
     NeuroIDLog.d("setScreenName()", screenName);
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
+  },
+
+  setUserID: function setUserID(userID: string): Promise<boolean> {
+    NeuroIDLog.i("Setting User ID: ", userID);
+
+    return new Promise((resolve, reject) => {
+      const result = NeuroidReactnativeSdk.setUserID(userID);
+
+      if (result) {
+        resolve(true);
+      } else {
+        NeuroIDLog.e("Failed to set user ID");
+        reject(false);
+      }
+    });
   },
 
   setRegisteredUserID: function setRegisteredUserID(
