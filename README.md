@@ -7,17 +7,15 @@
 </p>
 
 <p align="center">
-    <a href="https://cocoapods.org/pods/NeuroID">
-        <img src="https://img.shields.io/cocoapods/v/NeuroID.svg" alt="CocoaPods" />
+    <a href="https://www.npmjs.com/package/neuroid-reactnative-sdk">
+        <img alt="NPM Version" src="https://img.shields.io/npm/v/neuroid-reactnative-sdk">
     </a>
-    <a href="https://sonarcloud.io/summary/new_code?id=Neuro-ID_neuroid-ios-sdk">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=Neuro-ID_neuroid-ios-sdk&metric=alert_status" alt="Quality Gate Status" />
+    <a href="https://sonarcloud.io/summary/new_code?id=Neuro-ID_neuroid-reactnative-sdk">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=Neuro-ID_neuroid-reactnative-sdk&metric=alert_status" alt="Quality Gate Status" />
     </a>
 </p>
 
 # NeuroID React Native Mobile SDK
-
-![Neuro-ID Logo](/docs/images/NeuroID_Logo.png)
 
 ## Overview
 
