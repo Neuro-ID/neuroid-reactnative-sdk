@@ -16,15 +16,11 @@ jest.mock("react-native", () => ({
       getEnvironment: jest.fn(),
       getScreenName: jest.fn(),
       getSessionID: jest.fn(),
-      getUserID: jest.fn(),
       getRegisteredUserID: jest.fn(),
       isStopped: jest.fn(),
       setScreenName: jest.fn(),
-      setSiteId: jest.fn(),
-      setUserID: jest.fn(),
       setRegisteredUserID: jest.fn(),
       attemptedLogin: jest.fn(),
-      setVerifyIntegrationHealth: jest.fn(),
       setVariable: jest.fn(),
       start: jest.fn(),
       stop: jest.fn(),
@@ -156,19 +152,6 @@ describe("NeuroID SDK", () => {
     });
   });
 
-  // ── setEnvironmentProduction (deprecated) ───────────────────────────────────
-  describe("setEnvironmentProduction", () => {
-    it("resolves void without calling any native methods", async () => {
-      await expect(
-        NeuroID.setEnvironmentProduction(true)
-      ).resolves.toBeUndefined();
-      const anyCalled = Object.values(native).some(
-        (m) => m.mock.calls.length > 0
-      );
-      expect(anyCalled).toBe(false);
-    });
-  });
-
   // ── start ───────────────────────────────────────────────────────────────────
   describe("start", () => {
     it("resolves the native result when start succeeds", async () => {
@@ -198,20 +181,6 @@ describe("NeuroID SDK", () => {
       native["stop"]!.mockRejectedValue(new Error("device error"));
       const result = await NeuroID.stop();
       expect(result).toBe(false);
-    });
-  });
-
-  // ── setUserID ───────────────────────────────────────────────────────────────
-  describe("setUserID", () => {
-    it("resolves true when native returns truthy", async () => {
-      native["setUserID"]!.mockReturnValue(true);
-      await expect(NeuroID.setUserID("user-123")).resolves.toBe(true);
-      expect(native["setUserID"]).toHaveBeenCalledWith("user-123");
-    });
-
-    it("rejects false when native returns falsy", async () => {
-      native["setUserID"]!.mockReturnValue(null);
-      await expect(NeuroID.setUserID("user-123")).rejects.toBe(false);
     });
   });
 
