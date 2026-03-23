@@ -17,7 +17,7 @@ class NeuroidReactnativeSdk: NSObject {
 
     @objc(excludeViewByTestID:withResolver:withRejecter:)
     func excludeViewByTestID(excludedView: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        NeuroID.excludeViewByTestID(excludedView: excludedView)
+        NeuroID.excludeViewByTestID(excludedView)
         resolve(true)
     }
 
