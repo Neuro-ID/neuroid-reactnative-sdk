@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Update version
-        run: npm version ${{ env.RELEASE_TYPE }}
+        run: npm version ${{ env.RELEASE_TYPE }} --no-git-tag-version
 
       - name: Read package version
         run: |

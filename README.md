@@ -1,6 +1,21 @@
-# NeuroID React Native Mobile SDK
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="/resources/lockup_white.png" />
+        <source media="(prefers-color-scheme: light)" srcset="/resources/lockup.png" />
+        <img src="/resources/lockup.png" alt="NeuroID" width="320px" />
+    </picture>
+</p>
 
-![Neuro-ID Logo](/docs/images/NeuroID_Logo.png)
+<p align="center">
+    <a href="https://www.npmjs.com/package/neuroid-reactnative-sdk">
+        <img alt="NPM Version" src="https://img.shields.io/npm/v/neuroid-reactnative-sdk">
+    </a>
+    <a href="https://sonarcloud.io/summary/new_code?id=Neuro-ID_neuroid-reactnative-sdk">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=Neuro-ID_neuroid-reactnative-sdk&metric=alert_status" alt="Quality Gate Status" />
+    </a>
+</p>
+
+# NeuroID React Native Mobile SDK
 
 ## Overview
 
