@@ -50,7 +50,7 @@ jobs:
 
       - name: Update iOS / Android SDK version to latest release version
         run: |
-          sed -i "s/:react-android-sdk:[0-9a-zA-Z.-]*/:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
+          sed -i "s/com.github.neuro-id.neuroid-android-sdk:react-android-sdk:[0-9a-zA-Z.-]*/com.github.neuro-id.neuroid-android-sdk:react-android-sdk:${{ env.ANDROID_SDK_VERSION }}/g" android/build.gradle
           sed -i "s/.*'NeuroID', '\([^']*\)'.*/ s.dependency 'NeuroID', '${{ env.IOS_SDK_VERSION }}'/g" neuroid-reactnative-sdk.podspec
 
       - name: Commit version update
@@ -61,7 +61,6 @@ jobs:
           git status
           git add package.json
           git add neuroid-reactnative-sdk.podspec
-          git add package-lock.json
           git add android/build.gradle
           git commit -m "Update React native SDK to ${{ env.PACKAGE_VERSION }}"
           git push --set-upstream origin ${{ env.BRANCH_NAME }}
