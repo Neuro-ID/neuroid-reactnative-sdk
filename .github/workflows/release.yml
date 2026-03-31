@@ -26,8 +26,6 @@ jobs:
       - run: yarn install --frozen-lockfile
 
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Retrieve package version
         run: |
