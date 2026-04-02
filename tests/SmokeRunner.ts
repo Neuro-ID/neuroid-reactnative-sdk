@@ -20,21 +20,45 @@ export async function runSmoke(): Promise<void> {
         }),
     },
     { name: "enableLogging", run: () => NeuroID.enableLogging(true) },
+    {
+      name: "excludeViewByTestID",
+      run: () => NeuroID.excludeViewByTestID("excludedView"),
+    },
     { name: "getClientID", run: () => NeuroID.getClientID() },
     { name: "getSDKVersion", run: () => NeuroID.getSDKVersion() },
     { name: "getEnvironment", run: () => NeuroID.getEnvironment() },
     { name: "getUserID", run: () => NeuroID.getUserID() },
     { name: "getRegisteredUserID", run: () => NeuroID.getRegisteredUserID() },
+    { name: "setUserID", run: () => NeuroID.setUserID("smoke_user_123") },
+    {
+      name: "setRegisteredUserID",
+      run: () => NeuroID.setRegisteredUserID("smoke_registered_123"),
+    },
+    {
+      name: "attemptedLogin",
+      run: () => NeuroID.attemptedLogin("smoke_login_123"),
+    },
+    {
+      name: "setVariable",
+      run: () => NeuroID.setVariable("smokeKey", "smokeValue"),
+    },
     { name: "startSession", run: () => NeuroID.startSession() },
     { name: "setScreenName", run: () => NeuroID.setScreenName("TestScreen") },
     { name: "getScreenName", run: () => NeuroID.getScreenName() },
     { name: "getSessionID", run: () => NeuroID.getSessionID() },
     { name: "registerPageTargets", run: () => NeuroID.registerPageTargets() },
+    { name: "setupPage", run: () => NeuroID.setupPage("SetupPageScreen") },
     { name: "isStopped", run: () => !NeuroID.isStopped() },
     { name: "pauseCollection", run: () => NeuroID.pauseCollection() },
     { name: "resumeCollection", run: () => NeuroID.resumeCollection() },
     { name: "stopSession", run: () => NeuroID.stopSession() },
     { name: "isStopped2", run: () => NeuroID.isStopped() },
+    { name: "start", run: () => NeuroID.start() },
+    { name: "stop", run: () => NeuroID.stop() },
+    {
+      name: "startAppFlow",
+      run: () => NeuroID.startAppFlow("smoke_site_1234", "smoke_user_123"),
+    },
   ];
 
   // Basic API surface check
