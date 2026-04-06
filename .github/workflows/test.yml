@@ -155,13 +155,25 @@ jobs:
 
   ios:
     name: iOS (RN ${{ matrix.RN_VERSION }})
-    runs-on: macos-26
+    runs-on: ${{ matrix.macos }}
     env:
       SIMULATOR_NAME: 'iPhone 17 Pro'
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.76-stable', '0.79-stable', '0.81-stable', 'latest']
+        include:
+          - macos: 'macos-26'
+            RN_VERSION: 'latest'
+
+          - macos: 'macos-26-large'
+            RN_VERSION: '0.81-stable'
+
+          - macos: 'macos-26-large'
+            RN_VERSION: '0.79-stable'
+
+          - macos: 'macos-26-large'
+            RN_VERSION: '0.76-stable'
+
     steps:
       - uses: actions/checkout@v6
 
