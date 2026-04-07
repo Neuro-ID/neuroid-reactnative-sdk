@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
-    
+
       - name: Define App Paths
         run: |
           SAFE_MINOR="$(echo "${{ matrix.RN_VERSION}}" | tr '.-' '_')"
@@ -58,7 +58,7 @@ jobs:
       - name: Install JS Dependencies
         working-directory: ${{ env.APP_DIR }}
         run: yarn install
-      
+
       - name: create directory for metro assets in the test app
         working-directory: ${{ env.APP_DIR }}
         run: mkdir -p android/app/src/main/assets
@@ -66,17 +66,17 @@ jobs:
       - name: add repos to and fix min sdk version in build.gradle
         working-directory: ${{ env.APP_DIR }}
         run: |
-         sed -i '/signingConfigs {/,/^    }$/{
-          /^    }$/a\
-          \
-              repositories {\
-                google()\
-                mavenCentral()\
-                maven { url '"'"'https://maven.fpregistry.io/releases'"'"' }\
-                maven { url '"'"'https://jitpack.io'"'"' }\
-              }
-          }' android/app/build.gradle
-          sed -i 's/minSdkVersion = [0-9]*/minSdkVersion = 24/' android/build.gradle
+          sed -i '/signingConfigs {/,/^    }$/{
+           /^    }$/a\
+           \
+               repositories {\
+                 google()\
+                 mavenCentral()\
+                 maven { url '"'"'https://maven.fpregistry.io/releases'"'"' }\
+                 maven { url '"'"'https://jitpack.io'"'"' }\
+               }
+           }' android/app/build.gradle
+           sed -i 's/minSdkVersion = [0-9]*/minSdkVersion = 24/' android/build.gradle
 
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
@@ -87,16 +87,16 @@ jobs:
           cp "${{ github.workspace }}/tests/SmokeRunner.ts" "${{ env.APP_DIR }}/SmokeRunner.ts"
           cp "${{ github.workspace }}/tests/App.tsx" "${{ env.APP_DIR }}/App.tsx"
 
-      - name: add metro bundle in the test app asset folder 
+      - name: add metro bundle in the test app asset folder
         working-directory: ${{ env.APP_DIR }}
         run: |
           npx react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
-      
+
       - name: set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'temurin' 
+          distribution: 'temurin'
 
       - name: Enable KVM
         run: |
@@ -151,28 +151,29 @@ jobs:
 
           echo "=== Test timeout - dumping available logs ==="
           cat app.log || echo "No logs available"
-          exit 1      
+          exit 1
 
   ios:
     name: iOS (RN ${{ matrix.RN_VERSION }})
     runs-on: ${{ matrix.macos }}
     env:
       SIMULATOR_NAME: 'iPhone 17 Pro'
+      XCODE: '26.4'
     strategy:
       fail-fast: false
       matrix:
         include:
-          - macos: 'macos-26'
-            RN_VERSION: 'latest'
+          - RN_VERSION: 'latest'
+            macos: 'macos-26'
 
-          - macos: 'macos-26-large'
-            RN_VERSION: '0.81-stable'
+          - RN_VERSION: '0.81-stable'
+            macos: 'macos-26-xlarge'
 
-          - macos: 'macos-26-large'
-            RN_VERSION: '0.79-stable'
+          - RN_VERSION: '0.79-stable'
+            macos: 'macos-26-xlarge'
 
-          - macos: 'macos-26-large'
-            RN_VERSION: '0.76-stable'
+          - RN_VERSION: '0.76-stable'
+            macos: 'macos-26-xlarge'
 
     steps:
       - uses: actions/checkout@v6
@@ -202,6 +203,11 @@ jobs:
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
 
+      - name: Select Xcode Version
+        run: |
+          ls /Applications/ | grep Xcode
+          sudo xcode-select -s /Applications/Xcode_${{ env.XCODE }}.app
+
       - name: Install JS Dependencies
         working-directory: ${{ env.APP_DIR }}
         run: yarn install
@@ -216,6 +222,32 @@ jobs:
           sed -i '' "/target '${{ env.APP_NAME }}' do/a\\
             pod 'NeuroID', :git => 'https://github.com/Neuro-ID/neuroid-ios-sdk.git', :branch => 'main'
           " Podfile
+
+      # https://github.com/facebook/react-native/issues/55601
+      - name: Update fmt package for Xcode 26.4+ support
+        working-directory: ${{ env.APP_DIR }}/ios
+        run: |
+          RN_VERSION="${{ matrix.RN_VERSION }}"
+          MINOR=$(echo "$RN_VERSION" | grep -oE '0\.[0-9]+' | cut -d. -f2)
+          if [ -n "$MINOR" ] && [ "$MINOR" -lt 83 ]; then
+            ruby << 'RUBY'
+              ios_dir = Dir.pwd
+              fmt_podspec_path = File.join(ios_dir, '..', 'node_modules', 'react-native', 'third-party-podspecs', 'fmt.podspec')
+              folly_podspec_path = File.join(ios_dir, '..', 'node_modules', 'react-native', 'third-party-podspecs', 'RCT-Folly.podspec')
+
+              if File.exist?(fmt_podspec_path)
+                fmt_content = File.read(fmt_podspec_path)
+                fmt_content.gsub!('"11.0.2"', '"12.1.0"')
+                File.write(fmt_podspec_path, fmt_content)
+              end
+
+              if File.exist?(folly_podspec_path)
+                folly_content = File.read(folly_podspec_path)
+                folly_content.gsub!('spec.dependency "fmt", "11.0.2"', 'spec.dependency "fmt", "12.1.0"')
+                File.write(folly_podspec_path, folly_content)
+              end
+            RUBY
+          fi
 
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
