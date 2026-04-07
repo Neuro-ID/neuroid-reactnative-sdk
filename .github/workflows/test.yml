@@ -167,14 +167,14 @@ jobs:
           - RN_VERSION: 'latest'
             macos: 'macos-26'
 
-          # - RN_VERSION: '0.81-stable'
-          #   macos: 'macos-26-xlarge'
+          - RN_VERSION: '0.81-stable'
+            macos: 'macos-26-xlarge'
 
           - RN_VERSION: '0.79-stable'
             macos: 'macos-26-xlarge'
 
-          # - RN_VERSION: '0.76-stable'
-          #   macos: 'macos-26-xlarge'
+          - RN_VERSION: '0.76-stable'
+            macos: 'macos-26-xlarge'
 
     steps:
       - uses: actions/checkout@v6
@@ -229,23 +229,18 @@ jobs:
         working-directory: ${{ env.APP_DIR }}/ios
         if: ${{ matrix.RN_VERSION == '0.76-stable' || matrix.RN_VERSION == '0.81-stable' }}
         run: |
-          if [ -f "Podfile" ]; then
-            printf '%s\n' \
-            "fmt_podspec_path = File.join(__dir__, '..', 'node_modules', 'react-native', 'third-party-podspecs', 'fmt.podspec')" \
-            "folly_podspec_path = File.join(__dir__, '..', 'node_modules', 'react-native', 'third-party-podspecs', 'RCT-Folly.podspec')" \
-            "" \
-            "if File.exist?(fmt_podspec_path)" \
-            "  fmt_content = File.read(fmt_podspec_path)" \
-            "  fmt_content.gsub!(\"\\\"11.0.2\\\"\", \"\\\"12.1.0\\\"\")" \
-            "  File.write(fmt_podspec_path, fmt_content)" \
-            "end" \
-            "" \
-            "if File.exist?(folly_podspec_path)" \
-            "  folly_content = File.read(folly_podspec_path)" \
-            "  folly_content.gsub!('spec.dependency \"fmt\", \"11.0.2\"', 'spec.dependency \"fmt\", \"12.1.0\"')" \
-            "  File.write(folly_podspec_path, folly_content)" \
-            "end" >> Podfile
-          fi
+          cat <<EOF >> Podfile
+          rn_podspecs_dir = File.join(__dir__, '..', 'node_modules', 'react-native')
+          Dir.glob(File.join(rn_podspecs_dir, '**', '*.podspec')).each do |podspec_path|
+            next unless File.exist?(podspec_path)
+            podspec_content = File.read(podspec_path)
+            new_content = podspec_content.gsub('spec.dependency "fmt", "11.0.2"', 'spec.dependency "fmt", "12.1.0"')
+            new_content = new_content.gsub('"11.0.2"', '"12.1.0"')
+            if new_content != podspec_content
+              File.write(podspec_path, new_content)
+            end
+          end
+          EOF
 
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
