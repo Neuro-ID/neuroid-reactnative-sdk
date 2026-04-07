@@ -21,7 +21,6 @@ jobs:
   android:
     name: Android (RN ${{ matrix.RN_VERSION }})
     runs-on: ubuntu-latest
-    if: false
     strategy:
       fail-fast: false
       matrix:
