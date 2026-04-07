@@ -158,6 +158,7 @@ jobs:
     env:
       SIMULATOR_NAME: 'iPhone 17 Pro'
       XCODE: '26.4'
+      TOOLCHAINS: 'com.apple.dt.toolchain.XcodeDefault' # Workaround for Xcode 26+: https://github.com/actions/runner-images/issues/13135
     strategy:
       fail-fast: false
       matrix:
