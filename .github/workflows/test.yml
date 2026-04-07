@@ -227,7 +227,7 @@ jobs:
       # https://github.com/facebook/react-native/issues/55601
       - name: Update fmt package for Xcode 26.4+ support
         working-directory: ${{ env.APP_DIR }}/ios
-        if: ${{ matrix.RN_VERSION == '0.76-stable' || matrix.RN_VERSION == '0.81-stable' }}
+        if: ${{ matrix.RN_VERSION == '0.76-stable' || matrix.RN_VERSION == '0.79-stable' || matrix.RN_VERSION == '0.81-stable' }}
         run: |
           cat <<EOF >> Podfile
           rn_podspecs_dir = File.join(__dir__, '..', 'node_modules', 'react-native')
