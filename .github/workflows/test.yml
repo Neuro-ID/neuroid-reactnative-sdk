@@ -222,32 +222,32 @@ jobs:
             pod 'NeuroID', :git => 'https://github.com/Neuro-ID/neuroid-ios-sdk.git', :branch => 'main'
           " Podfile
 
-      # https://github.com/facebook/react-native/issues/55601
-      - name: Update fmt package for Xcode 26.4+ support
-        working-directory: ${{ env.APP_DIR }}/ios
-        run: |
-          RN_VERSION="${{ matrix.RN_VERSION }}"
-          MINOR=$(echo "$RN_VERSION" | grep -oE '0\.[0-9]+' | cut -d. -f2)
-          if [ -n "$MINOR" ] && [ "$MINOR" -lt 83 ]; then
-            ruby << 'RUBY'
-              ios_dir = Dir.pwd
-              fmt_podspec_path = File.join(ios_dir, '..', 'node_modules', 'react-native', 'third-party-podspecs', 'fmt.podspec')
-              folly_podspec_path = File.join(ios_dir, '..', 'node_modules', 'react-native', 'third-party-podspecs', 'RCT-Folly.podspec')
-
-              if File.exist?(fmt_podspec_path)
-                fmt_content = File.read(fmt_podspec_path)
-                fmt_content.gsub!('"11.0.2"', '"12.1.0"')
-                File.write(fmt_podspec_path, fmt_content)
-              end
-
-              if File.exist?(folly_podspec_path)
-                folly_content = File.read(folly_podspec_path)
-                folly_content.gsub!('spec.dependency "fmt", "11.0.2"', 'spec.dependency "fmt", "12.1.0"')
-                File.write(folly_podspec_path, folly_content)
-              end
-            RUBY
-          fi
-
+#       # https://github.com/facebook/react-native/issues/55601
+#       - name: Update fmt package for Xcode 26.4+ support
+#         working-directory: ${{ env.APP_DIR }}/ios
+#         run: |
+#           RN_VERSION="${{ matrix.RN_VERSION }}"
+#           MINOR=$(echo "$RN_VERSION" | grep -oE '0\.[0-9]+' | cut -d. -f2)
+#           if [ -n "$MINOR" ] && [ "$MINOR" -lt 83 ]; then
+#             # Append the Ruby snippet text into the generated app Podfile using printf
+#             if [ -f "Podfile" ]; then
+#               printf '%s\n' \
+# "fmt_podspec_path = File.join(__dir__, '..', 'node_modules', 'react-native', 'third-party-podspecs', 'fmt.podspec')" \
+# "folly_podspec_path = File.join(__dir__, '..', 'node_modules', 'react-native', 'third-party-podspecs', 'RCT-Folly.podspec')" \
+#   "" \
+#   "if File.exist?(fmt_podspec_path)" \
+#   "  fmt_content = File.read(fmt_podspec_path)" \
+#   "  fmt_content.gsub!(\"\\\"11.0.2\\\"\", \"\\\"12.1.0\\\"\")" \
+#   "  File.write(fmt_podspec_path, fmt_content)" \
+#   "end" \
+#   "" \
+#   "if File.exist?(folly_podspec_path)" \
+#   "  folly_content = File.read(folly_podspec_path)" \
+#   "  folly_content.gsub!('spec.dependency \"fmt\", \"11.0.2\"', 'spec.dependency \"fmt\", \"12.1.0\"')" \
+#   "  File.write(folly_podspec_path, folly_content)" \
+#   "end" >> Podfile
+#               fi
+#             fi
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
         run: pod install --repo-update
