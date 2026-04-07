@@ -19,7 +19,6 @@ env:
 
 jobs:
   android:
-    if: false
     name: Android (RN ${{ matrix.RN_VERSION }})
     runs-on: ubuntu-latest
     strategy:
