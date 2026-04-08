@@ -164,7 +164,7 @@ jobs:
       matrix:
         include:
           - RN_VERSION: 'latest'
-            macos: 'macos-26'
+            macos: 'macos-26-xlarge'
 
           - RN_VERSION: '0.81-stable'
             macos: 'macos-26-xlarge'
