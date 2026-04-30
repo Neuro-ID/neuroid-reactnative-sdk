@@ -23,6 +23,8 @@ jobs:
             echo "Failed to mint OIDC token"
             exit 1
           fi
+          # Decode and print JWT payload (base64, no secrets exposed since this is the claims)
+          echo "$OIDC_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
           echo "oidc_token=$OIDC_TOKEN" >> $GITHUB_OUTPUT
 
       - name: Exchange OIDC token with npm (no publish)
