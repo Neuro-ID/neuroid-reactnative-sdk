@@ -1,7 +1,7 @@
 name: OIDC Smoke Test (No Publish)
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
   oidc-smoke:
@@ -32,4 +32,3 @@ jobs:
             -H "Authorization: Bearer ${{ steps.oidc.outputs.oidc_token }}" \
             -H "Accept: application/json" \
             | jq -e '.token'
-            
