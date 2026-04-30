@@ -27,10 +27,32 @@ jobs:
           echo "$OIDC_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
           echo "oidc_token=$OIDC_TOKEN" >> $GITHUB_OUTPUT
 
-      - name: Exchange OIDC token with npm (no publish)
+      - name: Exchange OIDC token with npm (debug response)
         run: |
-          curl -sSf -X POST \
-            "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/neuroid-reactnative-sdk" \
+          set -euo pipefail
+
+          URL="https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/neuroid-reactnative-sdk"
+
+          HTTP_CODE=$(curl -sS -X POST "$URL" \
             -H "Authorization: Bearer ${{ steps.oidc.outputs.oidc_token }}" \
             -H "Accept: application/json" \
-            | jq -e '.token'
+            -D /tmp/npm-oidc-headers.txt \
+            -o /tmp/npm-oidc-body.json \
+            -w "%{http_code}")
+
+          echo "npm exchange HTTP status: $HTTP_CODE"
+          echo "npm response headers:"
+          cat /tmp/npm-oidc-headers.txt
+
+          echo "npm response body:"
+          cat /tmp/npm-oidc-body.json
+          echo
+          jq . /tmp/npm-oidc-body.json || true
+
+          # Keep failing the job on non-2xx, but only after printing details
+          if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then
+            exit 1
+          fi
+
+          # On success, ensure token is present
+          jq -e ".token" /tmp/npm-oidc-body.json > /dev/null
