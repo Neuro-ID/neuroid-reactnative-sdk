@@ -1,0 +1,34 @@
+name: OIDC Smoke Test (No Publish)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  oidc-smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Request GitHub OIDC token for npm
+        id: oidc
+        run: |
+          RESP=$(curl -sSf -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=npm:registry.npmjs.org")
+          OIDC_TOKEN=$(echo "$RESP" | jq -r '.value')
+          if [ -z "$OIDC_TOKEN" ] || [ "$OIDC_TOKEN" = "null" ]; then
+            echo "Failed to mint OIDC token"
+            exit 1
+          fi
+          echo "oidc_token=$OIDC_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Exchange OIDC token with npm (no publish)
+        run: |
+          curl -sSf -X POST \
+            "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/neuroid-reactnative-sdk" \
+            -H "Authorization: Bearer ${{ steps.oidc.outputs.oidc_token }}" \
+            -H "Accept: application/json" \
+            | jq -e '.token'
