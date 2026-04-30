@@ -32,3 +32,4 @@ jobs:
             -H "Authorization: Bearer ${{ steps.oidc.outputs.oidc_token }}" \
             -H "Accept: application/json" \
             | jq -e '.token'
+            
