@@ -95,8 +95,10 @@ class NeuroidReactnativeSdk: NSObject {
 
     @objc(start:withRejecter:)
     func start(resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        NeuroID.start() { result in 
-            resolve(result)
+        Task { @MainActor in
+            NeuroID.start() { result in 
+                resolve(result)
+            }
         }
     }
 
@@ -132,17 +134,21 @@ class NeuroidReactnativeSdk: NSObject {
 
     @objc(startSession:withResolver:withRejecter:)
     func startSession(sessionID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        NeuroID.startSession(sessionID)  { result in
-            let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
-            resolve(resultData)
+        Task { @MainActor in
+            NeuroID.startSession(sessionID)  { result in
+                let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
+                resolve(resultData)
+            }
         }
     }
     
     @objc(startAppFlow:userID:withResolver:withRejecter:)
     func startAppFlow(siteID: String, userID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        NeuroID.startAppFlow(siteID: siteID, sessionID: userID) { result in
-            let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
-            resolve(resultData)
+        Task { @MainActor in
+            NeuroID.startAppFlow(siteID: siteID, sessionID: userID) { result in
+                let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
+                resolve(resultData)
+            }
         }
     }
 }
