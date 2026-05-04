@@ -103,9 +103,11 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(stop:withRejecter:)
-    func stop(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let result = NeuroID.stop()
-        resolve(result)
+    func stop(resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        Task { @MainActor in
+            let result = NeuroID.stop()
+            resolve(result)
+        }
     }
 
     @objc(registerPageTargets:withRejecter:)
