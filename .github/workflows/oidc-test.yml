@@ -7,52 +7,38 @@ jobs:
   oidc-smoke:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: read
 
     steps:
       - uses: actions/checkout@v6
 
-      - name: Request GitHub OIDC token for npm
-        id: oidc
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Validate npm token is configured
         run: |
-          RESP=$(curl -sSf -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=npm:registry.npmjs.org")
-          OIDC_TOKEN=$(echo "$RESP" | jq -r '.value')
-          if [ -z "$OIDC_TOKEN" ] || [ "$OIDC_TOKEN" = "null" ]; then
-            echo "Failed to mint OIDC token"
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "Missing npm access token. Add repository secret NPM_TOKEN."
             exit 1
           fi
-          # Decode and print JWT payload (base64, no secrets exposed since this is the claims)
-          echo "$OIDC_TOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq .
-          echo "oidc_token=$OIDC_TOKEN" >> $GITHUB_OUTPUT
+          echo "npm token is present"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Exchange OIDC token with npm (debug response)
+      - name: Authenticate to npm and verify identity
         run: |
           set -euo pipefail
+          npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-          URL="https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/neuroid-reactnative-sdk"
-
-          HTTP_CODE=$(curl -sS -X POST "$URL" \
-            -H "Authorization: Bearer ${{ steps.oidc.outputs.oidc_token }}" \
-            -H "Accept: application/json" \
-            -D /tmp/npm-oidc-headers.txt \
-            -o /tmp/npm-oidc-body.json \
-            -w "%{http_code}")
-
-          echo "npm exchange HTTP status: $HTTP_CODE"
-          echo "npm response headers:"
-          cat /tmp/npm-oidc-headers.txt
-
-          echo "npm response body:"
-          cat /tmp/npm-oidc-body.json
-          echo
-          jq . /tmp/npm-oidc-body.json || true
-
-          # Keep failing the job on non-2xx, but only after printing details
-          if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then
-            exit 1
-          fi
-
-          # On success, ensure token is present
-          jq -e ".token" /tmp/npm-oidc-body.json > /dev/null
+      - name: Smoke publish (dry-run only)
+        run: |
+          set -euo pipefail
+          npm publish --dry-run --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
