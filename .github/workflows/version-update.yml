@@ -5,10 +5,11 @@ on:
     inputs:
       versionUpdate:
         description: >
-          Choose the type of version update:            
-          ** major: Cross platform breaking changes                                   
-          ** minor: Cross platform minor changes                    
+          Choose the npm package version update type:
+          ** major: Cross-platform breaking changes
+          ** minor: Cross-platform minor changes
           ** patch: Changes affecting only this platform
+          ** none: Do not update the npm package version
         required: true
         default: 'patch'
         type: choice
@@ -16,6 +17,7 @@ on:
           - major
           - minor
           - patch
+          - none
       androidSdkVersion:
         description: 'Enter the NeuroID Android SDK version tag:'
         required: true
@@ -40,6 +42,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Update version
+        if: ${{ env.RELEASE_TYPE != 'none' }}
         run: npm version ${{ env.RELEASE_TYPE }} --no-git-tag-version
 
       - name: Read package version
