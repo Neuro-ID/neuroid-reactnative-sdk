@@ -385,9 +385,9 @@ describe("NeuroID SDK", () => {
       expect(native["identify"]).toHaveBeenCalledWith("session-abc");
     });
 
-    it("rejects false when native returns falsy", async () => {
-      native["identify"]!.mockReturnValue(null);
-      await expect(NeuroID.identify("session-abc")).rejects.toBe(false);
+    it("resolves false when native returns false", async () => {
+      native["identify"]!.mockReturnValue(false);
+      await expect(NeuroID.identify("session-abc")).resolves.toBe(false);
     });
   });
 

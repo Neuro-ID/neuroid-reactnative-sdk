@@ -138,19 +138,9 @@ export const NeuroID: NeuroIDClass = {
     });
   },
 
-  identify: function identify(userID: string): Promise<boolean> {
-    NeuroIDLog.i("Identify : ", userID);
-
-    return new Promise((resolve, reject) => {
-      const result = NeuroidReactnativeSdk.identify(userID);
-
-      if (result) {
-        resolve(true);
-      } else {
-        NeuroIDLog.e("Failed to identify session ID");
-        reject(false);
-      }
-    });
+  identify: function identify(sessionID: string): Promise<boolean> {
+    NeuroIDLog.i("Identify : ", sessionID);
+    return NeuroidReactnativeSdk.identify(sessionID);
   },
 
   setRegisteredUserID: function setRegisteredUserID(

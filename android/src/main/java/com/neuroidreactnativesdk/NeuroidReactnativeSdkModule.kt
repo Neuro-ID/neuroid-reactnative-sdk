@@ -92,8 +92,8 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun identify(userID: String, promise: Promise) {
-        val result = NeuroID.getInstance()?.identify(userID) ?: false
+    fun identify(sessionID: String, promise: Promise) {
+        val result = NeuroID.getInstance()?.identify(sessionID) ?: false
         promise.resolve(result)
     }
 
