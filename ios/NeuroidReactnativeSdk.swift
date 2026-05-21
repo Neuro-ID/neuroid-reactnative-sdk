@@ -76,8 +76,8 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(identify:withResolver:withRejecter:)
-    func identify(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let identifyResult = NeuroID.identify(userID)
+    func identify(sessiondID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        let identifyResult = NeuroID.identify(sessionID)
         resolve(identifyResult)
     }
 
