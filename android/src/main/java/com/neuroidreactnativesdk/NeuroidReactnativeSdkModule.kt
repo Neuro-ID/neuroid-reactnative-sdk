@@ -87,23 +87,26 @@ class NeuroidReactnativeSdkModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun setUserID(id: String, promise: Promise) {
-        var result = NeuroID.getInstance()?.setUserID(id)
-        result?.let { promise.resolve(it) }
-        promise.resolve(false)
+        val result = NeuroID.getInstance()?.setUserID(id) ?: false
+        promise.resolve(result)
+    }
+
+    @ReactMethod
+    fun identify(sessionID: String, promise: Promise) {
+        val result = NeuroID.getInstance()?.identify(sessionID) ?: false
+        promise.resolve(result)
     }
 
     @ReactMethod
     fun setRegisteredUserID(id: String, promise: Promise) {
-        var result = NeuroID.getInstance()?.setRegisteredUserID(id)
-        result?.let { promise.resolve(it) }
-        promise.resolve(false)
+        val result = NeuroID.getInstance()?.setRegisteredUserID(id) ?: false
+        promise.resolve(result)
     }
 
     @ReactMethod
     fun attemptedLogin(id: String?, promise: Promise) {
-        var result = NeuroID.getInstance()?.attemptedLogin(id)
-        result?.let { promise.resolve(it) }
-        promise.resolve(false)
+        val result = NeuroID.getInstance()?.attemptedLogin(id) ?: false
+        promise.resolve(result)
     }
 
     @ReactMethod

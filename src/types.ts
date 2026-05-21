@@ -11,13 +11,17 @@ export interface NeuroIDClass {
   getSDKVersion: () => Promise<string>; // JS side not native
   getScreenName: () => Promise<string>; // ios, NOT Android
   getSessionID: () => Promise<string>;
+  /** @deprecated Use identify(sessionId) when setting user identity and capture sessionID from startSession/startAppFlow for retrieval. */
   getUserID: () => Promise<string>;
   getRegisteredUserID: () => Promise<string>;
 
   isStopped: () => Promise<boolean>;
   setScreenName: (screenName: string) => Promise<boolean>;
+  /** @deprecated Use identify(sessionId) instead. */
   setUserID: (userID: string) => Promise<boolean>;
+  identify: (sessionID: string) => Promise<boolean>;
   setRegisteredUserID: (userID: string) => Promise<boolean>;
+  /** @deprecated Use identify(sessionId) instead. */
   attemptedLogin: (userID: string) => Promise<boolean>;
   setVariable(key: string, value: string): Promise<void>;
 
@@ -30,6 +34,7 @@ export interface NeuroIDClass {
   stopSession: () => Promise<boolean>;
   resumeCollection: () => Promise<void>;
   pauseCollection: () => Promise<void>;
+  /** @deprecated Use startSession(sessionID?) instead. */
   startAppFlow: (
     siteID: string,
     userID?: string

@@ -7,7 +7,7 @@ import type {
 import { version } from "../package.json";
 import NeuroIDLog from "./logger";
 
-const LINKING_ERROR =
+const getLinkingError = () =>
   `The package 'neuroid-reactnative-sdk' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: "" }) +
   "- You rebuilt the app after installing the package\n" +
@@ -19,7 +19,7 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       {},
       {
         get() {
-          throw new Error(LINKING_ERROR);
+          throw new Error(getLinkingError());
         },
       }
     );
@@ -98,6 +98,7 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
   },
 
+  /** @deprecated Use getSessionId() instead. */
   getUserID: function getUserID(): Promise<string> {
     return Promise.resolve(NeuroidReactnativeSdk.getUserID());
   },
@@ -115,6 +116,7 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
   },
 
+  /** @deprecated Use identify(sessionId) instead. */
   setUserID: function setUserID(userID: string): Promise<boolean> {
     NeuroIDLog.i("Setting User ID: ", userID);
 
@@ -125,6 +127,21 @@ export const NeuroID: NeuroIDClass = {
         resolve(true);
       } else {
         NeuroIDLog.e("Failed to set user ID");
+        reject(false);
+      }
+    });
+  },
+
+  identify: function identify(sessionID: string): Promise<boolean> {
+    NeuroIDLog.i("Identify : ", sessionID);
+
+    return new Promise((resolve, reject) => {
+      const result = NeuroidReactnativeSdk.identify(sessionID);
+
+      if (result) {
+        resolve(true);
+      } else {
+        NeuroIDLog.e("Failed to identify session ID");
         reject(false);
       }
     });
@@ -147,6 +164,7 @@ export const NeuroID: NeuroIDClass = {
     });
   },
 
+  /** @deprecated */
   attemptedLogin: function attemptedLogin(userID: string): Promise<boolean> {
     NeuroIDLog.i("Attempted Login User ID: ", userID);
 
@@ -241,6 +259,7 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve();
   },
 
+  /** @deprecated Use startSession(sessionID?) instead. */
   startAppFlow: async function startAppFlow(
     siteID: string,
     userID?: string
