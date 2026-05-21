@@ -55,6 +55,7 @@ export interface NeuroIDLogClass {
   d: (...message: string[]) => void;
   i: (...message: string[]) => void;
   e: (...message: string[]) => void;
+  w: (...message: string[]) => void;
 }
 
 export interface SessionStartResult {

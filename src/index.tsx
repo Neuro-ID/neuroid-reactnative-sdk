@@ -100,6 +100,9 @@ export const NeuroID: NeuroIDClass = {
 
   /** @deprecated Use getSessionId() instead. */
   getUserID: function getUserID(): Promise<string> {
+    NeuroIDLog.w(
+      "getUserId() is deprecated and will be removed in the next major version. Replace with getSessionID()"
+    );
     return Promise.resolve(NeuroidReactnativeSdk.getUserID());
   },
 
@@ -116,8 +119,11 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
   },
 
-  /** @deprecated Use identify(sessionId) instead. */
+  /** @deprecated Use identify(userID) instead. */
   setUserID: function setUserID(userID: string): Promise<boolean> {
+    NeuroIDLog.w(
+      "setUserID() is deprecated and will be removed in the next major version. Replace with identify()"
+    );
     NeuroIDLog.i("Setting User ID: ", userID);
 
     return new Promise((resolve, reject) => {
@@ -132,11 +138,11 @@ export const NeuroID: NeuroIDClass = {
     });
   },
 
-  identify: function identify(sessionID: string): Promise<boolean> {
-    NeuroIDLog.i("Identify : ", sessionID);
+  identify: function identify(userID: string): Promise<boolean> {
+    NeuroIDLog.i("Identify : ", userID);
 
     return new Promise((resolve, reject) => {
-      const result = NeuroidReactnativeSdk.identify(sessionID);
+      const result = NeuroidReactnativeSdk.identify(userID);
 
       if (result) {
         resolve(true);
@@ -166,6 +172,9 @@ export const NeuroID: NeuroIDClass = {
 
   /** @deprecated */
   attemptedLogin: function attemptedLogin(userID: string): Promise<boolean> {
+    NeuroIDLog.w(
+      "attemptedLogin() is deprecated and will be removed in the next major version."
+    );
     NeuroIDLog.i("Attempted Login User ID: ", userID);
 
     return new Promise((resolve, reject) => {
@@ -259,11 +268,14 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve();
   },
 
-  /** @deprecated Use startSession(sessionID?) instead. */
+  /** @deprecated */
   startAppFlow: async function startAppFlow(
     siteID: string,
     userID?: string
   ): Promise<SessionStartResult> {
+    NeuroIDLog.w(
+      "startAppFlow() is deprecated and will be removed in the next major version."
+    );
     const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
     NeuroIDLog.d("startAppFlow(): " + result.sessionID + " " + result.started);
     return Promise.resolve({
