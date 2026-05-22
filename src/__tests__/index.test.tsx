@@ -380,13 +380,13 @@ describe("NeuroID SDK", () => {
   // ── identify ───────────────────────────────────────────────────────────────
   describe("identify", () => {
     it("resolves true when native returns truthy", async () => {
-      native["identify"]!.mockReturnValue(true);
+      native["identify"]!.mockResolvedValue(true);
       await expect(NeuroID.identify("session-abc")).resolves.toBe(true);
       expect(native["identify"]).toHaveBeenCalledWith("session-abc");
     });
 
     it("resolves false when native returns false", async () => {
-      native["identify"]!.mockReturnValue(false);
+      native["identify"]!.mockResolvedValue(false);
       await expect(NeuroID.identify("session-abc")).resolves.toBe(false);
     });
   });
