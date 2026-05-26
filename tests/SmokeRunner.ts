@@ -49,7 +49,7 @@ export async function runSmoke(): Promise<void> {
     { name: "registerPageTargets", run: () => NeuroID.registerPageTargets() },
     { name: "setupPage", run: () => NeuroID.setupPage("SetupPageScreen") },
     { name: "isStopped", run: () => !NeuroID.isStopped() },
-    { name: "identify", run: () => !NeuroID.identify("smoke_user_123") },
+    { name: "identify", run: () => NeuroID.identify("smoke_user_123") },
     { name: "pauseCollection", run: () => NeuroID.pauseCollection() },
     { name: "resumeCollection", run: () => NeuroID.resumeCollection() },
     { name: "stopSession", run: () => NeuroID.stopSession() },
