@@ -7,7 +7,7 @@ import type {
 import { version } from "../package.json";
 import NeuroIDLog from "./logger";
 
-const LINKING_ERROR =
+const getLinkingError = () =>
   `The package 'neuroid-reactnative-sdk' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: "" }) +
   "- You rebuilt the app after installing the package\n" +
@@ -19,7 +19,7 @@ const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
       {},
       {
         get() {
-          throw new Error(LINKING_ERROR);
+          throw new Error(getLinkingError());
         },
       }
     );
@@ -98,7 +98,11 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
   },
 
+  /** @deprecated Use getSessionId() instead. */
   getUserID: function getUserID(): Promise<string> {
+    NeuroIDLog.w(
+      "getUserId() is deprecated and will be removed in the next major version. Replace with getSessionID()"
+    );
     return Promise.resolve(NeuroidReactnativeSdk.getUserID());
   },
 
@@ -115,7 +119,11 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
   },
 
+  /** @deprecated Use identify(userID) instead. */
   setUserID: function setUserID(userID: string): Promise<boolean> {
+    NeuroIDLog.w(
+      "setUserID() is deprecated and will be removed in the next major version. Replace with identify()"
+    );
     NeuroIDLog.i("Setting User ID: ", userID);
 
     return new Promise((resolve, reject) => {
@@ -128,6 +136,11 @@ export const NeuroID: NeuroIDClass = {
         reject(false);
       }
     });
+  },
+
+  identify: function identify(sessionID: string): Promise<boolean> {
+    NeuroIDLog.i("Identify : ", sessionID);
+    return NeuroidReactnativeSdk.identify(sessionID);
   },
 
   setRegisteredUserID: function setRegisteredUserID(
@@ -147,7 +160,11 @@ export const NeuroID: NeuroIDClass = {
     });
   },
 
+  /** @deprecated */
   attemptedLogin: function attemptedLogin(userID: string): Promise<boolean> {
+    NeuroIDLog.w(
+      "attemptedLogin() is deprecated and will be removed in the next major version."
+    );
     NeuroIDLog.i("Attempted Login User ID: ", userID);
 
     return new Promise((resolve, reject) => {
@@ -241,10 +258,14 @@ export const NeuroID: NeuroIDClass = {
     return Promise.resolve();
   },
 
+  /** @deprecated */
   startAppFlow: async function startAppFlow(
     siteID: string,
     userID?: string
   ): Promise<SessionStartResult> {
+    NeuroIDLog.w(
+      "startAppFlow() is deprecated and will be removed in the next major version."
+    );
     const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
     NeuroIDLog.d("startAppFlow(): " + result.sessionID + " " + result.started);
     return Promise.resolve({

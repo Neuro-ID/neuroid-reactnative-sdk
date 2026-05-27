@@ -25,6 +25,11 @@ export const NeuroIDLog: NeuroIDLogClass = {
       console.error("****** NeuroID ERROR: ******\n", message);
     }
   },
+  w: function e(...message: string[]) {
+    if (showlogs) {
+      console.warn("****** NeuroID WARNING: ******\n", message);
+    }
+  },
 };
 
 export default NeuroIDLog;

@@ -21,6 +21,7 @@ jest.mock("react-native", () => ({
       isStopped: jest.fn(),
       setScreenName: jest.fn(),
       setUserID: jest.fn(),
+      identify: jest.fn(),
       setRegisteredUserID: jest.fn(),
       attemptedLogin: jest.fn(),
       setVariable: jest.fn(),
@@ -373,6 +374,20 @@ describe("NeuroID SDK", () => {
     it("rejects false when native returns falsy", async () => {
       native["setUserID"]!.mockReturnValue(null);
       await expect(NeuroID.setUserID("user-abc")).rejects.toBe(false);
+    });
+  });
+
+  // ── identify ───────────────────────────────────────────────────────────────
+  describe("identify", () => {
+    it("resolves true when native returns truthy", async () => {
+      native["identify"]!.mockResolvedValue(true);
+      await expect(NeuroID.identify("session-abc")).resolves.toBe(true);
+      expect(native["identify"]).toHaveBeenCalledWith("session-abc");
+    });
+
+    it("resolves false when native returns false", async () => {
+      native["identify"]!.mockResolvedValue(false);
+      await expect(NeuroID.identify("session-abc")).resolves.toBe(false);
     });
   });
 

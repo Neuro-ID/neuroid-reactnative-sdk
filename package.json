@@ -1,6 +1,6 @@
 {
   "name": "neuroid-reactnative-sdk",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Official NeuroID React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -99,5 +99,6 @@
         }
       ]
     ]
-  }
+  },
+  "dependencies": {}
 }
