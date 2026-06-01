@@ -199,7 +199,7 @@ jobs:
           rm -rf "${{ env.APP_DIR }}"
           cd "${{ env.APPS_PATH }}"
 
-          npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" --use-npm \
+          npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
 
@@ -210,7 +210,7 @@ jobs:
 
       - name: Install JS Dependencies
         working-directory: ${{ env.APP_DIR }}
-        run: npm ci
+        run: npm i
 
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
