@@ -199,7 +199,7 @@ jobs:
           rm -rf "${{ env.APP_DIR }}"
           cd "${{ env.APPS_PATH }}"
 
-          npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
+          npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" --use-npm \
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
 
