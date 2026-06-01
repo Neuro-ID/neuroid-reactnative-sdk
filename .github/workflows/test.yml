@@ -54,9 +54,20 @@ jobs:
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
 
+      - name: Pack local NeuroID SDK
+        run: |
+          cd "${{ env.SDK_PATH }}"
+          npm pack --ignore-scripts
+          SDK_TGZ_PATH="${{ env.SDK_PATH }}/$(ls -t neuroid-reactnative-sdk-*.tgz | head -n 1)"
+          echo "SDK_TGZ_PATH=$SDK_TGZ_PATH" >> $GITHUB_ENV
+
       - name: Install JS Dependencies
         working-directory: ${{ env.APP_DIR }}
         run: npm i
+
+      - name: Install RN CLI for autolinking
+        working-directory: ${{ env.APP_DIR }}
+        run: npm install --save-dev @react-native-community/cli@latest
 
       - name: create directory for metro assets in the test app
         working-directory: ${{ env.APP_DIR }}
@@ -79,7 +90,7 @@ jobs:
 
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
-        run: npm install --ignore-scripts "file:${{ env.SDK_PATH }}"
+        run: npm install "${{ env.SDK_TGZ_PATH }}"
 
       - name: Copy Smoke Test Files
         run: |
@@ -203,6 +214,13 @@ jobs:
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
 
+      - name: Pack local NeuroID SDK
+        run: |
+          cd "${{ env.SDK_PATH }}"
+          npm pack --ignore-scripts
+          SDK_TGZ_PATH="${{ env.SDK_PATH }}/$(ls -t neuroid-reactnative-sdk-*.tgz | head -n 1)"
+          echo "SDK_TGZ_PATH=$SDK_TGZ_PATH" >> $GITHUB_ENV
+
       - name: Select Xcode Version
         run: |
           ls /Applications/ | grep Xcode
@@ -212,9 +230,13 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: npm i
 
+      - name: Install RN CLI for autolinking
+        working-directory: ${{ env.APP_DIR }}
+        run: npm install --save-dev @react-native-community/cli@latest
+
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
-        run: npm install --ignore-scripts "file:${{ env.SDK_PATH }}"
+        run: npm install "${{ env.SDK_TGZ_PATH }}"
 
       - name: Update Podfile with NeuroID iOS SDK
         working-directory: ${{ env.APP_DIR }}/ios
