@@ -29,7 +29,7 @@
     "lint:fix": "eslint --fix ./src ./tests *.js",
     "prepare": "bob build && husky",
     "typecheck": "tsc --noEmit",
-    "bootstrap": "yarn"
+    "bootstrap": "npm i"
   },
   "keywords": [
     "react-native",
