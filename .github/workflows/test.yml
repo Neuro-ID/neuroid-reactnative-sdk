@@ -56,7 +56,7 @@ jobs:
 
       - name: Install JS Dependencies
         working-directory: ${{ env.APP_DIR }}
-        run: npm ci
+        run: npm i
 
       - name: create directory for metro assets in the test app
         working-directory: ${{ env.APP_DIR }}
@@ -79,7 +79,7 @@ jobs:
 
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
-        run: npm install "file:${{ env.SDK_PATH }}"
+        run: npm install --ignore-scripts "file:${{ env.SDK_PATH }}"
 
       - name: Copy Smoke Test Files
         run: |
@@ -214,7 +214,7 @@ jobs:
 
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
-        run: npm install "file:${{ env.SDK_PATH }}"
+        run: npm install --ignore-scripts "file:${{ env.SDK_PATH }}"
 
       - name: Update Podfile with NeuroID iOS SDK
         working-directory: ${{ env.APP_DIR }}/ios
