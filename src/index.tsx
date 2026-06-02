@@ -29,7 +29,13 @@ let usingRNNavigation = false;
 type NativeConfigOptions = Partial<NeuroIDConfigOptions> & {
   rnVersion: string;
 };
+const registerPageTargetsInternal = (): Promise<void> => {
+  if (Platform.OS === "ios" && usingRNNavigation) {
+    return Promise.resolve();
+  }
 
+  return NeuroidReactnativeSdk.registerPageTargets();
+};
 export const NeuroID: NeuroIDClass = {
   configure: async function configure(
     apiKey: string,
@@ -209,11 +215,7 @@ export const NeuroID: NeuroIDClass = {
     NeuroIDLog.w(
       "registerPageTargets() is deprecated and will be removed in the next major version. /n Use setupScreen() independently to replicate this functionality."
     );
-    if (Platform.OS === "ios" && usingRNNavigation) {
-      return Promise.resolve();
-    }
-
-    return NeuroidReactnativeSdk.registerPageTargets();
+    return registerPageTargetsInternal();
   },
 
   setupPage: async function setupPage(screenName: string): Promise<void> {
@@ -222,7 +224,7 @@ export const NeuroID: NeuroIDClass = {
     );
     await NeuroidReactnativeSdk.setScreenName(screenName);
 
-    return NeuroidReactnativeSdk.registerPageTargets();
+    return registerPageTargetsInternal();
   },
 
   startSession: async function startSession(
