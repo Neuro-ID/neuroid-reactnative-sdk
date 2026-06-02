@@ -52,12 +52,7 @@ export const NeuroID: NeuroIDClass = {
       rnVersion: detectedVersion,
     };
 
-    const configured = await NeuroidReactnativeSdk.configure(
-      apiKey,
-      optionsWithRNVersion
-    );
-
-    return Promise.resolve(configured);
+    return NeuroidReactnativeSdk.configure(apiKey, optionsWithRNVersion);
   },
 
   enableLogging: function enableLogging(enable?: boolean): Promise<void> {
