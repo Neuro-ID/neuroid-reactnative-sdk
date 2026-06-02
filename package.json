@@ -1,6 +1,6 @@
 {
   "name": "neuroid-reactnative-sdk",
-  "version": "4.1.1",
+  "version": "4.1.0",
   "description": "Official NeuroID React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -29,7 +29,7 @@
     "lint:fix": "eslint --fix ./src ./tests *.js",
     "prepare": "bob build && husky",
     "typecheck": "tsc --noEmit",
-    "bootstrap": "yarn"
+    "bootstrap": "npm i"
   },
   "keywords": [
     "react-native",
