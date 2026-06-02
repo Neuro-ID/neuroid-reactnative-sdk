@@ -73,17 +73,15 @@ export const NeuroID: NeuroIDClass = {
   excludeViewByTestID: function excludeViewByTestID(
     excludedView: string
   ): Promise<void> {
-    return Promise.resolve(
-      NeuroidReactnativeSdk.excludeViewByTestID(excludedView)
-    );
+    return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
   },
 
   getClientID: function getClientID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getClientID());
+    return NeuroidReactnativeSdk.getClientID();
   },
 
   getEnvironment: function getEnvironment(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getEnvironment());
+    return NeuroidReactnativeSdk.getEnvironment();
   },
 
   getSDKVersion: function getSDKVersion(): Promise<string> {
@@ -91,11 +89,11 @@ export const NeuroID: NeuroIDClass = {
   },
 
   getScreenName: function getScreenName(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getScreenName());
+    return NeuroidReactnativeSdk.getScreenName();
   },
 
   getSessionID: function getSessionID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
+    return NeuroidReactnativeSdk.getSessionID();
   },
 
   /** @deprecated Use getSessionId() instead. */
@@ -103,20 +101,20 @@ export const NeuroID: NeuroIDClass = {
     NeuroIDLog.w(
       "getUserId() is deprecated and will be removed in the next major version. Replace with getSessionID()"
     );
-    return Promise.resolve(NeuroidReactnativeSdk.getUserID());
+    return NeuroidReactnativeSdk.getUserID();
   },
 
   getRegisteredUserID: function getUserID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getRegisteredUserID());
+    return NeuroidReactnativeSdk.getRegisteredUserID();
   },
 
   isStopped: function isStopped(): Promise<boolean> {
-    return Promise.resolve(NeuroidReactnativeSdk.isStopped());
+    return NeuroidReactnativeSdk.isStopped();
   },
 
   setScreenName: function setScreenName(screenName: string): Promise<boolean> {
     NeuroIDLog.d("setScreenName()", screenName);
-    return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
+    return NeuroidReactnativeSdk.setScreenName(screenName);
   },
 
   /** @deprecated Use identify(userID) instead. */
@@ -213,14 +211,11 @@ export const NeuroID: NeuroIDClass = {
   },
 
   registerPageTargets: function registerPageTargets(): Promise<void> {
-    if (Platform.OS === "ios") {
-      if (!usingRNNavigation) {
-        return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
-      } else {
-        return Promise.resolve();
-      }
+    if (Platform.OS === "ios" && usingRNNavigation) {
+      return Promise.resolve();
+    } else {
+      return NeuroidReactnativeSdk.registerPageTargets();
     }
-    return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
   },
 
   setupPage: async function setupPage(screenName: string): Promise<void> {
