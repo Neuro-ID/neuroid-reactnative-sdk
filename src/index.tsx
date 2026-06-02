@@ -114,7 +114,7 @@ export const NeuroID: NeuroIDClass = {
 
   setScreenName: function setScreenName(screenName: string): Promise<boolean> {
     NeuroIDLog.d("setScreenName()", screenName);
-    return NeuroidReactnativeSdk.setScreenName(screenName);
+    return NeuroidReactnativeSdk.setScreenName();
   },
 
   /** @deprecated Use identify(userID) instead. */
@@ -211,17 +211,23 @@ export const NeuroID: NeuroIDClass = {
   },
 
   registerPageTargets: function registerPageTargets(): Promise<void> {
+    NeuroIDLog.w(
+      "registerPageTargets() is deprecated and will be removed in the next major version. /n Use setupScreen() independently to replicate this functionality."
+    );
     if (Platform.OS === "ios" && usingRNNavigation) {
       return Promise.resolve();
-    } else {
-      return NeuroidReactnativeSdk.registerPageTargets();
     }
+
+    return NeuroidReactnativeSdk.registerPageTargets();
   },
 
   setupPage: async function setupPage(screenName: string): Promise<void> {
-    await Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
+    NeuroIDLog.w(
+      "setupPage() is deprecated and will be removed in the next major version. /n Use setupScreen() independently to replicate this functionality."
+    );
+    await NeuroidReactnativeSdk.setScreenName(screenName);
 
-    return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+    return NeuroidReactnativeSdk.registerPageTargets();
   },
 
   startSession: async function startSession(
