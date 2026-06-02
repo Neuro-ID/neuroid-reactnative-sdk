@@ -217,7 +217,7 @@ export const NeuroID: NeuroIDClass = {
     );
     return registerPageTargetsInternal();
   },
-
+  /** @deprecated Use setScreenName(sessionId) instead. */
   setupPage: async function setupPage(screenName: string): Promise<void> {
     NeuroIDLog.w(
       "setupPage() is deprecated and will be removed in the next major version. /n Use setupScreen() independently to replicate this functionality."
