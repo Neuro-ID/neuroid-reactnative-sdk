@@ -115,6 +115,9 @@ export const NeuroID: NeuroIDClass = {
 
   setScreenName: function setScreenName(screenName: string): Promise<boolean> {
     NeuroIDLog.d("setScreenName()", screenName);
+    registerPageTargetsInternal().catch((err) => {
+      NeuroIDLog.e("registerPageTargets failed", err);
+    });
     return NeuroidReactnativeSdk.setScreenName(screenName);
   },
 
