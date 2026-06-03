@@ -23,7 +23,7 @@ const NeuroidReactnativeSdk: Spec = NativeModule
           throw new Error(getLinkingError());
         },
       }
-    ) as unknown as Spec);
+    ) as Spec);
 
 let usingRNNavigation = false;
 
