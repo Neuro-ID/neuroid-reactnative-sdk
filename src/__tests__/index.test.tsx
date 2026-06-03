@@ -114,7 +114,6 @@ afterAll(() => {
 beforeEach(async () => {
   // Reset module-level usingRNNavigation flag to false before every test.
   // clearMocks (jest config) already cleared call counts; this resets SDK state.
-  native.configure.mockResolvedValue(true);
   await NeuroID.configure(VALID_LIVE_KEY, DEFAULT_CONFIG);
   // Clear the counts produced by the state-reset configure call above
   jest.clearAllMocks();
@@ -392,11 +391,26 @@ describe("NeuroID SDK", () => {
 
   // ── setScreenName ───────────────────────────────────────────────────────────
   describe("setScreenName", () => {
-    it("delegates to native with the screen name and resolves the result", async () => {
+    it("delegates to native with the screen name and registerPageTargets, resolves the result", async () => {
       native.setScreenName!.mockResolvedValue(true);
       native.registerPageTargets!.mockResolvedValue();
       const result = await NeuroID.setScreenName("LoginScreen");
       expect(native.setScreenName).toHaveBeenCalledWith("LoginScreen");
+      expect(native.registerPageTargets).toHaveBeenCalled();
+      expect(result).toBe(true);
+    });
+    it("delegates to native with the screen name and skips registerPageTargets, resolves the result", async () => {
+      native.setScreenName!.mockResolvedValue(true);
+      native.registerPageTargets!.mockResolvedValue();
+      const opts = {
+        ...DEFAULT_CONFIG,
+        isAdvancedDevice: true,
+        usingReactNavigation: true,
+      };
+      await NeuroID.configure(VALID_LIVE_KEY, opts);
+      const result = await NeuroID.setScreenName("LoginScreen");
+      expect(native.setScreenName).toHaveBeenCalledWith("LoginScreen");
+      expect(native.registerPageTargets).not.toHaveBeenCalled();
       expect(result).toBe(true);
     });
   });
