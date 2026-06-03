@@ -34,7 +34,7 @@ const registerPageTargetsInternal = (): Promise<void> => {
     return Promise.resolve();
   }
 
-  return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+  return NeuroidReactnativeSdk.registerPageTargets();
 };
 export const NeuroID: NeuroIDClass = {
   configure: async function configure(
