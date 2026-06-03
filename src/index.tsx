@@ -1,9 +1,10 @@
-import { NativeModules, Platform } from "react-native";
+import { Platform } from "react-native";
 import type {
   NeuroIDClass,
   NeuroIDConfigOptions,
   SessionStartResult,
 } from "./types";
+import NativeModule, { type Spec } from "./NativeNeuroidReactnativeSdk";
 import { version } from "../package.json";
 import NeuroIDLog from "./logger";
 
@@ -13,16 +14,16 @@ const getLinkingError = () =>
   "- You rebuilt the app after installing the package\n" +
   "- You are not using Expo managed workflow\n";
 
-const NeuroidReactnativeSdk = NativeModules.NeuroidReactnativeSdk
-  ? NativeModules.NeuroidReactnativeSdk
-  : new Proxy(
+const NeuroidReactnativeSdk: Spec = NativeModule
+  ? NativeModule
+  : (new Proxy(
       {},
       {
         get() {
           throw new Error(getLinkingError());
         },
       }
-    );
+    ) as unknown as Spec);
 
 let usingRNNavigation = false;
 
@@ -68,7 +69,9 @@ export const NeuroID: NeuroIDClass = {
       NeuroIDLog.i("Logging Enabled");
     }
 
-    return Promise.resolve(NeuroidReactnativeSdk.enableLogging(enable));
+    return Promise.resolve(
+      NeuroidReactnativeSdk.enableLogging(enable ?? false)
+    );
   },
 
   excludeViewByTestID: function excludeViewByTestID(
@@ -122,22 +125,19 @@ export const NeuroID: NeuroIDClass = {
   },
 
   /** @deprecated Use identify(userID) instead. */
-  setUserID: function setUserID(userID: string): Promise<boolean> {
+  setUserID: async function setUserID(userID: string): Promise<boolean> {
     NeuroIDLog.w(
       "setUserID() is deprecated and will be removed in the next major version. Replace with identify()"
     );
     NeuroIDLog.i("Setting User ID: ", userID);
 
-    return new Promise((resolve, reject) => {
-      const result = NeuroidReactnativeSdk.setUserID(userID);
+    const result = await NeuroidReactnativeSdk.setUserID(userID);
+    if (result) {
+      return true;
+    }
 
-      if (result) {
-        resolve(true);
-      } else {
-        NeuroIDLog.e("Failed to set user ID");
-        reject(false);
-      }
-    });
+    NeuroIDLog.e("Failed to set user ID");
+    return Promise.reject(false);
   },
 
   identify: function identify(sessionID: string): Promise<boolean> {
@@ -145,40 +145,36 @@ export const NeuroID: NeuroIDClass = {
     return NeuroidReactnativeSdk.identify(sessionID);
   },
 
-  setRegisteredUserID: function setRegisteredUserID(
+  setRegisteredUserID: async function setRegisteredUserID(
     userID: string
   ): Promise<boolean> {
     NeuroIDLog.i("Setting Registered User ID: ", userID);
 
-    return new Promise((resolve, reject) => {
-      const result = NeuroidReactnativeSdk.setRegisteredUserID(userID);
+    const result = await NeuroidReactnativeSdk.setRegisteredUserID(userID);
+    if (result) {
+      return true;
+    }
 
-      if (result) {
-        resolve(true);
-      } else {
-        NeuroIDLog.e("Failed to set registered user ID");
-        reject(false);
-      }
-    });
+    NeuroIDLog.e("Failed to set registered user ID");
+    return Promise.reject(false);
   },
 
   /** @deprecated */
-  attemptedLogin: function attemptedLogin(userID: string): Promise<boolean> {
+  attemptedLogin: async function attemptedLogin(
+    userID: string
+  ): Promise<boolean> {
     NeuroIDLog.w(
       "attemptedLogin() is deprecated and will be removed in the next major version."
     );
     NeuroIDLog.i("Attempted Login User ID: ", userID);
 
-    return new Promise((resolve, reject) => {
-      const result = NeuroidReactnativeSdk.attemptedLogin(userID ?? "");
+    const result = await NeuroidReactnativeSdk.attemptedLogin(userID ?? "");
+    if (result) {
+      return true;
+    }
 
-      if (result) {
-        resolve(true);
-      } else {
-        NeuroIDLog.e("Failed to set attmpted login user ID");
-        reject(false);
-      }
-    });
+    NeuroIDLog.e("Failed to set attmpted login user ID");
+    return Promise.reject(false);
   },
 
   setVariable: async function setVariable(
@@ -194,7 +190,7 @@ export const NeuroID: NeuroIDClass = {
       const result = await Promise.resolve(NeuroidReactnativeSdk.start());
       const _cid = await NeuroidReactnativeSdk.getSessionID();
 
-      NeuroIDLog.d("NeuroID Started: ", result);
+      NeuroIDLog.d("NeuroID Started: " + String(result));
       NeuroIDLog.i("Client ID:", _cid);
       return result;
     } catch (e: unknown) {
@@ -206,7 +202,7 @@ export const NeuroID: NeuroIDClass = {
   stop: async function stop(): Promise<boolean> {
     try {
       const result = await Promise.resolve(NeuroidReactnativeSdk.stop());
-      NeuroIDLog.d("NeuroID Stopped: ", result);
+      NeuroIDLog.d("NeuroID Stopped: " + String(result));
       return result;
     } catch (e: unknown) {
       NeuroIDLog.e("Failed to stop NID", String(e));

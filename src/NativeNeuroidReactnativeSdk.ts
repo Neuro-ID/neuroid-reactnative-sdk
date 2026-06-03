@@ -1,0 +1,35 @@
+import { TurboModuleRegistry, type TurboModule } from "react-native";
+
+export interface Spec extends TurboModule {
+  configure(apiKey: string, options: object): Promise<boolean>;
+  enableLogging(enable: boolean): Promise<void>;
+  excludeViewByTestID(excludedView: string): Promise<void>;
+  getClientID(): Promise<string>;
+  getEnvironment(): Promise<string>;
+  getScreenName(): Promise<string>;
+  getSessionID(): Promise<string>;
+  getUserID(): Promise<string>;
+  getRegisteredUserID(): Promise<string>;
+  isStopped(): Promise<boolean>;
+  setScreenName(screenName: string): Promise<boolean>;
+  setUserID(userID: string): Promise<boolean>;
+  identify(sessionID: string): Promise<boolean>;
+  setRegisteredUserID(userID: string): Promise<boolean>;
+  attemptedLogin(userID?: string): Promise<boolean>;
+  setVariable(key: string, value: string): Promise<void>;
+  start(): Promise<boolean>;
+  stop(): Promise<boolean>;
+  registerPageTargets(): Promise<void>;
+  startSession(
+    sessionID?: string
+  ): Promise<{ sessionID: string; started: boolean }>;
+  stopSession(): Promise<boolean>;
+  pauseCollection(): Promise<void>;
+  resumeCollection(): Promise<void>;
+  startAppFlow(
+    siteID: string,
+    userID?: string
+  ): Promise<{ sessionID: string; started: boolean }>;
+}
+
+export default TurboModuleRegistry.get<Spec>("NeuroidReactnativeSdk");
