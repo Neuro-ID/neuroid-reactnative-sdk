@@ -29,7 +29,13 @@ let usingRNNavigation = false;
 type NativeConfigOptions = Partial<NeuroIDConfigOptions> & {
   rnVersion: string;
 };
+const registerPageTargetsInternal = (): Promise<void> => {
+  if (Platform.OS === "ios" && usingRNNavigation) {
+    return Promise.resolve();
+  }
 
+  return NeuroidReactnativeSdk.registerPageTargets();
+};
 export const NeuroID: NeuroIDClass = {
   configure: async function configure(
     apiKey: string,
@@ -52,12 +58,7 @@ export const NeuroID: NeuroIDClass = {
       rnVersion: detectedVersion,
     };
 
-    const configured = await NeuroidReactnativeSdk.configure(
-      apiKey,
-      optionsWithRNVersion
-    );
-
-    return Promise.resolve(configured);
+    return NeuroidReactnativeSdk.configure(apiKey, optionsWithRNVersion);
   },
 
   enableLogging: function enableLogging(enable?: boolean): Promise<void> {
@@ -73,17 +74,15 @@ export const NeuroID: NeuroIDClass = {
   excludeViewByTestID: function excludeViewByTestID(
     excludedView: string
   ): Promise<void> {
-    return Promise.resolve(
-      NeuroidReactnativeSdk.excludeViewByTestID(excludedView)
-    );
+    return NeuroidReactnativeSdk.excludeViewByTestID(excludedView);
   },
 
   getClientID: function getClientID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getClientID());
+    return NeuroidReactnativeSdk.getClientID();
   },
 
   getEnvironment: function getEnvironment(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getEnvironment());
+    return NeuroidReactnativeSdk.getEnvironment();
   },
 
   getSDKVersion: function getSDKVersion(): Promise<string> {
@@ -91,11 +90,11 @@ export const NeuroID: NeuroIDClass = {
   },
 
   getScreenName: function getScreenName(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getScreenName());
+    return NeuroidReactnativeSdk.getScreenName();
   },
 
   getSessionID: function getSessionID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getSessionID());
+    return NeuroidReactnativeSdk.getSessionID();
   },
 
   /** @deprecated Use getSessionId() instead. */
@@ -103,20 +102,23 @@ export const NeuroID: NeuroIDClass = {
     NeuroIDLog.w(
       "getUserId() is deprecated and will be removed in the next major version. Replace with getSessionID()"
     );
-    return Promise.resolve(NeuroidReactnativeSdk.getUserID());
+    return NeuroidReactnativeSdk.getUserID();
   },
 
   getRegisteredUserID: function getUserID(): Promise<string> {
-    return Promise.resolve(NeuroidReactnativeSdk.getRegisteredUserID());
+    return NeuroidReactnativeSdk.getRegisteredUserID();
   },
 
   isStopped: function isStopped(): Promise<boolean> {
-    return Promise.resolve(NeuroidReactnativeSdk.isStopped());
+    return NeuroidReactnativeSdk.isStopped();
   },
 
   setScreenName: function setScreenName(screenName: string): Promise<boolean> {
     NeuroIDLog.d("setScreenName()", screenName);
-    return Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
+    registerPageTargetsInternal().catch((err) => {
+      NeuroIDLog.e("registerPageTargets failed", err);
+    });
+    return NeuroidReactnativeSdk.setScreenName(screenName);
   },
 
   /** @deprecated Use identify(userID) instead. */
@@ -213,20 +215,19 @@ export const NeuroID: NeuroIDClass = {
   },
 
   registerPageTargets: function registerPageTargets(): Promise<void> {
-    if (Platform.OS === "ios") {
-      if (!usingRNNavigation) {
-        return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
-      } else {
-        return Promise.resolve();
-      }
-    }
-    return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+    NeuroIDLog.w(
+      "registerPageTargets() is deprecated and will be removed in the next major version. /n Use setupScreen() independently to replicate this functionality."
+    );
+    return registerPageTargetsInternal();
   },
-
+  /** @deprecated Use setScreenName(sessionId) instead. */
   setupPage: async function setupPage(screenName: string): Promise<void> {
-    await Promise.resolve(NeuroidReactnativeSdk.setScreenName(screenName));
+    NeuroIDLog.w(
+      "setupPage() is deprecated and will be removed in the next major version. /n Use setupScreen() independently to replicate this functionality."
+    );
+    await NeuroidReactnativeSdk.setScreenName(screenName);
 
-    return Promise.resolve(NeuroidReactnativeSdk.registerPageTargets());
+    return registerPageTargetsInternal();
   },
 
   startSession: async function startSession(

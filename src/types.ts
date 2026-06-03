@@ -27,8 +27,9 @@ export interface NeuroIDClass {
 
   start: () => Promise<boolean>;
   stop: () => Promise<boolean>;
-
+  /** @deprecated Use setScreenName(sessionId) instead. */
   registerPageTargets: () => Promise<void>;
+  /** @deprecated Use setScreenName(sessionId) instead. */
   setupPage: (screenName: string) => Promise<void>;
   startSession: (sessionID?: string) => Promise<SessionStartResult>;
   stopSession: () => Promise<boolean>;
