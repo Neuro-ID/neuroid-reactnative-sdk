@@ -84,7 +84,7 @@ type NativeSdkMock = {
 };
 
 /** Typed shortcut to all mock functions on the native module */
-const native = NativeModules.NeuroidReactnativeSdk as unknown as NativeSdkMock;
+const native = NativeModules.NeuroidReactnativeSdk as NativeSdkMock;
 
 const VALID_LIVE_KEY = "key_live_abc123";
 const VALID_TEST_KEY = "key_test_abc123";
