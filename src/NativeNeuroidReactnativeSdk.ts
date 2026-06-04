@@ -1,4 +1,8 @@
-import { TurboModuleRegistry, type TurboModule } from "react-native";
+import {
+  NativeModules,
+  TurboModuleRegistry,
+  type TurboModule,
+} from "react-native";
 
 export interface Spec extends TurboModule {
   configure(apiKey: string, options: object): Promise<boolean>;
@@ -32,4 +36,5 @@ export interface Spec extends TurboModule {
   ): Promise<{ sessionID: string; started: boolean }>;
 }
 
-export default TurboModuleRegistry.get<Spec>("NeuroidReactnativeSdk");
+export default TurboModuleRegistry?.get<Spec>("NeuroidReactnativeSdk") ??
+  (NativeModules?.NeuroidReactnativeSdk as Spec | null);
