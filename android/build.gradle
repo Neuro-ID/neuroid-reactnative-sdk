@@ -17,7 +17,17 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.facebook.react'
+// New Architecture support relies on the React Gradle plugin.
+// In a consuming React Native app this is usually provided via settings.gradle
+// includeBuild('@react-native/gradle-plugin'). When running this android folder
+// standalone, that host plugin wiring may be missing and this apply can fail.
+def reactGradlePluginApplied = false
+try {
+  apply plugin: 'com.facebook.react'
+  reactGradlePluginApplied = true
+} catch (Exception ignored) {
+  logger.lifecycle(':neuroid-reactnative-sdk React Gradle plugin not found; continuing without it (legacy architecture mode).')
+}
 
 def getExtOrDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['NeuroidReactnativeSdk_' + name]
@@ -30,6 +40,13 @@ def getExtOrIntegerDefault(name) {
 def isNewArchitectureEnabled() {
   return project.hasProperty("newArchEnabled") &&
     project.newArchEnabled.toString() == "true"
+}
+
+if (isNewArchitectureEnabled() && !reactGradlePluginApplied) {
+  throw new RuntimeException(
+    'newArchEnabled=true requires the React Gradle plugin (com.facebook.react). ' +
+      'Run from a React Native app context where @react-native/gradle-plugin is available, or disable newArchEnabled.'
+  )
 }
 
 android {
@@ -138,7 +155,7 @@ repositories {
   }
 
   if (!found) {
-    throw new GradleException(
+    throw new RuntimeException(
             "${project.name}: unable to locate React Native android sources. " +
                     "Ensure you have you installed React Native as a dependency in your project and try again."
     )
@@ -153,7 +170,7 @@ dependencies {
 
   implementation 'androidx.core:core-ktx:1.8.0'
   implementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:4.1.0'
-  
+
   implementation 'com.google.code.gson:gson:2.10.1'
   implementation("androidx.lifecycle:lifecycle-process:2.3.0")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
