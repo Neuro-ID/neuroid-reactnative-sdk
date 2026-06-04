@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { NativeModules, Platform } from "react-native";
 import type {
   NeuroIDClass,
   NeuroIDConfigOptions,
@@ -14,16 +14,18 @@ const getLinkingError = () =>
   "- You rebuilt the app after installing the package\n" +
   "- You are not using Expo managed workflow\n";
 
-const NeuroidReactnativeSdk: Spec = NativeModule
-  ? NativeModule
-  : (new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(getLinkingError());
-        },
-      }
-    ) as Spec);
+// Fallback chain: TurboModuleRegistry.getEnforcing() → NativeModules fallback → Proxy error
+const NeuroidReactnativeSdk: Spec =
+  NativeModule ??
+  (NativeModules?.NeuroidReactnativeSdk as Spec | null) ??
+  (new Proxy(
+    {},
+    {
+      get() {
+        throw new Error(getLinkingError());
+      },
+    }
+  ) as Spec);
 
 let usingRNNavigation = false;
 
@@ -43,7 +45,6 @@ export const NeuroID: NeuroIDClass = {
     configOptions?: NeuroIDConfigOptions
   ): Promise<boolean> {
     usingRNNavigation = !!configOptions?.usingReactNavigation;
-
     const pattern = /key_(live|test)_[A-Za-z0-9]+/;
     if (!pattern.test(apiKey)) {
       NeuroIDLog.e("Invalid API Key");

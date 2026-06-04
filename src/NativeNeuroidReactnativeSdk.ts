@@ -1,11 +1,15 @@
-import {
-  NativeModules,
-  TurboModuleRegistry,
-  type TurboModule,
-} from "react-native";
+import { TurboModuleRegistry, type TurboModule } from "react-native";
+
+export interface NeuroIDConfigOptions {
+  usingReactNavigation?: boolean;
+  isAdvancedDevice?: boolean;
+  environment?: string;
+  advancedDeviceKey?: string;
+  useAdvancedDeviceProxy?: boolean;
+}
 
 export interface Spec extends TurboModule {
-  configure(apiKey: string, options: object): Promise<boolean>;
+  configure(apiKey: string, options: NeuroIDConfigOptions): Promise<boolean>;
   enableLogging(enable: boolean): Promise<void>;
   excludeViewByTestID(excludedView: string): Promise<void>;
   getClientID(): Promise<string>;
@@ -36,5 +40,4 @@ export interface Spec extends TurboModule {
   ): Promise<{ sessionID: string; started: boolean }>;
 }
 
-export default TurboModuleRegistry?.get<Spec>("NeuroidReactnativeSdk") ??
-  (NativeModules?.NeuroidReactnativeSdk as Spec | null);
+export default TurboModuleRegistry.getEnforcing<Spec>("NeuroidReactnativeSdk");

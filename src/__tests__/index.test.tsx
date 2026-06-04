@@ -1,43 +1,42 @@
-import { NativeModules, Platform } from "react-native";
-import { NeuroID } from "../index";
+import { Platform } from "react-native";
 import { version } from "../../package.json";
 
-// ─── Mock react-native ────────────────────────────────────────────────────────
-// All NeuroidReactnativeSdk native methods are replaced with jest.fn() so no
-// real native bridge code is invoked during tests.
+// ─── Create shared mock ────────────────────────────────────────────────────────
+// Define mock object once at module level before jest.mock() hoisting
+const mockNativeModule = {
+  configure: jest.fn().mockResolvedValue(true),
+  enableLogging: jest.fn().mockResolvedValue(undefined),
+  excludeViewByTestID: jest.fn().mockResolvedValue(undefined),
+  getClientID: jest.fn().mockResolvedValue(""),
+  getEnvironment: jest.fn().mockResolvedValue(""),
+  getScreenName: jest.fn().mockResolvedValue(""),
+  getSessionID: jest.fn().mockResolvedValue(""),
+  getRegisteredUserID: jest.fn().mockResolvedValue(""),
+  getUserID: jest.fn().mockResolvedValue(""),
+  isStopped: jest.fn().mockResolvedValue(false),
+  setScreenName: jest.fn().mockResolvedValue(true),
+  setUserID: jest.fn(),
+  identify: jest.fn().mockResolvedValue(true),
+  setRegisteredUserID: jest.fn(),
+  attemptedLogin: jest.fn(),
+  setVariable: jest.fn().mockResolvedValue(undefined),
+  start: jest.fn().mockResolvedValue(true),
+  stop: jest.fn().mockResolvedValue(true),
+  registerPageTargets: jest.fn().mockResolvedValue(undefined),
+  startSession: jest.fn().mockResolvedValue({ sessionID: "", started: true }),
+  stopSession: jest.fn().mockResolvedValue(true),
+  pauseCollection: jest.fn().mockResolvedValue(undefined),
+  resumeCollection: jest.fn().mockResolvedValue(undefined),
+  startAppFlow: jest.fn().mockResolvedValue({ sessionID: "", started: true }),
+};
 
 jest.mock("react-native", () => ({
+  TurboModuleRegistry: {
+    get: (_: string) => mockNativeModule,
+    getEnforcing: (_: string) => mockNativeModule,
+  },
   NativeModules: {
-    NeuroidReactnativeSdk: {
-      configure: jest.fn().mockResolvedValue(true),
-      enableLogging: jest.fn().mockResolvedValue(undefined),
-      excludeViewByTestID: jest.fn().mockResolvedValue(undefined),
-      getClientID: jest.fn().mockResolvedValue(""),
-      getEnvironment: jest.fn().mockResolvedValue(""),
-      getScreenName: jest.fn().mockResolvedValue(""),
-      getSessionID: jest.fn().mockResolvedValue(""),
-      getRegisteredUserID: jest.fn().mockResolvedValue(""),
-      getUserID: jest.fn().mockResolvedValue(""),
-      isStopped: jest.fn().mockResolvedValue(false),
-      setScreenName: jest.fn().mockResolvedValue(true),
-      setUserID: jest.fn(),
-      identify: jest.fn().mockResolvedValue(true),
-      setRegisteredUserID: jest.fn(),
-      attemptedLogin: jest.fn(),
-      setVariable: jest.fn().mockResolvedValue(undefined),
-      start: jest.fn().mockResolvedValue(true),
-      stop: jest.fn().mockResolvedValue(true),
-      registerPageTargets: jest.fn().mockResolvedValue(undefined),
-      startSession: jest
-        .fn()
-        .mockResolvedValue({ sessionID: "", started: true }),
-      stopSession: jest.fn().mockResolvedValue(true),
-      pauseCollection: jest.fn().mockResolvedValue(undefined),
-      resumeCollection: jest.fn().mockResolvedValue(undefined),
-      startAppFlow: jest
-        .fn()
-        .mockResolvedValue({ sessionID: "", started: true }),
-    },
+    NeuroidReactnativeSdk: mockNativeModule,
   },
   Platform: {
     OS: "ios",
@@ -47,6 +46,18 @@ jest.mock("react-native", () => ({
     },
   },
 }));
+
+jest.mock("../NativeNeuroidReactnativeSdk", () => ({
+  __esModule: true,
+  default: mockNativeModule,
+}));
+
+/**
+ * Load NeuroID after jest.mock calls so index initialization binds to mocked
+ * TurboModule/NativeModules implementations instead of the not-linked fallback.
+ */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { NeuroID } = require("../index");
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -84,7 +95,7 @@ type NativeSdkMock = {
 };
 
 /** Typed shortcut to all mock functions on the native module */
-const native = NativeModules.NeuroidReactnativeSdk as NativeSdkMock;
+const native = mockNativeModule as NativeSdkMock;
 
 const VALID_LIVE_KEY = "key_live_abc123";
 const VALID_TEST_KEY = "key_test_abc123";
@@ -105,6 +116,7 @@ beforeAll(() => {
   jest.spyOn(console, "debug").mockImplementation(() => {});
   jest.spyOn(console, "info").mockImplementation(() => {});
   jest.spyOn(console, "error").mockImplementation(() => {});
+  jest.spyOn(console, "warn").mockImplementation(() => {});
 });
 
 afterAll(() => {
@@ -113,7 +125,7 @@ afterAll(() => {
 
 beforeEach(async () => {
   // Reset module-level usingRNNavigation flag to false before every test.
-  // clearMocks (jest config) already cleared call counts; this resets SDK state.
+  // jest.resetAllMocks() clears call counts but preserves implementations
   await NeuroID.configure(VALID_LIVE_KEY, DEFAULT_CONFIG);
   // Clear the counts produced by the state-reset configure call above
   jest.clearAllMocks();

@@ -43,11 +43,11 @@ export interface NeuroIDClass {
 }
 
 export interface NeuroIDConfigOptions {
-  usingReactNavigation: boolean;
-  isAdvancedDevice: boolean;
-  environment: string;
+  usingReactNavigation?: boolean;
+  isAdvancedDevice?: boolean;
+  environment?: string;
   advancedDeviceKey?: string;
-  useAdvancedDeviceProxy: boolean;
+  useAdvancedDeviceProxy?: boolean;
 }
 
 export interface NeuroIDLogClass {

@@ -101,7 +101,7 @@
     ]
   },
   "codegenConfig": {
-    "name": "NeuroidReactnativeSdkSpec",
+    "name": "NeuroidReactnativeSdk",
     "type": "modules",
     "jsSrcsDir": "src",
     "ios": {
@@ -112,7 +112,8 @@
       }
     },
     "android": {
-      "javaPackageName": "com.neuroidreactnativesdk"
+      "javaPackageName": "com.neuroidreactnativesdk",
+      "moduleName": "NeuroidReactnativeSdk"
     }
   },
   "dependencies": {}
