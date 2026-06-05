@@ -48,6 +48,7 @@ export interface NeuroIDConfigOptions {
   environment: string;
   advancedDeviceKey?: string;
   useAdvancedDeviceProxy: boolean;
+  region: string;
 }
 
 export interface NeuroIDLogClass {
