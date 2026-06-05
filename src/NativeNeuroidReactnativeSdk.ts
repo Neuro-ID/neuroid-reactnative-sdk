@@ -1,4 +1,5 @@
 import { TurboModuleRegistry, type TurboModule } from "react-native";
+import type { UnsafeObject } from "react-native/Libraries/Types/CodegenTypes";
 
 export interface NeuroIDConfigOptions {
   usingReactNavigation?: boolean;
@@ -9,7 +10,7 @@ export interface NeuroIDConfigOptions {
 }
 
 export interface Spec extends TurboModule {
-  configure(apiKey: string, options: NeuroIDConfigOptions): Promise<boolean>;
+  configure(apiKey: string, options: UnsafeObject): Promise<boolean>;
   enableLogging(enable: boolean): Promise<void>;
   excludeViewByTestID(excludedView: string): Promise<void>;
   getClientID(): Promise<string>;
