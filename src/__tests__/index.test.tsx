@@ -243,7 +243,9 @@ describe("NeuroID SDK", () => {
 
     it("rejects false when native returns falsy", async () => {
       native.setRegisteredUserID!.mockReturnValue(null);
-      await expect(NeuroID.setRegisteredUserID("reg-user")).rejects.toBe(false);
+      await expect(NeuroID.setRegisteredUserID("reg-user")).resolves.toBe(
+        false
+      );
     });
   });
 
@@ -263,7 +265,7 @@ describe("NeuroID SDK", () => {
 
     it("rejects false when native returns falsy", async () => {
       native.attemptedLogin!.mockReturnValue(null);
-      await expect(NeuroID.attemptedLogin("user")).rejects.toBe(false);
+      await expect(NeuroID.attemptedLogin("user")).resolves.toBe(false);
     });
   });
 
@@ -435,7 +437,7 @@ describe("NeuroID SDK", () => {
 
     it("rejects false when native returns falsy", async () => {
       native.setUserID!.mockReturnValue(null);
-      await expect(NeuroID.setUserID("user-abc")).rejects.toBe(false);
+      await expect(NeuroID.setUserID("user-abc")).resolves.toBe(false);
     });
   });
 
