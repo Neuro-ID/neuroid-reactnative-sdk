@@ -213,14 +213,14 @@ export const NeuroID: NeuroIDClass = {
 
   registerPageTargets: function registerPageTargets(): Promise<void> {
     NeuroIDLog.w(
-      "registerPageTargets() is deprecated and will be removed in the next major version. /n Use setupScreen() independently to replicate this functionality."
+      "registerPageTargets() is deprecated and will be removed in the next major version. /n Use setScreenName() independently to replicate this functionality."
     );
     return registerPageTargetsInternal();
   },
   /** @deprecated Use setScreenName(sessionId) instead. */
   setupPage: async function setupPage(screenName: string): Promise<void> {
     NeuroIDLog.w(
-      "setupPage() is deprecated and will be removed in the next major version. /n Use setupScreen() independently to replicate this functionality."
+      "setupPage() is deprecated and will be removed in the next major version. /n Use setScreenName() independently to replicate this functionality."
     );
     await NeuroidReactnativeSdk.setScreenName(screenName);
 
