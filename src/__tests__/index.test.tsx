@@ -104,6 +104,7 @@ const DEFAULT_CONFIG = {
   isAdvancedDevice: false,
   environment: "test",
   useAdvancedDeviceProxy: false,
+  region: "usWest",
 };
 
 // ─── Global setup ─────────────────────────────────────────────────────────────
