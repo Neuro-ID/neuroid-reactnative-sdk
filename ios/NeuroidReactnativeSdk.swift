@@ -4,9 +4,9 @@ import React
 
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
-    @objc(configure:options:resolve:reject:)
-    func configure(apiKey: String, options: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let result = NeuroID.configure(clientKey: apiKey, rnOptions: options)
+    @objc(configure:parameters:resolve:reject:)
+    func configure(apiKey: String, parameters: [String: Any], resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
+        let result = NeuroID.configure(clientKey: apiKey, rnOptions: parameters)
         resolve(result)
     }
 
@@ -77,7 +77,7 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(identify:resolve:reject:)
-    func identify(sessionID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    func identify(sessionID: String, resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
         let identifyResult = NeuroID.identify(sessionID)
         resolve(identifyResult)
     }

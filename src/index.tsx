@@ -233,8 +233,8 @@ export const NeuroID: NeuroIDClass = {
     const result = await NeuroidReactnativeSdk.startSession(sessionID);
     NeuroIDLog.d("startSession(): " + result.sessionID + " " + result.started);
     return Promise.resolve({
-      sessionID: result.sessionID as string,
-      started: result.started as boolean,
+      sessionID: result.sessionID,
+      started: result.started,
     } as SessionStartResult);
   },
 
@@ -267,8 +267,8 @@ export const NeuroID: NeuroIDClass = {
     const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
     NeuroIDLog.d("startAppFlow(): " + result.sessionID + " " + result.started);
     return Promise.resolve({
-      sessionID: result.sessionID as string,
-      started: result.started as boolean,
+      sessionID: result.sessionID,
+      started: result.started,
     } as SessionStartResult);
   },
 };

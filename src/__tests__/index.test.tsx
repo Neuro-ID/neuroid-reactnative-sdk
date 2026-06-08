@@ -3,7 +3,39 @@ import { version } from "../../package.json";
 
 // ─── Create shared mock ────────────────────────────────────────────────────────
 // Define mock object once at module level before jest.mock() hoisting
-const mockNativeModule = {
+type NativeSdkMock = {
+  configure: jest.Mock<Promise<boolean>, [string, unknown?]>;
+  enableLogging: jest.Mock<Promise<void>, [boolean?]>;
+  excludeViewByTestID: jest.Mock<Promise<void>, [string]>;
+  getClientID: jest.Mock<Promise<string>, []>;
+  getEnvironment: jest.Mock<Promise<string>, []>;
+  getScreenName: jest.Mock<Promise<string>, []>;
+  getSessionID: jest.Mock<Promise<string>, []>;
+  getRegisteredUserID: jest.Mock<Promise<string>, []>;
+  getUserID: jest.Mock<Promise<string>, []>;
+  isStopped: jest.Mock<Promise<boolean>, []>;
+  setScreenName: jest.Mock<Promise<boolean>, [string]>;
+  setUserID: jest.Mock<unknown, [string]>;
+  identify: jest.Mock<Promise<boolean>, [string]>;
+  setRegisteredUserID: jest.Mock<unknown, [string]>;
+  attemptedLogin: jest.Mock<unknown, [string?]>;
+  setVariable: jest.Mock<Promise<void>, [string, string]>;
+  start: jest.Mock<Promise<boolean>, []>;
+  stop: jest.Mock<Promise<boolean>, []>;
+  registerPageTargets: jest.Mock<Promise<void>, []>;
+  startSession: jest.Mock<
+    Promise<{ sessionID: string; started: boolean }>,
+    [string?]
+  >;
+  stopSession: jest.Mock<Promise<boolean>, []>;
+  pauseCollection: jest.Mock<Promise<void>, []>;
+  resumeCollection: jest.Mock<Promise<void>, []>;
+  startAppFlow: jest.Mock<
+    Promise<{ sessionID: string; started: boolean }>,
+    [string, string?]
+  >;
+};
+const mockNativeModule: NativeSdkMock = {
   configure: jest.fn().mockResolvedValue(true),
   enableLogging: jest.fn().mockResolvedValue(undefined),
   excludeViewByTestID: jest.fn().mockResolvedValue(undefined),
@@ -61,41 +93,7 @@ const { NeuroID } = require("../index");
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-type NativeSdkMock = {
-  configure: jest.Mock<Promise<boolean>, [string, unknown?]>;
-  enableLogging: jest.Mock<Promise<void>, [boolean?]>;
-  excludeViewByTestID: jest.Mock<Promise<void>, [string]>;
-  getClientID: jest.Mock<Promise<string>, []>;
-  getEnvironment: jest.Mock<Promise<string>, []>;
-  getScreenName: jest.Mock<Promise<string>, []>;
-  getSessionID: jest.Mock<Promise<string>, []>;
-  getRegisteredUserID: jest.Mock<Promise<string>, []>;
-  getUserID: jest.Mock<Promise<string>, []>;
-  isStopped: jest.Mock<Promise<boolean>, []>;
-  setScreenName: jest.Mock<Promise<boolean>, [string]>;
-  setUserID: jest.Mock<unknown, [string]>;
-  identify: jest.Mock<Promise<boolean>, [string]>;
-  setRegisteredUserID: jest.Mock<unknown, [string]>;
-  attemptedLogin: jest.Mock<unknown, [string?]>;
-  setVariable: jest.Mock<Promise<void>, [string, string]>;
-  start: jest.Mock<Promise<boolean>, []>;
-  stop: jest.Mock<Promise<boolean>, []>;
-  registerPageTargets: jest.Mock<Promise<void>, []>;
-  startSession: jest.Mock<
-    Promise<{ sessionID: string; started: boolean }>,
-    [string?]
-  >;
-  stopSession: jest.Mock<Promise<boolean>, []>;
-  pauseCollection: jest.Mock<Promise<void>, []>;
-  resumeCollection: jest.Mock<Promise<void>, []>;
-  startAppFlow: jest.Mock<
-    Promise<{ sessionID: string; started: boolean }>,
-    [string, string?]
-  >;
-};
-
-/** Typed shortcut to all mock functions on the native module */
-const native = mockNativeModule as NativeSdkMock;
+const native = mockNativeModule;
 
 const VALID_LIVE_KEY = "key_live_abc123";
 const VALID_TEST_KEY = "key_test_abc123";
@@ -125,7 +123,6 @@ afterAll(() => {
 
 beforeEach(async () => {
   // Reset module-level usingRNNavigation flag to false before every test.
-  // jest.resetAllMocks() clears call counts but preserves implementations
   await NeuroID.configure(VALID_LIVE_KEY, DEFAULT_CONFIG);
   // Clear the counts produced by the state-reset configure call above
   jest.clearAllMocks();
@@ -259,7 +256,7 @@ describe("NeuroID SDK", () => {
 
     it("falls back to empty string when userID is nullish", async () => {
       native.attemptedLogin!.mockReturnValue(true);
-      await NeuroID.attemptedLogin(undefined as unknown as string);
+      await NeuroID.attemptedLogin(undefined);
       expect(native.attemptedLogin).toHaveBeenCalledWith("");
     });
 
