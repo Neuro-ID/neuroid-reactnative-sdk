@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['latest']
+        RN_VERSION: ['0.76-stable', '0.79-stable', '0.81-stable', 'latest']
         ARCH: ['legacy', 'newarch']
 
     steps:
