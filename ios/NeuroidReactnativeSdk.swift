@@ -4,9 +4,9 @@ import React
 
 @objc(NeuroidReactnativeSdk)
 class NeuroidReactnativeSdk: NSObject {
-    @objc(configure:parameters:resolve:reject:)
-    func configure(apiKey: String, parameters: [String: Any], resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
-        let result = NeuroID.configure(clientKey: apiKey, rnOptions: parameters)
+    @objc(configure:options:resolve:reject:)
+    func configure(apiKey: String, options: [String: Any], resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
+        let result = NeuroID.configure(clientKey: apiKey, rnOptions: options)
         resolve(result)
     }
 
