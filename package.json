@@ -115,6 +115,7 @@
       "javaPackageName": "com.neuroidreactnativesdk",
       "moduleName": "NeuroidReactnativeSdk"
     }
+  },
   "overrides": {
     "glob": "^9.3.5"
   },
