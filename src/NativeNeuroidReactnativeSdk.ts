@@ -23,7 +23,7 @@ export interface SessionStartResult {
   sessionID: string;
 }
 
-export interface NeuroIDClass extends TurboModule {
+export interface Spec extends TurboModule {
   configure(apiKey: string, options?: UnsafeObject): Promise<boolean>;
   enableLogging(enable: boolean): Promise<void>;
   excludeViewByTestID(excludedView: string): Promise<void>;
@@ -63,6 +63,4 @@ export interface NeuroIDClass extends TurboModule {
   ): Promise<{ sessionID: string; started: boolean }>;
 }
 
-export default TurboModuleRegistry.getEnforcing<NeuroIDClass>(
-  "NeuroidReactnativeSdk"
-);
+export default TurboModuleRegistry.getEnforcing<Spec>("NeuroidReactnativeSdk");

@@ -1,7 +1,7 @@
 import { NativeModules, Platform } from "react-native";
 
 import NativeModule, {
-  NeuroIDClass,
+  Spec,
   NeuroIDConfigOptions,
   SessionStartResult,
 } from "./NativeNeuroidReactnativeSdk";
@@ -15,9 +15,9 @@ const getLinkingError = () =>
   "- You are not using Expo managed workflow\n";
 
 // Fallback chain: TurboModuleRegistry.getEnforcing() → NativeModules fallback → Proxy error
-const NeuroidReactnativeSdk: NeuroIDClass =
+const NeuroidReactnativeSdk: Spec =
   NativeModule ??
-  (NativeModules?.NeuroidReactnativeSdk as NeuroIDClass | null) ??
+  (NativeModules?.NeuroidReactnativeSdk as Spec | null) ??
   (new Proxy(
     {},
     {
@@ -25,7 +25,7 @@ const NeuroidReactnativeSdk: NeuroIDClass =
         throw new Error(getLinkingError());
       },
     }
-  ) as NeuroIDClass);
+  ) as Spec);
 
 let usingRNNavigation = false;
 
@@ -44,7 +44,7 @@ const logNativeError = (operation: string, error: unknown): void => {
   NeuroIDLog.e(`${operation} failed`, String(error));
 };
 
-export const NeuroID: NeuroIDClass = {
+export const NeuroID: Spec = {
   configure: async function configure(
     apiKey: string,
     configOptions?: NeuroIDConfigOptions
