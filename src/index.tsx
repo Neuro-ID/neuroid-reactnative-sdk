@@ -4,6 +4,7 @@ import NativeModule, {
   Spec,
   NeuroIDConfigOptions,
   SessionStartResult,
+  NeuroIDClass,
 } from "./NativeNeuroidReactnativeSdk";
 import { version } from "../package.json";
 import NeuroIDLog from "./logger";
@@ -44,7 +45,7 @@ const logNativeError = (operation: string, error: unknown): void => {
   NeuroIDLog.e(`${operation} failed`, String(error));
 };
 
-export const NeuroID: Spec = {
+export const NeuroID: NeuroIDClass = {
   configure: async function configure(
     apiKey: string,
     configOptions?: NeuroIDConfigOptions

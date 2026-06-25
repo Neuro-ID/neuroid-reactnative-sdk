@@ -34,7 +34,6 @@ export interface Spec extends TurboModule {
   /** @deprecated Use getSessionID() instead. */
   getUserID(): Promise<string>;
   getRegisteredUserID(): Promise<string>;
-  getSDKVersion: () => Promise<string>;
   isStopped(): Promise<boolean>;
   setScreenName(screenName: string): Promise<boolean>;
   /** @deprecated Use identify(sessionId) instead. */
@@ -44,8 +43,6 @@ export interface Spec extends TurboModule {
   /** @deprecated */
   attemptedLogin(userID?: string): Promise<boolean>;
   setVariable(key: string, value: string): Promise<void>;
-  /** @deprecated Use setScreenName(sessionId) instead. */
-  setupPage: (screenName: string) => Promise<void>;
   start(): Promise<boolean>;
   stop(): Promise<boolean>;
   /** @deprecated Use setScreenName(sessionId) instead. */
@@ -62,5 +59,9 @@ export interface Spec extends TurboModule {
     userID?: string
   ): Promise<{ sessionID: string; started: boolean }>;
 }
-
+export interface NeuroIDClass extends Spec {
+  /** @deprecated Use setScreenName(sessionId) instead. */
+  setupPage: (screenName: string) => Promise<void>;
+  getSDKVersion: () => Promise<string>;
+}
 export default TurboModuleRegistry.getEnforcing<Spec>("NeuroidReactnativeSdk");
