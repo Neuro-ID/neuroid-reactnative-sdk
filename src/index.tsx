@@ -1,10 +1,10 @@
 import { NativeModules, Platform } from "react-native";
-import type {
+
+import NativeModule, {
   NeuroIDClass,
   NeuroIDConfigOptions,
   SessionStartResult,
-} from "./types";
-import NativeModule, { type Spec } from "./NativeNeuroidReactnativeSdk";
+} from "./NativeNeuroidReactnativeSdk";
 import { version } from "../package.json";
 import NeuroIDLog from "./logger";
 
@@ -15,9 +15,9 @@ const getLinkingError = () =>
   "- You are not using Expo managed workflow\n";
 
 // Fallback chain: TurboModuleRegistry.getEnforcing() → NativeModules fallback → Proxy error
-const NeuroidReactnativeSdk: Spec =
+const NeuroidReactnativeSdk: NeuroIDClass =
   NativeModule ??
-  (NativeModules?.NeuroidReactnativeSdk as Spec | null) ??
+  (NativeModules?.NeuroidReactnativeSdk as NeuroIDClass | null) ??
   (new Proxy(
     {},
     {
@@ -25,7 +25,7 @@ const NeuroidReactnativeSdk: Spec =
         throw new Error(getLinkingError());
       },
     }
-  ) as Spec);
+  ) as NeuroIDClass);
 
 let usingRNNavigation = false;
 
@@ -58,7 +58,9 @@ export const NeuroID: NeuroIDClass = {
 
     // Get the runtime React Native version from Platform constants
     const rnVersionObj = Platform.constants?.reactNativeVersion;
-    const detectedVersion = `${rnVersionObj.major}.${rnVersionObj.minor}.${rnVersionObj.patch}`;
+    const detectedVersion = rnVersionObj
+      ? `${rnVersionObj.major}.${rnVersionObj.minor}.${rnVersionObj.patch}`
+      : version;
 
     const optionsWithRNVersion: NativeConfigOptions = {
       ...configOptions,
@@ -221,7 +223,7 @@ export const NeuroID: NeuroIDClass = {
     try {
       const result = await NeuroidReactnativeSdk.attemptedLogin(userID ?? "");
       if (!result) {
-        NeuroIDLog.e("Failed to set attmpted login user ID");
+        NeuroIDLog.e("Failed to set attempted login user ID");
       }
       return !!result;
     } catch (error) {
@@ -248,7 +250,7 @@ export const NeuroID: NeuroIDClass = {
       const _cid = await NeuroidReactnativeSdk.getSessionID();
 
       NeuroIDLog.d("NeuroID Started: " + String(result));
-      NeuroIDLog.i("Client ID:", _cid);
+      NeuroIDLog.i("Session ID:", _cid);
       return result;
     } catch (e: unknown) {
       NeuroIDLog.e("Failed to start NID", String(e));
@@ -269,7 +271,7 @@ export const NeuroID: NeuroIDClass = {
 
   registerPageTargets: function registerPageTargets(): Promise<void> {
     NeuroIDLog.w(
-      "registerPageTargets() is deprecated and will be removed in the next major version. /n Use setScreenName() independently to replicate this functionality."
+      "registerPageTargets() is deprecated and will be removed in the next major version. Use setScreenName() independently to replicate this functionality."
     );
     return registerPageTargetsInternal().catch((error) => {
       logNativeError("registerPageTargets", error);
@@ -278,7 +280,7 @@ export const NeuroID: NeuroIDClass = {
   /** @deprecated Use setScreenName(sessionId) instead. */
   setupPage: async function setupPage(screenName: string): Promise<void> {
     NeuroIDLog.w(
-      "setupPage() is deprecated and will be removed in the next major version. /n Use setScreenName() independently to replicate this functionality."
+      "setupPage() is deprecated and will be removed in the next major version. Use setScreenName() independently to replicate this functionality."
     );
     try {
       await NeuroidReactnativeSdk.setScreenName(screenName);
