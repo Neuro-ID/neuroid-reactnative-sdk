@@ -1,4 +1,4 @@
-import type { NeuroIDLogClass } from "./types";
+import type { NeuroIDLogClass } from "./NativeNeuroidReactnativeSdk";
 
 let showlogs = true;
 export const NeuroIDLog: NeuroIDLogClass = {

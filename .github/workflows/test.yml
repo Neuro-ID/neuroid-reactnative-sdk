@@ -19,12 +19,13 @@ env:
 
 jobs:
   android:
-    name: Android (RN ${{ matrix.RN_VERSION }})
+    name: Android (RN ${{ matrix.RN_VERSION }}, ${{ matrix.ARCH }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         RN_VERSION: ['0.76-stable', '0.79-stable', '0.81-stable', 'latest']
+        ARCH: ['legacy', 'newarch']
 
     steps:
       - uses: actions/checkout@v6
@@ -53,6 +54,23 @@ jobs:
           npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
+
+      - name: Configure Android Architecture
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          if [ "${{ matrix.ARCH }}" = "newarch" ]; then
+            NEW_ARCH=true
+          else
+            NEW_ARCH=false
+          fi
+
+          if grep -q '^newArchEnabled=' android/gradle.properties; then
+            sed -i "s/^newArchEnabled=.*/newArchEnabled=$NEW_ARCH/" android/gradle.properties
+          else
+            echo "newArchEnabled=$NEW_ARCH" >> android/gradle.properties
+          fi
+
+          echo "Configured Android newArchEnabled=$NEW_ARCH"
 
       - name: Pack local NeuroID SDK
         run: |
@@ -164,8 +182,8 @@ jobs:
           exit 1
 
   ios:
-    name: iOS (RN ${{ matrix.RN_VERSION }})
-    runs-on: ${{ matrix.macos }}
+    name: iOS (RN ${{ matrix.RN_VERSION }}, ${{ matrix.ARCH }})
+    runs-on: macos-26-xlarge
     env:
       SIMULATOR_NAME: 'iPhone 17 Pro'
       XCODE: '26.4'
@@ -173,18 +191,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - RN_VERSION: 'latest'
-            macos: 'macos-26-xlarge'
-
-          - RN_VERSION: '0.81-stable'
-            macos: 'macos-26-xlarge'
-
-          - RN_VERSION: '0.79-stable'
-            macos: 'macos-26-xlarge'
-
-          - RN_VERSION: '0.76-stable'
-            macos: 'macos-26-xlarge'
+        RN_VERSION: ['0.76-stable', '0.79-stable', '0.81-stable', 'latest']
+        ARCH: ['legacy', 'newarch']
 
     steps:
       - uses: actions/checkout@v6
@@ -213,6 +221,21 @@ jobs:
           npx @react-native-community/cli@latest init "${{ env.APP_NAME }}" \
             --version "${{ matrix.RN_VERSION }}" \
             --skip-install
+
+      - name: Configure iOS Architecture
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          if [ "${{ matrix.ARCH }}" = "newarch" ]; then
+            NEW_ARCH=true
+            RCT_NEW_ARCH=1
+          else
+            NEW_ARCH=false
+            RCT_NEW_ARCH=0
+          fi
+
+          node -e "const fs=require('fs'); const p='ios/Podfile.properties.json'; const cfg=fs.existsSync(p)?JSON.parse(fs.readFileSync(p,'utf8')):{}; cfg.newArchEnabled='${NEW_ARCH}'; fs.writeFileSync(p, JSON.stringify(cfg, null, 2) + '\\n');"
+          echo "RCT_NEW_ARCH_ENABLED=$RCT_NEW_ARCH" >> $GITHUB_ENV
+          echo "Configured iOS newArchEnabled=$NEW_ARCH (RCT_NEW_ARCH_ENABLED=$RCT_NEW_ARCH)"
 
       - name: Pack local NeuroID SDK
         run: |
@@ -265,7 +288,8 @@ jobs:
 
       - name: Install iOS Dependencies
         working-directory: ${{ env.APP_DIR }}/ios
-        run: pod install --repo-update
+        run: |
+          RCT_NEW_ARCH_ENABLED=${{ env.RCT_NEW_ARCH_ENABLED }} pod install --repo-update
 
       - name: Copy Smoke Test Files
         run: |
@@ -285,7 +309,7 @@ jobs:
           DERIVED_DATA="$PWD/DerivedData"
           rm -rf "$DERIVED_DATA"
 
-          xcodebuild \
+          RCT_NEW_ARCH_ENABLED=${{ env.RCT_NEW_ARCH_ENABLED }} xcodebuild \
             -workspace ios/${{ env.APP_NAME }}.xcworkspace \
             -scheme ${{ env.APP_NAME }} \
             -configuration Release \
