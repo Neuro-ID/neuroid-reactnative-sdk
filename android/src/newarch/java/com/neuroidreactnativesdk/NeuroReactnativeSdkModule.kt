@@ -28,19 +28,21 @@ class NeuroidReactnativeSdkModule(
 
     override fun getScreenName(promise: Promise) = impl.getScreenName(promise)
 
+    override fun getIdentityId(promise: Promise) = impl.getIdentityId(promise)
+
     override fun getSessionID(promise: Promise) = impl.getSessionID(promise)
 
     override fun getUserID(promise: Promise) = impl.getUserID(promise)
+
+    override fun identify(sessionID: String, promise: Promise) = impl.identify(sessionID, promise)
+
+    override fun setUserID(id: String, promise: Promise) = impl.setUserID(id, promise)
 
     override fun getRegisteredUserID(promise: Promise) = impl.getRegisteredUserID(promise)
 
     override fun isStopped(promise: Promise) = impl.isStopped(promise)
 
     override fun setScreenName(screen: String, promise: Promise) = impl.setScreenName(screen, promise)
-
-    override fun setUserID(id: String, promise: Promise) = impl.setUserID(id, promise)
-
-    override fun identify(sessionID: String, promise: Promise) = impl.identify(sessionID, promise)
 
     override fun setRegisteredUserID(id: String, promise: Promise) =
         impl.setRegisteredUserID(id, promise)

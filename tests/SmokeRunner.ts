@@ -51,7 +51,7 @@ export async function runSmoke(): Promise<void> {
     { name: "startSession", run: () => NeuroID.startSession() },
     { name: "setScreenName", run: () => NeuroID.setScreenName("TestScreen") },
     { name: "getScreenName", run: () => NeuroID.getScreenName() },
-    { name: "getSessionID", run: () => NeuroID.getSessionID() },
+    { name: "getIdentityId", run: () => NeuroID.getIdentityId() },
     { name: "registerPageTargets", run: () => NeuroID.registerPageTargets() }, // NOSONAR: intentional deprecated API smoke coverage
     { name: "setupPage", run: () => NeuroID.setupPage("SetupPageScreen") }, // NOSONAR: intentional deprecated API smoke coverage
     { name: "isStopped", run: () => !NeuroID.isStopped() },

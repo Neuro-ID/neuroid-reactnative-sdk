@@ -40,6 +40,12 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(screen)
     }
 
+    @objc(getIdentityId:reject:)
+    func getIdentityId(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        let identityId = NeuroID.getIdentityId()
+        resolve(identityId)
+    }
+
     @objc(getSessionID:reject:)
     func getSessionID(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let sid = NeuroID.getSessionID()
@@ -50,6 +56,18 @@ class NeuroidReactnativeSdk: NSObject {
     func getUserID(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let uid = NeuroID.getUserID()
         resolve(uid)
+    }
+
+    @objc(identify:resolve:reject:)
+    func identify(sessionID: String, resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
+        let identifyResult = NeuroID.identify(sessionID)
+        resolve(identifyResult)
+    }
+
+    @objc(setUserID:resolve:reject:)
+    func setUserID(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        let setResult = NeuroID.setUserID(userID)
+        resolve(setResult)
     }
 
     @objc(getRegisteredUserID:reject:)
@@ -68,18 +86,6 @@ class NeuroidReactnativeSdk: NSObject {
     func setScreenName(screenName: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let setResult = NeuroID.setScreenName(screenName)
         resolve(setResult)
-    }
-
-    @objc(setUserID:resolve:reject:)
-    func setUserID(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let setResult = NeuroID.setUserID(userID)
-        resolve(setResult)
-    }
-
-    @objc(identify:resolve:reject:)
-    func identify(sessionID: String, resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
-        let identifyResult = NeuroID.identify(sessionID)
-        resolve(identifyResult)
     }
 
     @objc(setRegisteredUserID:resolve:reject:)

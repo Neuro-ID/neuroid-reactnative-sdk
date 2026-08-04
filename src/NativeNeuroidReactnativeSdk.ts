@@ -30,15 +30,17 @@ export interface Spec extends TurboModule {
   getClientID(): Promise<string>;
   getEnvironment(): Promise<string>;
   getScreenName(): Promise<string>;
+  getIdentityId(): Promise<string>;
+  /** @deprecated Use getIdentityId() instead. */
   getSessionID(): Promise<string>;
-  /** @deprecated Use getSessionID() instead. */
+  /** @deprecated Use getIdentityId() instead. */
   getUserID(): Promise<string>;
+  identify(sessionID: string): Promise<boolean>;
+  /** @deprecated Use identify(sessionId) instead. */
+  setUserID(userID: string): Promise<boolean>;
   getRegisteredUserID(): Promise<string>;
   isStopped(): Promise<boolean>;
   setScreenName(screenName: string): Promise<boolean>;
-  /** @deprecated Use identify(sessionId) instead. */
-  setUserID(userID: string): Promise<boolean>;
-  identify(sessionID: string): Promise<boolean>;
   setRegisteredUserID(userID: string): Promise<boolean>;
   /** @deprecated */
   attemptedLogin(userID?: string): Promise<boolean>;

@@ -35,10 +35,19 @@ class NeuroidReactnativeSdkModule(
     fun getScreenName(promise: Promise) = impl.getScreenName(promise)
 
     @ReactMethod
+    fun getIdentityId(promise: Promise) = impl.getIdentityId(promise)
+
+    @ReactMethod
     fun getSessionID(promise: Promise) = impl.getSessionID(promise)
 
     @ReactMethod
     fun getUserID(promise: Promise) = impl.getUserID(promise)
+
+    @ReactMethod
+    fun identify(sessionID: String, promise: Promise) = impl.identify(sessionID, promise)
+
+    @ReactMethod
+    fun setUserID(id: String, promise: Promise) = impl.setUserID(id, promise)
 
     @ReactMethod
     fun getRegisteredUserID(promise: Promise) = impl.getRegisteredUserID(promise)
@@ -48,12 +57,6 @@ class NeuroidReactnativeSdkModule(
 
     @ReactMethod
     fun setScreenName(screen: String, promise: Promise) = impl.setScreenName(screen, promise)
-
-    @ReactMethod
-    fun setUserID(id: String, promise: Promise) = impl.setUserID(id, promise)
-
-    @ReactMethod
-    fun identify(sessionID: String, promise: Promise) = impl.identify(sessionID, promise)
 
     @ReactMethod
     fun setRegisteredUserID(id: String, promise: Promise) =
