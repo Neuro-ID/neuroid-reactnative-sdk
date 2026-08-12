@@ -310,12 +310,14 @@ export const NeuroID: NeuroIDClass = {
         "startSession(): " + result.sessionID + " " + result.started
       );
       return {
+        identityId: result.identityId,
         sessionID: result.sessionID,
         started: result.started,
       };
     } catch (error) {
       logNativeError("startSession", error);
       return {
+        identityId: "",
         sessionID: "",
         started: false,
       };
@@ -369,12 +371,14 @@ export const NeuroID: NeuroIDClass = {
         "startAppFlow(): " + result.sessionID + " " + result.started
       );
       return {
+        identityId: result.identityId,
         sessionID: result.sessionID,
         started: result.started,
       };
     } catch (error) {
       logNativeError("startAppFlow", error);
       return {
+        identityId: "",
         sessionID: "",
         started: false,
       };
