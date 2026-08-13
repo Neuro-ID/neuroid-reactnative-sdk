@@ -21,6 +21,7 @@ export interface NeuroIDLogClass {
 export interface SessionStartResult {
   started: boolean;
   sessionID: string;
+  identityId: string;
 }
 
 export interface Spec extends TurboModule {
@@ -49,9 +50,11 @@ export interface Spec extends TurboModule {
   stop(): Promise<boolean>;
   /** @deprecated Use setScreenName(sessionId) instead. */
   registerPageTargets(): Promise<void>;
-  startSession(
-    sessionID?: string
-  ): Promise<{ sessionID: string; started: boolean }>;
+  startSession(sessionID?: string): Promise<{
+    identityId: string;
+    sessionID: string;
+    started: boolean;
+  }>;
   stopSession(): Promise<boolean>;
   pauseCollection(): Promise<void>;
   resumeCollection(): Promise<void>;
@@ -59,7 +62,11 @@ export interface Spec extends TurboModule {
   startAppFlow(
     siteID: string,
     userID?: string
-  ): Promise<{ sessionID: string; started: boolean }>;
+  ): Promise<{
+    identityId: string;
+    sessionID: string;
+    started: boolean;
+  }>;
 }
 export interface NeuroIDClass extends Spec {
   /** @deprecated Use setScreenName(sessionId) instead. */

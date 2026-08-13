@@ -146,7 +146,7 @@ class NeuroidReactnativeSdk: NSObject {
     @objc(startSession:resolve:reject:)
     func startSession(sessionID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         NeuroID.startSession(sessionID)  { result in
-            let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
+            let resultData: [String: Any] = ["identityId": result.identityId, "sessionID": result.sessionID, "started": result.started]
             resolve(resultData)
         }
     }
@@ -154,7 +154,7 @@ class NeuroidReactnativeSdk: NSObject {
     @objc(startAppFlow:userID:resolve:reject:)
     func startAppFlow(siteID: String, userID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         NeuroID.startAppFlow(siteID: siteID, sessionID: userID) { result in
-            let resultData: [String: Any] = ["sessionID": result.sessionID, "started": result.started]
+            let resultData: [String: Any] = ["identityId": result.identityId, "sessionID": result.sessionID, "started": result.started]
             resolve(resultData)
         }
     }
