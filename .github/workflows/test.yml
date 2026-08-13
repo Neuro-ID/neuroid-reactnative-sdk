@@ -83,9 +83,15 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: npm i
 
-      - name: Install RN CLI for autolinking
+      - name: Stabilize RN 0.81 legacy safe-area-context
+        if: ${{ matrix.RN_VERSION == '0.81-stable' && matrix.ARCH == 'legacy' }}
         working-directory: ${{ env.APP_DIR }}
-        run: npm install --save-dev @react-native-community/cli@latest
+        run: npm install react-native-safe-area-context@5.6.2
+
+      - name: Dependency diagnostics (Android)
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          npm ls react-native react-native-safe-area-context react-native-screens @react-native-community/cli || true
 
       - name: create directory for metro assets in the test app
         working-directory: ${{ env.APP_DIR }}
