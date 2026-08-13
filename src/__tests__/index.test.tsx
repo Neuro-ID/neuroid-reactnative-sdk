@@ -10,13 +10,14 @@ type NativeSdkMock = {
   getClientID: jest.Mock<Promise<string>, []>;
   getEnvironment: jest.Mock<Promise<string>, []>;
   getScreenName: jest.Mock<Promise<string>, []>;
+  getIdentityId: jest.Mock<Promise<string>, []>;
   getSessionID: jest.Mock<Promise<string>, []>;
-  getRegisteredUserID: jest.Mock<Promise<string>, []>;
   getUserID: jest.Mock<Promise<string>, []>;
+  identify: jest.Mock<Promise<boolean>, [string]>;
+  setUserID: jest.Mock<unknown, [string]>;
+  getRegisteredUserID: jest.Mock<Promise<string>, []>;
   isStopped: jest.Mock<Promise<boolean>, []>;
   setScreenName: jest.Mock<Promise<boolean>, [string]>;
-  setUserID: jest.Mock<unknown, [string]>;
-  identify: jest.Mock<Promise<boolean>, [string]>;
   setRegisteredUserID: jest.Mock<unknown, [string]>;
   attemptedLogin: jest.Mock<unknown, [string?]>;
   setVariable: jest.Mock<Promise<void>, [string, string]>;
@@ -24,14 +25,14 @@ type NativeSdkMock = {
   stop: jest.Mock<Promise<boolean>, []>;
   registerPageTargets: jest.Mock<Promise<void>, []>;
   startSession: jest.Mock<
-    Promise<{ sessionID: string; started: boolean }>,
+    Promise<{ identityId: string; sessionID: string; started: boolean }>,
     [string?]
   >;
   stopSession: jest.Mock<Promise<boolean>, []>;
   pauseCollection: jest.Mock<Promise<void>, []>;
   resumeCollection: jest.Mock<Promise<void>, []>;
   startAppFlow: jest.Mock<
-    Promise<{ sessionID: string; started: boolean }>,
+    Promise<{ identityId: string; sessionID: string; started: boolean }>,
     [string, string?]
   >;
 };
@@ -42,24 +43,29 @@ const mockNativeModule: NativeSdkMock = {
   getClientID: jest.fn().mockResolvedValue(""),
   getEnvironment: jest.fn().mockResolvedValue(""),
   getScreenName: jest.fn().mockResolvedValue(""),
+  getIdentityId: jest.fn().mockResolvedValue(""),
   getSessionID: jest.fn().mockResolvedValue(""),
-  getRegisteredUserID: jest.fn().mockResolvedValue(""),
   getUserID: jest.fn().mockResolvedValue(""),
+  identify: jest.fn().mockResolvedValue(true),
+  setUserID: jest.fn(),
+  getRegisteredUserID: jest.fn().mockResolvedValue(""),
   isStopped: jest.fn().mockResolvedValue(false),
   setScreenName: jest.fn().mockResolvedValue(true),
-  setUserID: jest.fn(),
-  identify: jest.fn().mockResolvedValue(true),
   setRegisteredUserID: jest.fn(),
   attemptedLogin: jest.fn(),
   setVariable: jest.fn().mockResolvedValue(undefined),
   start: jest.fn().mockResolvedValue(true),
   stop: jest.fn().mockResolvedValue(true),
   registerPageTargets: jest.fn().mockResolvedValue(undefined),
-  startSession: jest.fn().mockResolvedValue({ sessionID: "", started: true }),
+  startSession: jest
+    .fn()
+    .mockResolvedValue({ identityId: "", sessionID: "", started: true }),
   stopSession: jest.fn().mockResolvedValue(true),
   pauseCollection: jest.fn().mockResolvedValue(undefined),
   resumeCollection: jest.fn().mockResolvedValue(undefined),
-  startAppFlow: jest.fn().mockResolvedValue({ sessionID: "", started: true }),
+  startAppFlow: jest
+    .fn()
+    .mockResolvedValue({ identityId: "", sessionID: "", started: true }),
 };
 
 jest.mock("react-native", () => ({
@@ -205,7 +211,7 @@ describe("NeuroID SDK", () => {
   describe("start", () => {
     it("resolves the native result when start succeeds", async () => {
       native.start!.mockResolvedValue(true);
-      native.getSessionID!.mockResolvedValue("sid-123");
+      native.getIdentityId!.mockResolvedValue("sid-123");
       const result = await NeuroID.start();
       expect(result).toBe(true);
       expect(native.start).toHaveBeenCalled();
@@ -359,6 +365,15 @@ describe("NeuroID SDK", () => {
     });
   });
 
+  // ── getIdentityId ────────────────────────────────────────────────────────────
+  describe("getIdentityId", () => {
+    it("resolves the value returned by native", async () => {
+      native.getIdentityId!.mockResolvedValue("session-xyz");
+      const result = await NeuroID.getIdentityId();
+      expect(result).toBe("session-xyz");
+    });
+  });
+
   // ── getSessionID ────────────────────────────────────────────────────────────
   describe("getSessionID", () => {
     it("resolves the value returned by native", async () => {
@@ -374,6 +389,34 @@ describe("NeuroID SDK", () => {
       native.getUserID!.mockResolvedValue("user-123");
       const result = await NeuroID.getUserID();
       expect(result).toBe("user-123");
+    });
+  });
+
+  // ── identify ───────────────────────────────────────────────────────────────
+  describe("identify", () => {
+    it("resolves true when native returns truthy", async () => {
+      native.identify!.mockResolvedValue(true);
+      await expect(NeuroID.identify("session-abc")).resolves.toBe(true);
+      expect(native.identify).toHaveBeenCalledWith("session-abc");
+    });
+
+    it("resolves false when native returns false", async () => {
+      native.identify!.mockResolvedValue(false);
+      await expect(NeuroID.identify("session-abc")).resolves.toBe(false);
+    });
+  });
+
+  // ── setUserID ───────────────────────────────────────────────────────────────
+  describe("setUserID", () => {
+    it("resolves true when native returns truthy", async () => {
+      native.setUserID!.mockReturnValue(true);
+      await expect(NeuroID.setUserID("user-abc")).resolves.toBe(true);
+      expect(native.setUserID).toHaveBeenCalledWith("user-abc");
+    });
+
+    it("rejects false when native returns falsy", async () => {
+      native.setUserID!.mockReturnValue(null);
+      await expect(NeuroID.setUserID("user-abc")).resolves.toBe(false);
     });
   });
 
@@ -427,34 +470,6 @@ describe("NeuroID SDK", () => {
     });
   });
 
-  // ── setUserID ───────────────────────────────────────────────────────────────
-  describe("setUserID", () => {
-    it("resolves true when native returns truthy", async () => {
-      native.setUserID!.mockReturnValue(true);
-      await expect(NeuroID.setUserID("user-abc")).resolves.toBe(true);
-      expect(native.setUserID).toHaveBeenCalledWith("user-abc");
-    });
-
-    it("rejects false when native returns falsy", async () => {
-      native.setUserID!.mockReturnValue(null);
-      await expect(NeuroID.setUserID("user-abc")).resolves.toBe(false);
-    });
-  });
-
-  // ── identify ───────────────────────────────────────────────────────────────
-  describe("identify", () => {
-    it("resolves true when native returns truthy", async () => {
-      native.identify!.mockResolvedValue(true);
-      await expect(NeuroID.identify("session-abc")).resolves.toBe(true);
-      expect(native.identify).toHaveBeenCalledWith("session-abc");
-    });
-
-    it("resolves false when native returns false", async () => {
-      native.identify!.mockResolvedValue(false);
-      await expect(NeuroID.identify("session-abc")).resolves.toBe(false);
-    });
-  });
-
   // ── setVariable ─────────────────────────────────────────────────────────────
   describe("setVariable", () => {
     it("delegates key and value to native", async () => {
@@ -468,15 +483,21 @@ describe("NeuroID SDK", () => {
   describe("startSession", () => {
     it("resolves a SessionStartResult with sessionID and started flag", async () => {
       native.startSession!.mockResolvedValue({
+        identityId: "sess-001",
         sessionID: "sess-001",
         started: true,
       });
       const result = await NeuroID.startSession();
-      expect(result).toEqual({ sessionID: "sess-001", started: true });
+      expect(result).toEqual({
+        identityId: "sess-001",
+        sessionID: "sess-001",
+        started: true,
+      });
     });
 
     it("passes an explicit sessionID to native when provided", async () => {
       native.startSession!.mockResolvedValue({
+        identityId: "custom-id",
         sessionID: "custom-id",
         started: true,
       });
@@ -522,16 +543,22 @@ describe("NeuroID SDK", () => {
   describe("startAppFlow", () => {
     it("resolves a SessionStartResult with siteID and optional userID", async () => {
       native.startAppFlow!.mockResolvedValue({
+        identityId: "app-sess-001",
         sessionID: "app-sess-001",
         started: true,
       });
       const result = await NeuroID.startAppFlow("site-xyz", "user-abc");
       expect(native.startAppFlow).toHaveBeenCalledWith("site-xyz", "user-abc");
-      expect(result).toEqual({ sessionID: "app-sess-001", started: true });
+      expect(result).toEqual({
+        identityId: "app-sess-001",
+        sessionID: "app-sess-001",
+        started: true,
+      });
     });
 
     it("works without an optional userID", async () => {
       native.startAppFlow!.mockResolvedValue({
+        identityId: "app-sess-002",
         sessionID: "app-sess-002",
         started: true,
       });

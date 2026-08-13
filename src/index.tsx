@@ -125,6 +125,14 @@ export const NeuroID: NeuroIDClass = {
     });
   },
 
+  getIdentityId: function getIdentityId(): Promise<string> {
+    return NeuroidReactnativeSdk.getIdentityId().catch((error) => {
+      logNativeError("getIdentityId", error);
+      return "";
+    });
+  },
+
+  /** @deprecated Use getSessionId() instead. */
   getSessionID: function getSessionID(): Promise<string> {
     return NeuroidReactnativeSdk.getSessionID().catch((error) => {
       logNativeError("getSessionID", error);
@@ -143,27 +151,10 @@ export const NeuroID: NeuroIDClass = {
     });
   },
 
-  getRegisteredUserID: function getUserID(): Promise<string> {
-    return NeuroidReactnativeSdk.getRegisteredUserID().catch((error) => {
-      logNativeError("getRegisteredUserID", error);
-      return "";
-    });
-  },
-
-  isStopped: function isStopped(): Promise<boolean> {
-    return NeuroidReactnativeSdk.isStopped().catch((error) => {
-      logNativeError("isStopped", error);
-      return true;
-    });
-  },
-
-  setScreenName: function setScreenName(screenName: string): Promise<boolean> {
-    NeuroIDLog.d("setScreenName()", screenName);
-    registerPageTargetsInternal().catch((err) => {
-      NeuroIDLog.e("registerPageTargets failed", err);
-    });
-    return NeuroidReactnativeSdk.setScreenName(screenName).catch((error) => {
-      logNativeError("setScreenName", error);
+  identify: function identify(sessionID: string): Promise<boolean> {
+    NeuroIDLog.i("Identify : ", sessionID);
+    return NeuroidReactnativeSdk.identify(sessionID).catch((error) => {
+      logNativeError("identify", error);
       return false;
     });
   },
@@ -187,10 +178,27 @@ export const NeuroID: NeuroIDClass = {
     }
   },
 
-  identify: function identify(sessionID: string): Promise<boolean> {
-    NeuroIDLog.i("Identify : ", sessionID);
-    return NeuroidReactnativeSdk.identify(sessionID).catch((error) => {
-      logNativeError("identify", error);
+  getRegisteredUserID: function getUserID(): Promise<string> {
+    return NeuroidReactnativeSdk.getRegisteredUserID().catch((error) => {
+      logNativeError("getRegisteredUserID", error);
+      return "";
+    });
+  },
+
+  isStopped: function isStopped(): Promise<boolean> {
+    return NeuroidReactnativeSdk.isStopped().catch((error) => {
+      logNativeError("isStopped", error);
+      return true;
+    });
+  },
+
+  setScreenName: function setScreenName(screenName: string): Promise<boolean> {
+    NeuroIDLog.d("setScreenName()", screenName);
+    registerPageTargetsInternal().catch((err) => {
+      NeuroIDLog.e("registerPageTargets failed", err);
+    });
+    return NeuroidReactnativeSdk.setScreenName(screenName).catch((error) => {
+      logNativeError("setScreenName", error);
       return false;
     });
   },
@@ -302,12 +310,14 @@ export const NeuroID: NeuroIDClass = {
         "startSession(): " + result.sessionID + " " + result.started
       );
       return {
+        identityId: result.identityId,
         sessionID: result.sessionID,
         started: result.started,
       };
     } catch (error) {
       logNativeError("startSession", error);
       return {
+        identityId: "",
         sessionID: "",
         started: false,
       };
@@ -361,12 +371,14 @@ export const NeuroID: NeuroIDClass = {
         "startAppFlow(): " + result.sessionID + " " + result.started
       );
       return {
+        identityId: result.identityId,
         sessionID: result.sessionID,
         started: result.started,
       };
     } catch (error) {
       logNativeError("startAppFlow", error);
       return {
+        identityId: "",
         sessionID: "",
         started: false,
       };
