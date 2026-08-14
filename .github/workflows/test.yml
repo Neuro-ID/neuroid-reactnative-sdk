@@ -86,7 +86,7 @@ jobs:
       - name: Stabilize RN 0.81 legacy safe-area-context
         if: ${{ matrix.RN_VERSION == '0.81-stable' && matrix.ARCH == 'legacy' }}
         working-directory: ${{ env.APP_DIR }}
-        run: npm install react-native-safe-area-context@5.6.2
+        run: npm install react-native-safe-area-context@5.6.2 --ignore-scripts
 
       - name: create directory for metro assets in the test app
         working-directory: ${{ env.APP_DIR }}
