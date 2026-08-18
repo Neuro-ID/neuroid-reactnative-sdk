@@ -31,25 +31,6 @@ jobs:
           TAG=$(node -p "require('./package.json').version")
           echo "TAG=${TAG}" >> $GITHUB_ENV
 
-      - name: Create Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create "${{ env.TAG }}" \
-            --latest \
-            --title "${{ env.TAG }}" \
-            --notes 'The NeuroID React Native SDK (${{ env.TAG }}) is now available.' \
-            --generate-notes
-
-      - name: Update new commit to have "Latest" Tag
-        run: |
-          git config --global user.email developer@neuro-id.com
-          git config --global user.name neuroid-developer
-          git push origin :latest
-          git tag -d latest
-          git tag latest
-          git push origin latest
-
       - name: Send Release Succeeded Result to NID Mobile Infra Repo
         if: success()
         run: |
