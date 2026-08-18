@@ -83,8 +83,7 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: npm i
 
-      - name: Stabilize RN 0.81 legacy safe-area-context
-        if: ${{ matrix.RN_VERSION == '0.81-stable' && matrix.ARCH == 'legacy' }}
+      - name: Stabilize safe-area-context package version
         working-directory: ${{ env.APP_DIR }}
         run: npm install react-native-safe-area-context@5.6.2 --ignore-scripts
 
