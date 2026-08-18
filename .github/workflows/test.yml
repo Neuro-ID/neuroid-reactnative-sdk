@@ -83,9 +83,10 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: npm i
 
-      - name: Install RN CLI for autolinking
+      - name: Stabilize RN 0.81 legacy safe-area-context
+        if: ${{ matrix.RN_VERSION == '0.81-stable' && matrix.ARCH == 'legacy' }}
         working-directory: ${{ env.APP_DIR }}
-        run: npm install --save-dev @react-native-community/cli@latest
+        run: npm install react-native-safe-area-context@5.6.2 --ignore-scripts
 
       - name: create directory for metro assets in the test app
         working-directory: ${{ env.APP_DIR }}
@@ -151,12 +152,11 @@ jobs:
           script: |
             adb install -r ${{ env.APP_DIR }}/android/app/build/outputs/apk/debug/app-debug.apk
             adb logcat -c
-            adb logcat "ReactNativeJS:V *:S" > ${{ env.APP_DIR }}/android/app.log 2>&1 &
-            LOGCAT_PID=$!
+            adb logcat -v time > ${{ env.APP_DIR }}/android/app.log 2>&1 & echo $! > /tmp/nid_logcat.pid
             sleep 2
             adb shell am start -n com.test1/.MainActivity
             sleep 60
-            kill $LOGCAT_PID || true
+            kill "$(cat /tmp/nid_logcat.pid)" || true
             echo "=== Log file size: $(wc -l < ${{ env.APP_DIR }}/android/app.log) lines ==="
             adb emu kill
 
@@ -178,6 +178,12 @@ jobs:
           done
 
           echo "=== Test timeout - dumping available logs ==="
+          echo "=== App process check ==="
+          adb shell pidof com.test1 || true
+          echo "=== Top activity ==="
+          adb shell dumpsys activity top | head -n 120 || true
+          echo "=== Recent AndroidRuntime/FATAL lines ==="
+          grep -E "AndroidRuntime|FATAL EXCEPTION|ReactNative|SoLoader|UnsatisfiedLinkError" app.log | tail -n 200 || true
           cat app.log || echo "No logs available"
           exit 1
 
