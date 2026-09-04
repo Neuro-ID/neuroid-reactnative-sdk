@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift,cpp}"
   s.private_header_files = "ios/**/*.h"
 
-  s.dependency "NeuroID", "4.3.1"
+  s.dependency "NeuroID", "4.3.2"
 
   install_modules_dependencies(s)
 end
