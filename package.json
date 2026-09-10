@@ -48,6 +48,8 @@
   "homepage": "https://github.com/Neuro-ID/neuroid-reactnative-sdk#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@react-native/babel-preset": "^0.87.1",
+    "@react-native/jest-preset": "^0.87.1",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.3.0",
     "eslint": "^10.10.0",
@@ -68,7 +70,7 @@
     "react-native": ">=0.76.0"
   },
   "jest": {
-    "preset": "react-native",
+    "preset": "@react-native/jest-preset",
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
