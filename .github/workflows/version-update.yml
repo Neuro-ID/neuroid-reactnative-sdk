@@ -60,6 +60,7 @@ jobs:
           git checkout -b ${{ env.BRANCH_NAME }}
           git status
           git add package.json
+          git add package-lock.json
           git add neuroid-reactnative-sdk.podspec
           git add android/build.gradle
           git commit -m "Update React native SDK to ${{ env.PACKAGE_VERSION }}"
