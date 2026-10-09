@@ -31,17 +31,7 @@ RCT_EXTERN_METHOD(getScreenName:(RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(getIdentityId:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(getSessionID:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(getUserID:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
-
 RCT_EXTERN_METHOD(identify:(NSString *)sessionID
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(setUserID:(NSString *)userID
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 
@@ -56,10 +46,6 @@ RCT_EXTERN_METHOD(setScreenName:(NSString *)screenName
                   reject:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setRegisteredUserID:(NSString *)userID
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(attemptedLogin:(NSString *)userID
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 

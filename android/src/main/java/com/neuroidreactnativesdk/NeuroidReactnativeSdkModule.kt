@@ -80,37 +80,12 @@ class NeuroidReactnativeSdkModuleImpl(
         }
     }
 
-    fun getSessionID(promise: Promise) {
-        try {
-            promise.resolve(NeuroID.getInstance()?.getSessionID())
-        } catch (e: Exception) {
-            promise.reject("ERR_GET_SESSION_ID", e.message)
-        }
-    }
-
-    fun getUserID(promise: Promise) {
-        try {
-            promise.resolve(NeuroID.getInstance()?.getUserID())
-        } catch (e: Exception) {
-            promise.reject("ERR_GET_USER_ID", e.message)
-        }
-    }
-
     fun identify(sessionID: String, promise: Promise) {
         try {
             val result = NeuroID.getInstance()?.identify(sessionID)
             promise.resolve(result ?: false)
         } catch (e: Exception) {
             promise.reject("ERR_IDENTIFY", e.message)
-        }
-    }
-
-    fun setUserID(id: String, promise: Promise) {
-        try {
-            val result = NeuroID.getInstance()?.setUserID(id)
-            promise.resolve(result ?: false)
-        } catch (e: Exception) {
-            promise.reject("ERR_SET_USER_ID", e.message)
         }
     }
 
@@ -146,15 +121,6 @@ class NeuroidReactnativeSdkModuleImpl(
             promise.resolve(result ?: false)
         } catch (e: Exception) {
             promise.reject("ERR_SET_REGISTERED_USER_ID", e.message)
-        }
-    }
-
-    fun attemptedLogin(id: String?, promise: Promise) {
-        try {
-            val result = NeuroID.getInstance()?.attemptedLogin(id)
-            promise.resolve(result ?: false)
-        } catch (e: Exception) {
-            promise.reject("ERR_ATTEMPTED_LOGIN", e.message)
         }
     }
 

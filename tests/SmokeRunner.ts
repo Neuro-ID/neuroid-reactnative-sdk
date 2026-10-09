@@ -27,22 +27,10 @@ export async function runSmoke(): Promise<void> {
     { name: "getClientID", run: () => NeuroID.getClientID() },
     { name: "getSDKVersion", run: () => NeuroID.getSDKVersion() },
     { name: "getEnvironment", run: () => NeuroID.getEnvironment() },
-    {
-      name: "getUserID",
-      run: () => NeuroID.getUserID(), // NOSONAR: intentional deprecated API smoke coverage
-    },
     { name: "getRegisteredUserID", run: () => NeuroID.getRegisteredUserID() },
-    {
-      name: "setUserID",
-      run: () => NeuroID.setUserID("smoke_user_123"), // NOSONAR: intentional deprecated API smoke coverage
-    },
     {
       name: "setRegisteredUserID",
       run: () => NeuroID.setRegisteredUserID("smoke_registered_123"),
-    },
-    {
-      name: "attemptedLogin",
-      run: () => NeuroID.attemptedLogin("smoke_login_123"), // NOSONAR: intentional deprecated API smoke coverage
     },
     {
       name: "setVariable",

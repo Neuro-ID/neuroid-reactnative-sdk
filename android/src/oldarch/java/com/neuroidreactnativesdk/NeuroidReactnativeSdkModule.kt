@@ -38,16 +38,7 @@ class NeuroidReactnativeSdkModule(
     fun getIdentityId(promise: Promise) = impl.getIdentityId(promise)
 
     @ReactMethod
-    fun getSessionID(promise: Promise) = impl.getSessionID(promise)
-
-    @ReactMethod
-    fun getUserID(promise: Promise) = impl.getUserID(promise)
-
-    @ReactMethod
     fun identify(sessionID: String, promise: Promise) = impl.identify(sessionID, promise)
-
-    @ReactMethod
-    fun setUserID(id: String, promise: Promise) = impl.setUserID(id, promise)
 
     @ReactMethod
     fun getRegisteredUserID(promise: Promise) = impl.getRegisteredUserID(promise)
@@ -61,9 +52,6 @@ class NeuroidReactnativeSdkModule(
     @ReactMethod
     fun setRegisteredUserID(id: String, promise: Promise) =
         impl.setRegisteredUserID(id, promise)
-
-    @ReactMethod
-    fun attemptedLogin(id: String?, promise: Promise) = impl.attemptedLogin(id, promise)
 
     @ReactMethod
     fun setVariable(key: String, value: String, promise: Promise) =

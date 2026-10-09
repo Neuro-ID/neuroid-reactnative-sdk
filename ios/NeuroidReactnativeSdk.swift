@@ -46,28 +46,10 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(identityId)
     }
 
-    @objc(getSessionID:reject:)
-    func getSessionID(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let sid = NeuroID.getSessionID()
-        resolve(sid)
-    }
-
-    @objc(getUserID:reject:)
-    func getUserID(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let uid = NeuroID.getUserID()
-        resolve(uid)
-    }
-
     @objc(identify:resolve:reject:)
     func identify(sessionID: String, resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
         let identifyResult = NeuroID.identify(sessionID)
         resolve(identifyResult)
-    }
-
-    @objc(setUserID:resolve:reject:)
-    func setUserID(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let setResult = NeuroID.setUserID(userID)
-        resolve(setResult)
     }
 
     @objc(getRegisteredUserID:reject:)
@@ -91,12 +73,6 @@ class NeuroidReactnativeSdk: NSObject {
     @objc(setRegisteredUserID:resolve:reject:)
     func setRegisteredUserID(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let setResult = NeuroID.setRegisteredUserID(userID)
-        resolve(setResult)
-    }
-    
-    @objc(attemptedLogin:resolve:reject:)
-    func attemptedLogin(userID: String?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let setResult = NeuroID.attemptedLogin(userID)
         resolve(setResult)
     }
 
