@@ -166,7 +166,7 @@ class NeuroidReactnativeSdkModuleImpl(
 
     fun startSession(identityId: String?, promise: Promise) {
         try {
-            NeuroID.getInstance()?.startSession(sessionID) { result ->
+            NeuroID.getInstance()?.startSession(identityId) { result ->
                 val resultData = Arguments.createMap()
                 resultData.putString("identityId", result.identityId)
                 resultData.putBoolean("started", result.started)
