@@ -30,7 +30,7 @@ class NeuroidReactnativeSdkModule(
 
     override fun getIdentityId(promise: Promise) = impl.getIdentityId(promise)
 
-    override fun identify(sessionID: String, promise: Promise) = impl.identify(sessionID, promise)
+    override fun identify(identityId: String, promise: Promise) = impl.identify(identityId, promise)
 
     override fun getRegisteredUserID(promise: Promise) = impl.getRegisteredUserID(promise)
 
@@ -50,8 +50,8 @@ class NeuroidReactnativeSdkModule(
 
     override fun registerPageTargets(promise: Promise) = impl.registerPageTargets(promise)
 
-    override fun startSession(sessionID: String?, promise: Promise) =
-        impl.startSession(sessionID, promise)
+    override fun startSession(identityId: String?, promise: Promise) =
+        impl.startSession(identityId, promise)
 
     override fun stopSession(promise: Promise) = impl.stopSession(promise)
 

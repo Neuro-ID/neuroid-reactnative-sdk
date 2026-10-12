@@ -80,9 +80,9 @@ class NeuroidReactnativeSdkModuleImpl(
         }
     }
 
-    fun identify(sessionID: String, promise: Promise) {
+    fun identify(identityId: String, promise: Promise) {
         try {
-            val result = NeuroID.getInstance()?.identify(sessionID)
+            val result = NeuroID.getInstance()?.identify(identityId)
             promise.resolve(result ?: false)
         } catch (e: Exception) {
             promise.reject("ERR_IDENTIFY", e.message)
@@ -164,11 +164,11 @@ class NeuroidReactnativeSdkModuleImpl(
         }
     }
 
-    fun startSession(sessionID: String?, promise: Promise) {
+    fun startSession(identityId: String?, promise: Promise) {
         try {
             NeuroID.getInstance()?.startSession(sessionID) { result ->
                 val resultData = Arguments.createMap()
-                resultData.putString("sessionID", result.sessionID)
+                resultData.putString("identityId", result.identityId)
                 resultData.putBoolean("started", result.started)
                 promise.resolve(resultData)
             }
@@ -208,7 +208,7 @@ class NeuroidReactnativeSdkModuleImpl(
         try {
             NeuroID.getInstance()?.startAppFlow(siteId, userId) { result ->
                 val resultData = Arguments.createMap()
-                resultData.putString("sessionID", result.sessionID)
+                resultData.putString("identityId", result.identityId)
                 resultData.putBoolean("started", result.started)
                 promise.resolve(resultData)
             }

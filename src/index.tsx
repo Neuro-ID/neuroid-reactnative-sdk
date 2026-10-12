@@ -132,9 +132,9 @@ export const NeuroID: NeuroIDClass = {
     });
   },
 
-  identify: function identify(sessionID: string): Promise<boolean> {
-    NeuroIDLog.i("Identify : ", sessionID);
-    return NeuroidReactnativeSdk.identify(sessionID).catch((error) => {
+  identify: function identify(identityId: string): Promise<boolean> {
+    NeuroIDLog.i("Identify : ", identityId);
+    return NeuroidReactnativeSdk.identify(identityId).catch((error) => {
       logNativeError("identify", error);
       return false;
     });
@@ -245,18 +245,16 @@ export const NeuroID: NeuroIDClass = {
     try {
       const result = await NeuroidReactnativeSdk.startSession(sessionID);
       NeuroIDLog.d(
-        "startSession(): " + result.sessionID + " " + result.started
+        "startSession(): " + result.identityId + " " + result.started
       );
       return {
         identityId: result.identityId,
-        sessionID: result.sessionID,
         started: result.started,
       };
     } catch (error) {
       logNativeError("startSession", error);
       return {
         identityId: "",
-        sessionID: "",
         started: false,
       };
     }
@@ -306,18 +304,16 @@ export const NeuroID: NeuroIDClass = {
     try {
       const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
       NeuroIDLog.d(
-        "startAppFlow(): " + result.sessionID + " " + result.started
+        "startAppFlow(): " + result.identityId + " " + result.started
       );
       return {
         identityId: result.identityId,
-        sessionID: result.sessionID,
         started: result.started,
       };
     } catch (error) {
       logNativeError("startAppFlow", error);
       return {
         identityId: "",
-        sessionID: "",
         started: false,
       };
     }

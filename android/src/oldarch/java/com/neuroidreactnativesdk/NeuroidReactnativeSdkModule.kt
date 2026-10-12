@@ -38,7 +38,7 @@ class NeuroidReactnativeSdkModule(
     fun getIdentityId(promise: Promise) = impl.getIdentityId(promise)
 
     @ReactMethod
-    fun identify(sessionID: String, promise: Promise) = impl.identify(sessionID, promise)
+    fun identify(identityId: String, promise: Promise) = impl.identify(identityId, promise)
 
     @ReactMethod
     fun getRegisteredUserID(promise: Promise) = impl.getRegisteredUserID(promise)
@@ -67,8 +67,8 @@ class NeuroidReactnativeSdkModule(
     fun registerPageTargets(promise: Promise) = impl.registerPageTargets(promise)
 
     @ReactMethod
-    fun startSession(sessionID: String?, promise: Promise) =
-        impl.startSession(sessionID, promise)
+    fun startSession(identityId: String?, promise: Promise) =
+        impl.startSession(identityId, promise)
 
     @ReactMethod
     fun stopSession(promise: Promise) = impl.stopSession(promise)
