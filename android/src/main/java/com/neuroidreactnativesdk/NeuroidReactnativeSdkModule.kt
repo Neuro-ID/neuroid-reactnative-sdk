@@ -80,37 +80,12 @@ class NeuroidReactnativeSdkModuleImpl(
         }
     }
 
-    fun getSessionID(promise: Promise) {
+    fun identify(identityId: String, promise: Promise) {
         try {
-            promise.resolve(NeuroID.getInstance()?.getSessionID())
-        } catch (e: Exception) {
-            promise.reject("ERR_GET_SESSION_ID", e.message)
-        }
-    }
-
-    fun getUserID(promise: Promise) {
-        try {
-            promise.resolve(NeuroID.getInstance()?.getUserID())
-        } catch (e: Exception) {
-            promise.reject("ERR_GET_USER_ID", e.message)
-        }
-    }
-
-    fun identify(sessionID: String, promise: Promise) {
-        try {
-            val result = NeuroID.getInstance()?.identify(sessionID)
+            val result = NeuroID.getInstance()?.identify(identityId)
             promise.resolve(result ?: false)
         } catch (e: Exception) {
             promise.reject("ERR_IDENTIFY", e.message)
-        }
-    }
-
-    fun setUserID(id: String, promise: Promise) {
-        try {
-            val result = NeuroID.getInstance()?.setUserID(id)
-            promise.resolve(result ?: false)
-        } catch (e: Exception) {
-            promise.reject("ERR_SET_USER_ID", e.message)
         }
     }
 
@@ -146,15 +121,6 @@ class NeuroidReactnativeSdkModuleImpl(
             promise.resolve(result ?: false)
         } catch (e: Exception) {
             promise.reject("ERR_SET_REGISTERED_USER_ID", e.message)
-        }
-    }
-
-    fun attemptedLogin(id: String?, promise: Promise) {
-        try {
-            val result = NeuroID.getInstance()?.attemptedLogin(id)
-            promise.resolve(result ?: false)
-        } catch (e: Exception) {
-            promise.reject("ERR_ATTEMPTED_LOGIN", e.message)
         }
     }
 
@@ -198,11 +164,11 @@ class NeuroidReactnativeSdkModuleImpl(
         }
     }
 
-    fun startSession(sessionID: String?, promise: Promise) {
+    fun startSession(identityId: String?, promise: Promise) {
         try {
-            NeuroID.getInstance()?.startSession(sessionID) { result ->
+            NeuroID.getInstance()?.startSession(identityId) { result ->
                 val resultData = Arguments.createMap()
-                resultData.putString("sessionID", result.sessionID)
+                resultData.putString("identityId", result.identityId)
                 resultData.putBoolean("started", result.started)
                 promise.resolve(resultData)
             }
@@ -242,7 +208,7 @@ class NeuroidReactnativeSdkModuleImpl(
         try {
             NeuroID.getInstance()?.startAppFlow(siteId, userId) { result ->
                 val resultData = Arguments.createMap()
-                resultData.putString("sessionID", result.sessionID)
+                resultData.putString("identityId", result.identityId)
                 resultData.putBoolean("started", result.started)
                 promise.resolve(resultData)
             }

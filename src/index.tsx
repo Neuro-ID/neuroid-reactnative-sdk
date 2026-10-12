@@ -132,53 +132,15 @@ export const NeuroID: NeuroIDClass = {
     });
   },
 
-  /** @deprecated Use getSessionId() instead. */
-  getSessionID: function getSessionID(): Promise<string> {
-    return NeuroidReactnativeSdk.getSessionID().catch((error) => {
-      logNativeError("getSessionID", error);
-      return "";
-    });
-  },
-
-  /** @deprecated Use getSessionId() instead. */
-  getUserID: function getUserID(): Promise<string> {
-    NeuroIDLog.w(
-      "getUserId() is deprecated and will be removed in the next major version. Replace with getSessionID()"
-    );
-    return NeuroidReactnativeSdk.getUserID().catch((error) => {
-      logNativeError("getUserID", error);
-      return "";
-    });
-  },
-
-  identify: function identify(sessionID: string): Promise<boolean> {
-    NeuroIDLog.i("Identify : ", sessionID);
-    return NeuroidReactnativeSdk.identify(sessionID).catch((error) => {
+  identify: function identify(identityId: string): Promise<boolean> {
+    NeuroIDLog.i("Identify : ", identityId);
+    return NeuroidReactnativeSdk.identify(identityId).catch((error) => {
       logNativeError("identify", error);
       return false;
     });
   },
 
-  /** @deprecated Use identify(userID) instead. */
-  setUserID: async function setUserID(userID: string): Promise<boolean> {
-    NeuroIDLog.w(
-      "setUserID() is deprecated and will be removed in the next major version. Replace with identify()"
-    );
-    NeuroIDLog.i("Setting User ID: ", userID);
-
-    try {
-      const result = await NeuroidReactnativeSdk.setUserID(userID);
-      if (!result) {
-        NeuroIDLog.e("Failed to set user ID");
-      }
-      return !!result;
-    } catch (error) {
-      logNativeError("setUserID", error);
-      return false;
-    }
-  },
-
-  getRegisteredUserID: function getUserID(): Promise<string> {
+  getRegisteredUserID: function getRegisteredUserID(): Promise<string> {
     return NeuroidReactnativeSdk.getRegisteredUserID().catch((error) => {
       logNativeError("getRegisteredUserID", error);
       return "";
@@ -220,27 +182,6 @@ export const NeuroID: NeuroIDClass = {
     }
   },
 
-  /** @deprecated */
-  attemptedLogin: async function attemptedLogin(
-    userID: string
-  ): Promise<boolean> {
-    NeuroIDLog.w(
-      "attemptedLogin() is deprecated and will be removed in the next major version."
-    );
-    NeuroIDLog.i("Attempted Login User ID: ", userID);
-
-    try {
-      const result = await NeuroidReactnativeSdk.attemptedLogin(userID ?? "");
-      if (!result) {
-        NeuroIDLog.e("Failed to set attempted login user ID");
-      }
-      return !!result;
-    } catch (error) {
-      logNativeError("attemptedLogin", error);
-      return false;
-    }
-  },
-
   setVariable: async function setVariable(
     key: string,
     value: string
@@ -256,10 +197,7 @@ export const NeuroID: NeuroIDClass = {
   start: async function start(): Promise<boolean> {
     try {
       const result = await NeuroidReactnativeSdk.start();
-      const _cid = await NeuroidReactnativeSdk.getSessionID();
-
       NeuroIDLog.d("NeuroID Started: " + String(result));
-      NeuroIDLog.i("Session ID:", _cid);
       return result;
     } catch (e: unknown) {
       NeuroIDLog.e("Failed to start NID", String(e));
@@ -307,18 +245,16 @@ export const NeuroID: NeuroIDClass = {
     try {
       const result = await NeuroidReactnativeSdk.startSession(sessionID);
       NeuroIDLog.d(
-        "startSession(): " + result.sessionID + " " + result.started
+        "startSession(): " + result.identityId + " " + result.started
       );
       return {
         identityId: result.identityId,
-        sessionID: result.sessionID,
         started: result.started,
       };
     } catch (error) {
       logNativeError("startSession", error);
       return {
         identityId: "",
-        sessionID: "",
         started: false,
       };
     }
@@ -368,18 +304,16 @@ export const NeuroID: NeuroIDClass = {
     try {
       const result = await NeuroidReactnativeSdk.startAppFlow(siteID, userID);
       NeuroIDLog.d(
-        "startAppFlow(): " + result.sessionID + " " + result.started
+        "startAppFlow(): " + result.identityId + " " + result.started
       );
       return {
         identityId: result.identityId,
-        sessionID: result.sessionID,
         started: result.started,
       };
     } catch (error) {
       logNativeError("startAppFlow", error);
       return {
         identityId: "",
-        sessionID: "",
         started: false,
       };
     }

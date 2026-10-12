@@ -46,28 +46,10 @@ class NeuroidReactnativeSdk: NSObject {
         resolve(identityId)
     }
 
-    @objc(getSessionID:reject:)
-    func getSessionID(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let sid = NeuroID.getSessionID()
-        resolve(sid)
-    }
-
-    @objc(getUserID:reject:)
-    func getUserID(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let uid = NeuroID.getUserID()
-        resolve(uid)
-    }
-
     @objc(identify:resolve:reject:)
-    func identify(sessionID: String, resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
-        let identifyResult = NeuroID.identify(sessionID)
+    func identify(identityId: String, resolve: RCTPromiseResolveBlock, _: RCTPromiseRejectBlock) {
+        let identifyResult = NeuroID.identify(identityId)
         resolve(identifyResult)
-    }
-
-    @objc(setUserID:resolve:reject:)
-    func setUserID(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let setResult = NeuroID.setUserID(userID)
-        resolve(setResult)
     }
 
     @objc(getRegisteredUserID:reject:)
@@ -91,12 +73,6 @@ class NeuroidReactnativeSdk: NSObject {
     @objc(setRegisteredUserID:resolve:reject:)
     func setRegisteredUserID(userID: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let setResult = NeuroID.setRegisteredUserID(userID)
-        resolve(setResult)
-    }
-    
-    @objc(attemptedLogin:resolve:reject:)
-    func attemptedLogin(userID: String?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let setResult = NeuroID.attemptedLogin(userID)
         resolve(setResult)
     }
 
@@ -144,9 +120,9 @@ class NeuroidReactnativeSdk: NSObject {
     }
 
     @objc(startSession:resolve:reject:)
-    func startSession(sessionID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        NeuroID.startSession(sessionID)  { result in
-            let resultData: [String: Any] = ["identityId": result.identityId, "sessionID": result.sessionID, "started": result.started]
+    func startSession(identityId: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        NeuroID.startSession(identityId)  { result in
+            let resultData: [String: Any] = ["identityId": result.identityId, "started": result.started]
             resolve(resultData)
         }
     }
@@ -154,7 +130,7 @@ class NeuroidReactnativeSdk: NSObject {
     @objc(startAppFlow:userID:resolve:reject:)
     func startAppFlow(siteID: String, userID: String?, resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         NeuroID.startAppFlow(siteID: siteID, sessionID: userID) { result in
-            let resultData: [String: Any] = ["identityId": result.identityId, "sessionID": result.sessionID, "started": result.started]
+            let resultData: [String: Any] = ["identityId": result.identityId, "started": result.started]
             resolve(resultData)
         }
     }
