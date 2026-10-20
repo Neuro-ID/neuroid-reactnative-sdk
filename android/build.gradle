@@ -1,40 +1,10 @@
-buildscript {
-  // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['NeuroidReactnativeSdk_kotlinVersion']
-
-  repositories {
-    google()
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-  }
-
-  dependencies {
-    classpath 'com.android.tools.build:gradle:8.7.2'
-    // noinspection DifferentKotlinGradleVersion
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-  }
+plugins { 
+  id 'com.android.library'
+  id 'org.jetbrains.kotlin.android'
 }
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-// New Architecture support relies on the React Gradle plugin.
-// In a consuming React Native app this is usually provided via settings.gradle
-// includeBuild('@react-native/gradle-plugin'). When running this android folder
-// standalone, that host plugin wiring may be missing and this apply can fail.
-def reactGradlePluginApplied = false
-try {
+if (project != rootProject) {
   apply plugin: 'com.facebook.react'
-  reactGradlePluginApplied = true
-} catch (Exception ignored) {
-  logger.lifecycle(':neuroid-reactnative-sdk React Gradle plugin not found; continuing without it (legacy architecture mode).')
-}
-
-def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['NeuroidReactnativeSdk_' + name]
-}
-
-def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['NeuroidReactnativeSdk_' + name]).toInteger()
 }
 
 def isNewArchitectureEnabled() {
@@ -42,20 +12,13 @@ def isNewArchitectureEnabled() {
     project.newArchEnabled.toString() == "true"
 }
 
-if (isNewArchitectureEnabled() && !reactGradlePluginApplied) {
-  throw new RuntimeException(
-    'newArchEnabled=true requires the React Gradle plugin (com.facebook.react). ' +
-      'Run from a React Native app context where @react-native/gradle-plugin is available, or disable newArchEnabled.'
-  )
-}
-
 android {
   namespace 'com.neuroidreactnativesdk'
-  compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
+  compileSdkVersion 24
   
   defaultConfig {
-    minSdkVersion getExtOrIntegerDefault('minSdkVersion')
-    targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
+    minSdkVersion 24
+    targetSdkVersion 34
     buildConfigField 'boolean', 'IS_NEW_ARCHITECTURE_ENABLED', isNewArchitectureEnabled().toString()
   }
 
@@ -78,15 +41,19 @@ android {
       minifyEnabled false
     }
   }
+
   lintOptions {
     disable 'GradleCompatible'
   }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17
   }
+
   kotlinOptions {
     jvmTarget = "17"
+    freeCompilerArgs += ["-Xskip-metadata-version-check"]
   }
 }
 
@@ -94,83 +61,12 @@ repositories {
   mavenCentral()
   google()
   maven { url 'https://jitpack.io' }
-  maven { url 'https://maven.fpregistry.io/releases' }
-
-  def found = false
-  def defaultDir = null
-  def androidSourcesName = 'React Native sources'
-
-  if (rootProject.ext.has('reactNativeAndroidRoot')) {
-    defaultDir = rootProject.ext.get('reactNativeAndroidRoot')
-  } else {
-    defaultDir = new File(
-            projectDir,
-            '/../../../node_modules/react-native/android'
-    )
-  }
-
-  if (defaultDir.exists()) {
-    maven {
-      url defaultDir.toString()
-      name androidSourcesName
-    }
-
-    logger.info(":${project.name}:reactNativeAndroidRoot ${defaultDir.canonicalPath}")
-    found = true
-  } else {
-    def parentDir = rootProject.projectDir
-
-    1.upto(5, {
-      if (found) return true
-      parentDir = parentDir.parentFile
-
-      def androidSourcesDir = new File(
-              parentDir,
-              'node_modules/react-native'
-      )
-
-      def androidPrebuiltBinaryDir = new File(
-              parentDir,
-              'node_modules/react-native/android'
-      )
-
-      if (androidPrebuiltBinaryDir.exists()) {
-        maven {
-          url androidPrebuiltBinaryDir.toString()
-          name androidSourcesName
-        }
-
-        logger.info(":${project.name}:reactNativeAndroidRoot ${androidPrebuiltBinaryDir.canonicalPath}")
-        found = true
-      } else if (androidSourcesDir.exists()) {
-        maven {
-          url androidSourcesDir.toString()
-          name androidSourcesName
-        }
-
-        logger.info(":${project.name}:reactNativeAndroidRoot ${androidSourcesDir.canonicalPath}")
-        found = true
-      }
-    })
-  }
-
-  if (!found) {
-    throw new RuntimeException(
-            "${project.name}: unable to locate React Native android sources. " +
-                    "Ensure you have you installed React Native as a dependency in your project and try again."
-    )
-  }
 }
 
-def kotlin_version = getExtOrDefault('kotlinVersion')
-
 dependencies {
-  // noinspection GradleDynamicVersion
-  api 'com.facebook.react:react-android:+'
-
+  implementation 'com.facebook.react:react-android:+'
   implementation 'androidx.core:core-ktx:1.8.0'
   implementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:main-SNAPSHOT'
-
   implementation 'com.google.code.gson:gson:2.10.1'
   implementation("androidx.lifecycle:lifecycle-process:2.3.0")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
