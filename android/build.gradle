@@ -9,10 +9,8 @@ plugins {
 // standalone, that host plugin wiring may be missing and this apply can fail.
 def reactGradlePluginApplied = false
 try {
-  if (project != rootProject) {
-    apply plugin: 'com.facebook.react'
-    reactGradlePluginApplied = true
-  }
+  apply plugin: 'com.facebook.react'
+  reactGradlePluginApplied = true
 } catch (Exception ignored) {
   logger.lifecycle(':neuroid-reactnative-sdk React Gradle plugin not found; continuing without it (legacy architecture mode).')
 }
