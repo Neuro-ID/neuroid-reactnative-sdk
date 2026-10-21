@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.76-stable', '0.81-stable', '0.83-stable', 'latest']
+        RN_VERSION: ['0.77-stable', '0.81-stable', '0.84-stable', 'latest']
         ARCH: ['legacy', 'newarch']
 
     steps:
@@ -92,7 +92,7 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
         run: mkdir -p android/app/src/main/assets
 
-      - name: add repos, kotlin compiler args and fix min sdk version in build.gradle
+      - name: add repos to and fix min sdk version in build.gradle
         working-directory: ${{ env.APP_DIR }}
         run: |
           sed -i '/signingConfigs {/,/^    }$/{
@@ -105,18 +105,7 @@ jobs:
                  maven { url '"'"'https://jitpack.io'"'"' }\
                }
            }' android/app/build.gradle
-          sed -i 's/minSdkVersion = [0-9]*/minSdkVersion = 24/' android/build.gradle
-
-          # Allow consuming Kotlin metadata produced by newer Kotlin versions.
-          if grep -q 'Xskip-metadata-version-check' android/app/build.gradle; then
-            echo "freeCompilerArgs already configured, skipping"
-          elif grep -q 'kotlinOptions {' android/app/build.gradle; then
-            sed -i '0,/kotlinOptions {/s//&\n        freeCompilerArgs += ["-Xskip-metadata-version-check"]/' android/app/build.gradle
-          else
-            sed -i '0,/^android {/s//&\n    kotlinOptions {\n        freeCompilerArgs += ["-Xskip-metadata-version-check"]\n    }/' android/app/build.gradle
-          fi
-
-          sed -n '/^android {/,/^}/p' android/app/build.gradle
+           sed -i 's/minSdkVersion = [0-9]*/minSdkVersion = 24/' android/build.gradle
 
       - name: Install NeuroID SDK
         working-directory: ${{ env.APP_DIR }}
@@ -208,7 +197,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.76-stable', '0.81-stable', '0.83-stable', 'latest']
+        RN_VERSION: ['0.77-stable', '0.81-stable', '0.84-stable', 'latest']
         ARCH: ['legacy', 'newarch']
 
     steps:
