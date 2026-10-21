@@ -14,7 +14,7 @@ def isNewArchitectureEnabled() {
 
 android {
   namespace 'com.neuroidreactnativesdk'
-  compileSdkVersion 36
+  compileSdkVersion 35
   
   defaultConfig {
     minSdkVersion 24
