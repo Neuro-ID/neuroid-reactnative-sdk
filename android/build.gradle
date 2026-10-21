@@ -81,5 +81,5 @@ repositories {
 
 dependencies {
   implementation 'com.facebook.react:react-android:+'
-  implementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:eng-12370~update-deps-SNAPSHOT'
+  implementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:main-SNAPSHOT'
 }
