@@ -3,13 +3,30 @@ plugins {
   id 'org.jetbrains.kotlin.android'
 }
 
-if (project != rootProject) {
-  apply plugin: 'com.facebook.react'
+// New Architecture support relies on the React Gradle plugin.
+// In a consuming React Native app this is usually provided via settings.gradle
+// includeBuild('@react-native/gradle-plugin'). When running this android folder
+// standalone, that host plugin wiring may be missing and this apply can fail.
+def reactGradlePluginApplied = false
+try {
+  if (project != rootProject) {
+    apply plugin: 'com.facebook.react'
+    reactGradlePluginApplied = true
+  }
+} catch (Exception ignored) {
+  logger.lifecycle(':neuroid-reactnative-sdk React Gradle plugin not found; continuing without it (legacy architecture mode).')
 }
 
 def isNewArchitectureEnabled() {
   return project.hasProperty("newArchEnabled") &&
     project.newArchEnabled.toString() == "true"
+}
+
+if (isNewArchitectureEnabled() && !reactGradlePluginApplied) {
+  throw new RuntimeException(
+    'newArchEnabled=true requires the React Gradle plugin (com.facebook.react). ' +
+      'Run from a React Native app context where @react-native/gradle-plugin is available, or disable newArchEnabled.'
+  )
 }
 
 android {
