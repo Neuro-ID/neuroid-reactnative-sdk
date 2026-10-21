@@ -17,7 +17,7 @@
 
 # NeuroID React Native Mobile SDK
 
-## Overview 
+## Overview
 
 NeuroID's React Native Mobile SDK makes it simple to embed behavioral analytics inside your mobile application. With a few lines of code, you can connect your app with the NeuroID platform and make informed decisions about your users.
 
