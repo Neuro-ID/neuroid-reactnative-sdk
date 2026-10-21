@@ -66,8 +66,5 @@ repositories {
 
 dependencies {
   implementation 'com.facebook.react:react-android:+'
-  implementation 'androidx.core:core-ktx:1.8.0'
   implementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:eng-12370~update-deps-SNAPSHOT'
-  implementation 'com.google.code.gson:gson:2.10.1'
-  implementation("androidx.lifecycle:lifecycle-process:2.3.0")
 }

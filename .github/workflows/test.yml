@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.77.3', '0.81-stable', '0.84.1', 'latest']
+        RN_VERSION: ['0.77-stable', '0.81-stable', '0.84.1', 'latest']
         ARCH: ['legacy', 'newarch']
 
     steps:
@@ -198,7 +198,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RN_VERSION: ['0.77.3', '0.81-stable', '0.84.1', 'latest']
+        RN_VERSION: ['0.77-stable', '0.81-stable', '0.84.1', 'latest']
         ARCH: ['legacy', 'newarch']
 
     steps:
@@ -278,7 +278,7 @@ jobs:
       # https://github.com/facebook/react-native/issues/55601
       - name: Update fmt package for Xcode 26.4+ support
         working-directory: ${{ env.APP_DIR }}/ios
-        if: ${{ matrix.RN_VERSION == '0.77.3' || matrix.RN_VERSION == '0.81-stable' }}
+        if: ${{ matrix.RN_VERSION == '0.77-stable' || matrix.RN_VERSION == '0.81-stable' }}
         run: |
           cat <<EOF >> Podfile
           rn_podspecs_dir = File.join(__dir__, '..', 'node_modules', 'react-native')
