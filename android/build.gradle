@@ -70,5 +70,4 @@ dependencies {
   implementation 'com.github.neuro-id.neuroid-android-sdk:react-android-sdk:eng-12370~update-deps-SNAPSHOT'
   implementation 'com.google.code.gson:gson:2.10.1'
   implementation("androidx.lifecycle:lifecycle-process:2.3.0")
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 }
