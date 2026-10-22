@@ -57,8 +57,9 @@ android {
     }
   }
 
-  lintOptions {
+  lint {
     disable 'GradleCompatible'
+    checkReleaseBuilds
   }
 
   compileOptions {
