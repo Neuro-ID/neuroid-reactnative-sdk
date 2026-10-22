@@ -29,11 +29,11 @@ if (isNewArchitectureEnabled() && !reactGradlePluginApplied) {
 
 android {
   namespace 'com.neuroidreactnativesdk'
-  compileSdkVersion 35
+  compileSdkVersion 36
   
   defaultConfig {
     minSdkVersion 24
-    targetSdkVersion 34
+    targetSdkVersion 36
     buildConfigField 'boolean', 'IS_NEW_ARCHITECTURE_ENABLED', isNewArchitectureEnabled().toString()
   }
 
